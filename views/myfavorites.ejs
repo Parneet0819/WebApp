@@ -1,0 +1,86 @@
+<% layout('layout') -%>
+    <a href="/dashboard"><button class="btn btn-primary" id="back_btn"  style ="background-color:#553E91 ! important;"><i class="fa fa-arrow-left" aria-hidden="true"></i>
+</button><a>
+<link rel="stylesheet" href="/css/favorites.css">
+<div id ="home-layout"><Br>
+    <section>
+        <div class="container">
+            <div class="card border mb-3" >
+                <div class="card-body ">
+                    <%if (my_fav.length >0) { %>
+                        <h5 style ="text-align:center;color:#553E91;"> My Favorites </h5> 
+
+                        <% my_fav.forEach(function(course_data) { %>
+                            <table class="table"  id ="<%=course_data._id%>"  >
+                            <tr>
+                                <td id ="<%=course_data._id%>">
+                                    <div class = "row">
+                                        <div class="col-sm-3.5">
+                                            <div class="view img__wrap" >
+                                                <img src="<%=course_data.image_preview%>" width="200" height="150">
+                                                <p class="img__description"><%=course_data.course_title%></p>
+                                             </div>
+                                        </div>
+                                        <div class="col-sm-7" id ="col_text" >
+                                            <%if (course_data.course_details.length >0) { %>
+                                            <h5 >
+                                                <a  href = "/view-course?uid=<%=course_data.uid%>&course=<%=course_data.course_name%>"><%=course_data.course_title%></a></h5>
+    <a href="/view-course?uid=<%=course_data.uid%>&course=<%=course_data.course_name%>">
+        <label class="card-text"><%=course_data.course_details[0].video_description.substr(0, 200)%>...</label></a>
+    <a href="/view-course?uid=<%=course_data.uid%>&course=<%=course_data.course_name%>">
+
+        <p class="card-text"> <br><b>Total Lectures: <%=course_data.course_details.length%></b>
+        </p>
+    </a>
+    <% } %>
+        </div>
+        <div class="col-sm-1">
+            <div class="dropdown show">
+                <a role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="test"></div>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" type="button" style="background-color:rgb(85,62,145);color:white;" onclick="unFavCourse('<%=course_data._id%>')">Unfavorite&nbsp;<i class= "fa fa-star"  ></i></a>
+                    <a class="dropdown-item" type="button" id="share_btn" style="background-color:rgb(85,62,145);color:white;" onclick="unFavCourse('<%=course_data._id%>')">Archive</a>
+                </div>
+            </div>
+        </div>
+        </div>
+        <BR>
+        </td>
+        </tr>
+        </table>
+        <% }); %>
+            <% } %>
+                <%if (my_fav.length==0) { %>
+                    <div style="color:red;font-size:20px;text-align:center;">No Favorite Added!</div>
+                    <% } %>
+
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </section>
+                        <br><br><br><br>
+
+                        <script>
+                            //unfav the course
+                            function unFavCourse(id) {
+                                $.ajax({
+                                    type: "DELETE",
+                                    url: "/api/fav/unFavCourse",
+                                    data: {
+                                        id: id
+                                    },
+                                    dataType: "json",
+                                    success: function(data) {
+                                        if (data.success == true) {
+                                            $('.table#' + id + '').remove();
+                                        } else {
+                                            alert('Failed to remove Favorite')
+                                        }
+
+                                    }
+                                })
+                            }
+                        </script>

@@ -1,0 +1,36 @@
+<script src="/js/bootstrap.min.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-27176211-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-27176211-5');
+</script>
+<script>
+
+    $(function(){
+
+    $("ul.dropdown li").hover(function(){
+
+       $(this).addClass("hover");
+       $('ul:first',this).css('visibility', 'visible');
+
+    }, function(){
+
+       $(this).removeClass("hover");
+       $('ul:first',this).css('visibility', 'hidden');
+
+    });
+
+    $("ul.dropdown li ul li:has(ul)").find("a:first").append(" &raquo; ");
+
+    });
+
+    $('li').click(function() {
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+
+ </script>
+ 
+    

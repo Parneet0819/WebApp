@@ -1,0 +1,801 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="/css/compiled-4.5.7.min.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <link href="/js/pagination.min.js">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+</head>
+
+<body>
+
+    <section>
+        <% include ./partials/navbar %>
+            <img style="display:none;width:100px;height:100px;margin-left:auto;
+        margin-right:auto;
+        float :none;" src="/images/loader.gif" alt="description of gif" id="wait" />
+            <%- body -%>
+
+                <div id="LangTable">
+                    <a href="/dashboard" id="dashboard"></a>
+                </div>
+
+                <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <form id="signupForm" method="post">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-center">
+                                    <h4 class="modal-title w-100 font-weight-bold">Sign up</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="row">
+                                    <div class="column_">
+                                        <i class="fas fa-user prefix grey-text" style="font-size:30px;"></i>
+                                    </div>
+                                    <div class="columnn">
+                                        <div class="field">
+                                            <input type="text" id="user_name" name="name" placeholder="your name...">
+                                            <label for="user_name">Your name</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="column_">
+                                        <i class="fas fa-envelope prefix grey-text" style="font-size:30px;"></i>
+                                    </div>
+                                    <div class="columnn">
+                                        <div class="field">
+                                            <input type="email" id="user_email" name="email" placeholder="your email...">
+                                            <label for="user_email">Your email</label>
+                                        </div>
+                                        <p id="signup_email_error" style="color:red;display:none;">Please enter the email</p>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="column_">
+                                        <i class="fas fa-lock prefix grey-text" style="font-size:30px;"></i>
+                                    </div>
+                                    <div class="columnn">
+                                        <div class="field">
+                                            <input type="password" id="user_password" name="password" placeholder="your password...">
+                                            <label for="user_password">Your password</label>
+                                        </div>
+                                        <span toggle="#user_password" class="fa fa-fw fa-eye field-icon toggle-password" style="margin-left:90%"></span>
+
+                                        <p id="signup_pwd_error" style="color:red;display:none;">Please enter the password</p>
+
+                                    </div>
+                                </div>
+                                <div class="row ">
+                                    <div class="column_">
+                                        <i class="fas fa-tasks prefix  grey-text" style="font-size:30px;margin-top:10px;"></i></div>
+                                    <div class="columnn"><br>
+
+                                        <select class="form-control form-control-sm d-inline-block" id="user_role" name="role" style="margin-top:10px;">
+                                                <option selected disabled>Choose Role</option>
+                                            <option value = "Normal User"> Normal User</option>
+                                            <option value = "Creator"> Creator</option>
+                                        </select>
+                                        <p id="signup_role_err" style="color:red;display:none;margin-top:10px;">Please choose the role</p>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="columnn" style="padding-left: 10%;">
+                                        <div id="signup_error" style="background-color:lightgray;width:90%;height:60px;display:none;">
+                                            <p id="signup_error_message" style="color:red;text-align:center;">User with this email already exists.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="modal-footer d-flex justify-content-center">
+                                    <input class="btn btn-default" type="submit" id="submit" name="submit" value="Sign up" style="background: #43486e !important;">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal fade" id="modalAddCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <form id="addCourse" method="post">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header text-center">
+                                    <h4 class="modal-title w-100 font-weight-bold">Add Course</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                                </div>
+
+                                <div class="modal-body mx-3">
+                                    <div class="md-form mb-5 ">
+                                        <i class="fas fa-link prefix grey-text" aria-hidden="true"></i>
+                                        <input type="text" id="video_link" name="video_link" pattern="https://.*" placeholder="Video Link" class="form-control validate">
+                                        <p id="video_link_err" style="color: red;display:none;">Please enter the valid video link</p>
+
+                                    </div>
+                                    <div class="md-form mb-4 ">
+                                        <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                        <input type="text" name="course_title" id="course_title" class="form-control validate" placeholder="Course Name">
+                                        <p id="course_title_err" style="color: red;display:none;">Please enter the valid course name</p>
+
+                                    </div>
+                                    <div class="md-form mb-4 " id="meta_cat_div" style="display:none;">
+                                        <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                        <input type="text" readonly id="course_meta_cat" placeholder="Category name" class="form-control ">
+                                    </div>
+                                    <div class="md-form mb-4 " id="sub_cat_div" style="display:none;">
+                                        <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                        <input type="text" name="course_sub_category" readonly id="course_sub_category" placeholder="Category name" class="form-control ">
+                                    </div>
+                                    <div class="md-form mb-4 " id="m_cat_div" style="display:none;">
+                                        <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                        <input type="text" name="course_meta_category" readonly id="course_meta_category" placeholder="Category name" class="form-control ">
+                                    </div>
+                                    <div class="md-form mb-4 " id="m_cat_id" style="display:none;">
+                                        <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                        <input type="text" name="cat_id" readonly id="cat_id" placeholder="Category id" class="form-control ">
+                                    </div>
+                                    <input id="user" name="user" value="<%=user%>" style="display:none;">
+                                    <div class="md-form mb-4 ">
+                                        <ul class="navbar-nav mr-auto">
+                                            <li class="nav-item dropdown">
+                                                <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list light-green-text-2"></i>&nbsp;&nbsp;Categories
+                                                </a>
+                                                <p id="course_category_err" style="color: red;display:none;">Please select the category from the list</p>
+
+                                                <div class="dropdown-menu dropdown-primary " aria-labelledby="navbarDropdownMenuLink">
+                                                    <ul>
+                                                        <% allcategories.forEach(function(course_categories) { %>
+                                                            <li class="dropdown-item dropdown-submenu p-0">
+                                                                <a href="#" data-toggle="dropdown" class="dropdown-toggle dropdown-item w-100">
+                                                                    <%=course_categories.name%>
+                                                                </a>
+                                                                <ul id="select_me" class="dropdown-menu  rounded-0 white border-0 z-depth-1" style="height:200px; overflow-y: scroll;">
+                                                                    <% course_categories.sub_categories.forEach(function(sub_cate) { %>
+                                                                        <li class="dropdown-item p-0">
+                                                                            <a href="#" class="dropdown-item w-100" onclick="getCategoryName('<%=course_categories.name%>-<%=sub_cate.name%>','<%=course_categories.id%>-<%=sub_cate.id%>')">
+                                                                                <%=sub_cate.name%>
+                                                                            </a>
+                                                                        </li>
+                                                                        <% }); %>
+                                                                </ul>
+                                                            </li>
+                                                            <% }); %>
+                                                    </ul>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="modal-footer d-flex justify-content-center">
+                                    <input type="submit" value="ADD COURSE" class="btn btn-primary" id="submit" name="submit" style="background: #43486e !important;">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <a href="#myModal" id="a_link" class="trigger-btn" data-toggle="modal"></a>
+
+                <div id="main_container" style="margin-left:10%;overflow-y: scroll;overflow-x: hidden;">
+                    <div id="search_categories" style="display:none;"><br>
+                        <div id="cat_display" class="row"></div>
+                    </div><br><br>
+                    <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <form id="loginForm" method="post">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header text-center">
+                                        <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                              </button>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="column_">
+                                            <i class="fas fa-envelope prefix grey-text" style="font-size:30px;"></i>
+                                        </div>
+                                        <div class="columnn">
+                                            <div class="field">
+                                                <input type="email" id="login_email" name="email" placeholder="your email...">
+                                                <label for="login_email">Your email</label>
+                                            </div>
+                                            <p id="email_error" style="color:red;display:none;">Please enter the email</p>
+
+                                        </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="column_">
+                                            <i class="fas fa-lock prefix grey-text" style="font-size:30px;"></i></div>
+                                        <div class="columnn">
+                                            <div class="field">
+                                                <input type="password" name="password" id="login_password" placeholder="your password...">
+
+                                                <label for="login_password">Your password</label>
+                                            </div>
+                                            <span toggle="#login_password" class="fa fa-fw fa-eye field-icon toggle-password" style="margin-left:90%"></span>
+
+                                            <div class="row">
+                                                <p id="pwd_error" style="color:red;display:none;">Please enter the password
+                                                </p>
+                                                <div id="timer" style="color:red;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div><br>
+                                    <div class="row">
+                                        <div class="columnn" style="padding-left: 10%;">
+                                            <div id="login_error" style="background-color:lightgray;width:90%;height:60px;display:none;">
+                                                <p id="login_error_message" style="color:red;text-align:center;">There was a problem logging in. Check your email and password or create an account.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer d-flex justify-content-center">
+                                        <input type="submit" value="Login" class="btn btn-primary" id="submit" name="submit" style="background: #43486e !important;">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div id="myModal" class="modal fade">
+                        <div class="modal-dialog modal-confirm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <!-- <div class="icon-box">
+                              <i class="material-icons">&#xE876;</i>
+                           </div> -->
+                                    <h4 class="modal-title" style="text-align: center;">Awesome!</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <p class="text-center">Course Added Succesfully.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-block" data-dismiss="modal" style="background-color:rgb(86,62,145) ">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% include ./partials/javascriptonly %>
+                    <% include ./partials/footer %>
+                        <a id="goToCourse"></a>
+
+    </section>
+    <script>
+        //---------------------------------------------------------------------
+        // get the courses by category name 
+        //---------------------------------------------------------------------
+        function getSubCategoryName(name, id) {
+
+            document.getElementById('footer').style.position = "fixed";
+            document.getElementById('footer').style.bottom = "0px";
+            document.getElementById('search_categories').style.display = "block";
+            document.getElementById('home-layout').style.display = 'none';
+            document.getElementById('cat_display').innerHTML = '';
+            $.ajax({
+                type: 'POST',
+                url: 'api/course/getCourseBySubCategoryName',
+                data: {
+                    name: name
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        response.sub_cat_data.forEach(element => {
+                            document.getElementById('cat_display').innerHTML +=
+                                '<div style = "padding-top:10px;">' +
+                                '<div class = "col-sm-12">' +
+                                '<div class="card card-cascade narrower" style="width:280px;" >' +
+                                '<div class="view view-cascade gradient-card-header" style =" height:80px;background: linear-gradient(to right, rgba(51, 74, 204, 0.6), rgba(73, 15, 161, 0.6));">' +
+                                '<p class="card-header-title"  >' + element.course_title + '</p>' +
+                                '</div>' +
+                                '<div class="card-body card-body-cascade text-center" style = "height:270px;">' +
+                                '<div class="view overlay">' +
+                                '<img class="card-img-top" src="' + element.image_preview + '" alt="Card image cap" width=200" height=200">' +
+                                '<a>' +
+                                '<div class="mask rgba-white-slight"></div>' +
+                                '</a>' +
+                                '</div>' +
+                                '<a href = "/view-course?uid=' + element.uid + '&course=' + element.course_name + '"><p style ="color:purple;padding-top:10px;"><strong >View Course</strong></p></a>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div id = "prev__btn"></div>' +
+                                '<div id = "next__btn"></div>';
+                        });
+                    } else {
+                        console.log("error")
+                    }
+
+                },
+                error: function() {}
+            })
+
+        } //getSubCategoryName
+
+        function getMetaCategory(name, categorycount) {
+            document.getElementById('footer').style.position = "fixed";
+            document.getElementById('footer').style.bottom = "0px";
+            document.getElementById('search_categories').style.display = "block";
+
+            if (name != null || name.length > 0) {
+                name = name.replace(/&amp;/g, '&')
+            }
+
+            document.getElementById('home-layout').style.display = 'none';
+            document.getElementById('cat_display').innerHTML = '';
+
+            $(document).ajaxStart(function() {
+                $("#wait").css("display", "block");
+            });
+            $(document).ajaxComplete(function() {
+                $("#wait").css("display", "none");
+            });
+
+            $.ajax({
+                type: 'POST',
+                url: 'api/course/getCourseByCategoryName',
+                data: {
+                    name: name,
+                    page: categorycount
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        if (response.data.length > 0) {
+                            response.data.forEach(element => {
+                                document.getElementById('cat_display').innerHTML +=
+                                    '<div style = "padding-top:10px;">' +
+                                    '<div class = "col-sm-12">' +
+                                    '<div class="card card-cascade narrower" style="width:280px;" >' +
+                                    '<div class="view view-cascade gradient-card-header" style =" height:80px;background: linear-gradient(to right, rgba(51, 74, 204, 0.6), rgba(73, 15, 161, 0.6));">' +
+                                    '<p class="card-header-title"  >' + element.course_title + '</p>' +
+                                    '</div>' +
+                                    '<div class="card-body card-body-cascade text-center" style ="height:270px !important;">' +
+                                    '<div class="view overlay">' +
+                                    '<img class="card-img-top" src="' + element.image_preview + '" alt="Card image cap" width="200" height="200">' +
+                                    '<a>' +
+                                    '<div class="mask rgba-white-slight"></div>' +
+                                    '</a>' +
+                                    '</div>' +
+                                    '<a href = "/view-course?uid=' + element.uid + '&course=' + element.course_name + '"><p style ="color:purple;padding-top:10px;"><strong >View Course</strong></p></a>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div id = "prev_btnn"></div>' +
+                                    '<div id = "next_btnn"></div>';
+                            });
+                        }
+
+                        if (response.count > 4 && response.currentPage == 1) {
+                            categorycount = parseInt(categorycount) + 1;
+                            document.getElementById('next_btnn').innerHTML = '<a class="btn-floating" data-slide="next" style="position: absolute;right:85;top:35%;background:#543E91;" onclick="getMetaCategory(\'' + name + '\',\'' + categorycount + '\')"><i class="fas fa-chevron-right" style = "color:white;"></i></a>';
+
+                        } else if (response.currentPage != 1) {
+                            if (response.pages == response.currentPage) {
+                                categorycount = parseInt(categorycount) - 1;
+                                document.getElementById('prev_btnn').innerHTML = '<a class="btn-floating" data-slide="next" style="display:block;position: absolute;left:100;top:35%;background:#543E91;" onclick="getMetaCategory(\'' + name + '\',\'' + categorycount + '\')"><i class="fas fa-chevron-left" style = "color:white;"></i></a>';
+
+                            } else {
+
+                                response.count = response.count - response.perPage
+                                if (response.count > 4) {
+                                    document.getElementById('prev_btnn').innerHTML = ''
+                                    document.getElementById('prev_btnn').innerHTML = '<a class="btn-floating" data-slide="prev" style="display:block;position: absolute;left:100;top:35%;background:#543E91;" onclick="getMetaCategory(\'' + name + '\',\'' + (parseInt(categorycount) - 1) + '\')"><i class="fas fa-chevron-left" style = "color:white;"></i></a>';
+
+                                }
+                                if (response.count > 4 && response.currentPage == parseInt(categorycount)) {
+                                    document.getElementById('next_btnn').innerHTML = '<a class="btn-floating" data-slide="next" style="position: absolute;right:85;top:35%;background:#543E91;" onclick="getMetaCategory(\'' + name + '\',\'' + (parseInt(categorycount) + 1) + '\')"><i class="fas fa-chevron-right" style = "color:white;"></i></a>';
+
+                                }
+                            }
+
+                        }
+                    }
+
+                },
+                error: function() {}
+            })
+
+        }
+
+        $(".toggle-password").click(function() {
+
+            $(this).toggleClass("fa-eye fa-eye-slash");
+            var input = $($(this).attr("toggle"));
+            if (input.attr("type") == "password") {
+                input.attr("type", "text");
+            } else {
+                input.attr("type", "password");
+            }
+        });
+
+        //---------------------------------------------------------------------
+        // get the category name 
+        //---------------------------------------------------------------------
+        function getCategoryName(name, id) {
+            document.getElementById('meta_cat_div').style.display = "block";
+            document.getElementById('course_meta_cat').value = ''
+            var split_name = name.split('-');
+            var split_id = id.split('-');
+            document.getElementById('cat_id').value = ''
+            document.getElementById('course_meta_cat').value = name
+            document.getElementById('course_meta_category').value = ''
+            document.getElementById('course_meta_category').value = split_name[0]
+            document.getElementById('course_meta_category').value = split_id[0]
+            document.getElementById('course_sub_category').value = ''
+            document.getElementById('course_sub_category').value = split_name[1]
+            document.getElementById('course_sub_category').value = split_id[1]
+            $.ajax({
+                type: 'POST',
+                url: 'api/course-category/getParticularCategory',
+                data: {
+                    id: split_id[0],
+                    name: split_name[0]
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        document.getElementById('cat_id').value = response.data._id
+                    } else {
+                        console.log("error")
+                    }
+
+                },
+                error: function() {}
+            })
+
+        } //getCategoryName
+        var timeoutHandle;
+
+        function countdown(minutes) {
+            var seconds = 60;
+            var mins = minutes
+
+            function tick() {
+                var counter = document.getElementById("timer");
+                var current_minutes = mins - 1
+                seconds--;
+                counter.innerHTML =
+                    current_minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+                if (seconds > 0) {
+                    timeoutHandle = setTimeout(tick, 1000);
+                } else if (seconds == 0) {
+                    counter.style.display = "none"
+                    document.getElementById('pwd_error').style.display = 'none'
+                    document.getElementById('pwd_error').innerText = ''
+
+                } else {
+
+                    if (mins > 1) {
+
+                        // countdown(mins-1);   never reach “00″ issue solved:Contributed by Victor Streithorst
+                        setTimeout(function() {
+                            countdown(mins - 1);
+                        }, 1000);
+
+                    }
+                }
+            }
+            tick();
+        }
+
+        $(document).ready(function() {
+
+            // add course form request
+            $("#addCourse").submit(function(event) {
+                event.preventDefault();
+                if (document.getElementById('video_link').value === "" || document.getElementById('video_link').value == null) {
+                    document.getElementById('video_link_err').style.display = "block";
+                }
+                if (document.getElementById('course_title').value === "" || document.getElementById('course_title').value == null) {
+                    document.getElementById('course_title_err').style.display = "block";
+                }
+                if (document.getElementById('course_sub_category').value === "" || document.getElementById('course_sub_category').value == null) {
+                    document.getElementById('course_category_err').style.display = "block";
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course/addCourse',
+                        data: $('#addCourse').serialize(),
+                        dataType: "json",
+                        success: function(response) {
+                            if (response.success == false && response.err_code == 2010) {
+                                return document.getElementById('course_title_err').style.display = "block";
+                            }
+                            if (response.success == false && response.err_code == 2009) {
+                                return document.getElementById('video_link_err').style.display = "block";
+                            }
+                            if (response.success == true) {
+                                $('#addCourse')[0].reset();
+                                document.getElementById("a_link").click();
+                                if (response.data != null && response.data.user != null) {
+                                    localStorage.setItem("userId", response.data.user._id);
+                                    setTimeout(function() {
+                                        document.getElementById("goToCourse").href = '/view-course?uid=' + response.data.user.uid + '&course=' + response.data.course_name;
+                                        document.getElementById("goToCourse").click();
+                                    }, 1000);
+
+                                } else {
+                                    window.location.reload()
+
+                                }
+
+                            } else {
+                                console.log("-----else part---")
+                            }
+                        },
+                        error: function() {}
+                    })
+                }
+
+            });
+
+            // login form request
+            $("#loginForm").submit(function(event) {
+                event.preventDefault();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    data: $('#loginForm').serialize(),
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success == false && response.err_code == 1007) {
+                            localStorage.clear();
+                            document.getElementById('email_error').style.display = "block";
+                            document.getElementById('pwd_error').style.display = "block";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2000) {
+                            localStorage.clear();
+                            document.getElementById('email_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "block";
+                            document.getElementById('login_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1119) {
+                            localStorage.clear();
+                            document.getElementById('email_error').style.display = "block";
+                            document.getElementById('pwd_error').style.display = "none";
+                            document.getElementById('login_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1009) {
+                            localStorage.clear();
+                            document.getElementById('login_error').style.display = "block";
+                            document.getElementById('pwd_error').style.display = "none";
+                            document.getElementById('email_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1004) {
+                            localStorage.clear();
+                            document.getElementById('login_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "block";
+                            document.getElementById('pwd_error').innerText = "Incorrect Password ";
+
+                            document.getElementById('email_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2016) {
+                            localStorage.clear();
+                            document.getElementById('login_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "block";
+                            document.getElementById('pwd_error').innerText = "You have exceeded the maximum number of requests try again!";
+                            document.getElementById('email_error').style.display = "none";
+                            countdown(1)
+
+                            return
+                        } else if (response.success == false && response.err_code == 2015) {
+                            localStorage.clear();
+                            document.getElementById('login_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "block";
+                            document.getElementById('pwd_error').innerText = "Account locked yet, Please wait!";
+                            document.getElementById('timer').innerText = "";
+                            document.getElementById('email_error').style.display = "none";
+
+                            return
+                        }
+
+                        if (response.success == true) {
+                            $('#loginForm')[0].reset();
+                            document.getElementById('login_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "none";
+                            document.getElementById('email_error').style.display = "none";
+
+                            if (typeof(Storage) !== "undefined") {
+                                localStorage.setItem('userId', response.user);
+                            }
+                            document.getElementById("dashboard").click();
+                        };
+                    },
+                    error: function() {}
+                })
+            }); //login request
+
+            //signup form request
+            $("#signupForm").submit(function(event) {
+                event.preventDefault();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/signup',
+                    data: $('#signupForm').serialize(),
+                    dataType: "json",
+                    success: function(response) {
+
+                        if (response.success == false && response.err_code == 2003) {
+                            localStorage.clear();
+                            document.getElementById('signup_pwd_error').style.display = "block";
+                            document.getElementById('signup_email_error').style.display = "block";
+                            document.getElementById('signup_role_err').style.display = "block";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2004) {
+                            localStorage.clear();
+                            document.getElementById('signup_email_error').style.display = "block";
+                            document.getElementById('signup_pwd_error').style.display = "none";
+                            document.getElementById('signup_error').style.display = "none";
+                            document.getElementById('signup_role_err').style.display = "block";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2005) {
+                            localStorage.clear();
+                            document.getElementById('signup_email_error').style.display = "none";
+                            document.getElementById('signup_pwd_error').style.display = "block";
+                            document.getElementById('signup_error').style.display = "none";
+                            document.getElementById('signup_role_err').style.display = "block";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1007) {
+                            localStorage.clear();
+                            document.getElementById('signup_email_error').style.display = "block";
+                            document.getElementById('signup_pwd_error').style.display = "block";
+                            return
+                        } else if (response.success == false && response.err_code == 2002) {
+                            localStorage.clear();
+                            document.getElementById('signup_email_error').style.display = "none";
+                            document.getElementById('signup_pwd_error').style.display = "none";
+                            document.getElementById('signup_error').style.display = "block";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1009) {
+                            localStorage.clear();
+                            document.getElementById('signup_error').style.display = "block";
+                            document.getElementById('signup_pwd_error').style.display = "none";
+                            document.getElementById('signup_email_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2001) {
+                            localStorage.clear();
+                            document.getElementById('signup_error').style.display = "none";
+                            document.getElementById('signup_pwd_error').style.display = "none";
+                            document.getElementById('signup_email_error').style.display = "none";
+                            document.getElementById('signup_role_err').style.display = "block";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1119) {
+                            localStorage.clear();
+                            document.getElementById('signup_email_error').style.display = "block";
+                            document.getElementById('signup_pwd_error').style.display = "none";
+                            document.getElementById('signup_error').style.display = "none";
+                            document.getElementById('signup_role_err').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2006) {
+                            localStorage.clear();
+                            document.getElementById('signup_email_error').style.display = "block";
+                            document.getElementById('signup_email_error').innerText = "Please enter a valid email address";
+
+                            document.getElementById('signup_pwd_error').style.display = "none";
+                            document.getElementById('signup_error').style.display = "none";
+                            document.getElementById('signup_role_err').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2007) {
+                            localStorage.clear();
+                            document.getElementById('signup_email_error').style.display = "none";
+                            document.getElementById('signup_pwd_error').style.display = "block";
+                            document.getElementById('signup_pwd_error').innerText = "Password should have atleast 8 character with one special character, upper letter and a digit ";
+                            document.getElementById('signup_error').style.display = "none";
+                            document.getElementById('signup_role_err').style.display = "none";
+
+                            return
+                        }
+
+                        if (response.success == true) {
+
+                            $('#signupForm')[0].reset();
+                            document.getElementById('signup_error').style.display = "none";
+                            document.getElementById('signup_pwd_error').style.display = "none";
+                            document.getElementById('signup_email_error').style.display = "none";
+                            document.getElementById('signup_role_err').style.display = "none";
+                            $('#modalRegisterForm').modal('hide')
+                            $('#modalRegisterForm').on('hidden.bs.modal', function() {
+                                // Load up a new modal...
+                                $('#modalLoginForm').modal('show')
+                            })
+
+                        };
+                    },
+                    error: function() {}
+                })
+            }); //signup request
+
+            $('#login_email').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#email_error').show();
+                } else {
+                    $('#email_error').hide();
+                }
+            });
+
+            $('#user_email').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#signup_email_error').show();
+                } else {
+                    $('#signup_email_error').hide();
+                }
+            });
+
+            $('#login_password').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#pwd_error').show();
+                } else {
+                    $('#pwd_error').hide();
+                }
+            });
+
+            $('#user_password').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#signup_pwd_error').show();
+                } else {
+                    $('#signup_pwd_error').hide();
+                }
+            });
+            $('#user_role').on('change', function() {
+                if ($(this).val() == '') {
+                    $('#signup_role_err').show();
+                } else {
+                    $('#signup_role_err').hide();
+                }
+            });
+            $('#video_link').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#video_link_err').show();
+                } else {
+                    $('#video_link_err').hide();
+                }
+            });
+            $('#course_title').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#course_title_err').show();
+                } else {
+                    $('#course_title_err').hide();
+                }
+            });
+            var list = $('#select_me');
+
+            list.click(function() {
+                $('#course_category_err').hide();
+
+            });
+
+
+
+        }); //document ready
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,316 @@
+<title>Curated App</title>
+
+<% layout('layout') -%>
+    <div id="home-layout" style="display:block;">
+        <div id="intro-section" class="view">
+            <video class="video-intro" poster="/images/background.jpg" playsinline autoplay muted loop>
+            <source src="/images/background-video.mp4" type="video/mp4">
+            </video>
+            <div class="mask rgba-gradient d-flex justify-content-center align-items-center">
+                <div class="container px-md-3 px-sm-0">
+                    <div class="row wow fadeIn">
+                        <div class="col-md-12 mb-4 white-text text-center wow fadeIn">
+                            <h3 class="display-3 font-weight-bold white-text mb-0 pt-md-5 pt-5">Go Ahead</h3>
+                            <hr class="hr-light my-4 w-75">
+                            <h4 class="subtext-header mt-2 mb-4">Learn the courses and enhance your skills.
+                            </h4>
+                            <a href="#!" class="btn btn-rounded btn-outline-white">
+                                <i class="fa fa-home"></i> Visit us
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="LangTable">
+            <a href="/dashboard" id="dashboard"></a>
+        </div>
+        <main>
+            <div id="tabs">
+                <div class="row">
+                    <div class="col-lg-12 ">
+                        <nav>
+                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                <%if (categories.length >0) { %>
+                                    <% categories.forEach(function(response , i ) { %>
+                                        <a class="nav-item nav-link " id="nav-home-tab" data-toggle="tab" href="#nav-cat1" role="tab" aria-controls="nav-cat1" onclick="getCategoryByName('<%= response.name%>',1)" aria-selected="true">
+                                            <%= response.name%>
+                                        </a>
+                                        <%}) %>
+                                            <%} %>
+                            </div>
+                        </nav>
+                        <br>
+                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent" style="margin-left: 10px;">
+                            <!-- Card -->
+                            <div style="padding:20px; margin-left:20px;">
+                                <div id="cat_display_data" class="row"></div>
+                            </div>
+                            <img style="display:none;width:100px;height:100px;margin-left:auto;
+                 margin-right:auto;
+                 float :none;" src="/images/loader.gif" alt="description of gif" id="wait" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <section id="projects" class="text-center py-5" style="padding:20px;background-color: #eee;">
+                <div class="container">
+                    <div class="row text-center">
+                        <div class="col-lg-4 col-md-6 mb-lg-0 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Go at your own pace</h4>
+                                    <p style="color:grey">Enjoy lifetime access to courses on Udemy’s website and app
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Learn from industry</h4>
+                                    <p style="color:grey">Select from top instructors around the whole world
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6 mb-md-0 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h4>Find video courses </h4>
+                                    <p style="color:grey">Build your library for your career and personal growth
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="courses" class="text-center py-3">
+                <div class="container" id="course_container">
+                    <div class="row">
+                        <p id="filter_lbl">Filter Courses: </p>
+                        &nbsp;
+                        <select class="browser-default custom-select custom-select-lg mb-3" id="select_page" onChange="paginateData(this)">
+                <option value="6">6</option>
+                <option value="10" selected>9</option>
+                <option value="20">12</option>
+                <option value="50">15</option>
+                <option value="50">18</option>
+                <option value="50">21</option>
+                <option value="50">24</option>
+                <option value="50">27</option>
+                <option value="50">30</option>
+
+            </select>
+                    </div>
+                    <h2 class="h1-responsive font-weight-bold mb-5"> Courses List</h2>
+                    <div id="youtube_courses">
+                        <div class="row" id="youtube_row_id">
+                            <%if (courses.length >0) { %>
+                                <% courses.forEach(function(course_data) { %>
+                                    <div class="col-lg-4 col-md-12 mb-4">
+                                        <div class="card card-cascade narrower">
+                                            <div class="view img__wrap">
+                                                <img class="card-img-top img__img" src="<%= course_data.image_preview%>" width="300" height="280">
+                                                <p class="img__description">
+                                                    <%= course_data.course_title%>
+                                                </p>
+                                            </div>
+                                            <div class="card-body card-body-cascade">
+                                                <h6 class="pink-text pb-2 pt-1">
+                                                    <%= course_data.course_title.substr(0, 35)%>...</h6>
+                                                <a href="/view-course?uid=<%= course_data.uid%>&course=<%= course_data.course_name%>" class="btn btn-unique">View Course</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                        <% } %>
+                        </div>
+                    </div>
+                    <nav aria-label="Page navigation example">
+                        <% if (pages > 0) { %>
+                            <ul class="pagination pagination-circle pg-blue;pagination d-flex justify-content-center">
+                                <% if (currentPage == 1) { %>
+                                    <li class="page-item disabled"><a class="page-link">First</a></li>
+                                    <% } else { %>
+                                        <li class="page-item disabled">
+                                            <a class="page-link" href="" aria-label="First">
+                                                <span aria-hidden="true">&laquo;</span>
+                                                <span class="sr-only">First</span>
+                                            </a>
+                                        </li>
+                                        <% } %>
+                                            <% var i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+                                                <% if (i !== 1) { %>
+                                                    <li class=" page-item disabled"><a class="page-link">...</a></li>
+                                                    <% } %>
+                                                        <% for (; i <= (Number(currentPage) + 4) && i <= pages; i++) { %>
+                                                            <% if (i == currentPage) { %>
+                                                                <li class="page-item active">
+                                                                    <a class="page-link" href="/?page=1">
+                                                                        <%= i %>
+                                                                    </a>
+                                                                </li>
+                                                                <% } else { %>
+                                                                    <li class="page-item ">
+                                                                        <a class="page-link" href="/?page=<%=i%>">
+                                                                            <%= i %>
+                                                                        </a>
+                                                                    </li>
+                                                                    <% } %>
+                                                                        <% if (i == Number(currentPage) + 4 && i < pages) { %>
+                                                                            <li class=" page-item disabled"><a class="page-link">...</a></li>
+                                                                            <% } %>
+                                                                                <% } %>
+                                                                                    <% if (currentPage == pages) { %>
+                                                                                        <li class="page-item disabled"><a class="page-link">Last</a></li>
+                                                                                        <% } else { %>
+                                                                                            <li class="page-item"><a href="/?page=<%= pages%>" class="page-link">Last</a></li>
+                                                                                            <% } %>
+                            </ul>
+                            <% } %>
+                    </nav>
+            </section>
+        </main>
+        </div>
+        <script>
+            $(document).ready(function() {
+                    var categories_data = '<%=categories%>';
+                    if (categories_data.length > 0) {
+                        getCategoryByName('<%=categories[0].name%>', '1')
+                    }
+
+                }) //document ready
+
+            function getCategoryByName(name, categorycount) {
+
+                if (name != null || name.length > 0) {
+                    name = name.replace(/&amp;/g, '&')
+                }
+
+                document.getElementById('cat_display_data').innerHTML = '';
+
+                $(document).ajaxStart(function() {
+                    $("#wait").css("display", "block");
+                });
+                $(document).ajaxComplete(function() {
+                    $("#wait").css("display", "none");
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: 'api/course/getCourseByCategoryName',
+                    data: {
+                        name: name,
+                        page: categorycount
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success == true) {
+
+                            if (response.data.length > 0) {
+                                response.data.forEach(element => {
+                                    document.getElementById('cat_display_data').innerHTML +=
+                                        '<div>' +
+                                        '<div class = "col-sm-12">' +
+                                        '<div class="card card-cascade narrower" style="width:300px;" >' +
+                                        '<div class="view view-cascade gradient-card-header" style =" height:80px;background: linear-gradient(to right, rgba(51, 74, 204, 0.6), rgba(73, 15, 161, 0.6));">' +
+                                        '<h6 class="card-header-title"  >' + element.course_title + '</h6>' +
+                                        '</div>' +
+                                        '<div class="card-body card-body-cascade text-center" style = "height:250px;">' +
+                                        '<div class="view overlay">' +
+                                        '<img class="card-img-top" src="' + element.image_preview + '" alt="Card image cap" width="200" height="200"' +
+                                        '<a>' +
+                                        '<div class="mask rgba-white-slight"></div>' +
+                                        '</a>' +
+                                        '</div>' +
+                                        '<a href = "/view-course?uid=' + element.uid + '&course=' + element.course_name + '"><p style ="color:purple;"><strong >View Course</strong></p></a>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div id = "prev_btn"></div>' +
+                                        '<div id = "next_btn"></div>';
+                                });
+                            }
+                            if (response.count > 4 && response.currentPage == 1) {
+                                categorycount = parseInt(categorycount) + 1;
+                                document.getElementById('next_btn').innerHTML = '<a class="btn-floating" data-slide="next" style="position: absolute;right:85;top:45%;background:#543E91;" onclick="getCategoryByName(\'' + name + '\',\'' + categorycount + '\')"><i class="fas fa-chevron-right" style = "color:white;"></i></a>';
+
+                            } else if (response.currentPage != 1) {
+                                if (response.pages == response.currentPage) {
+                                    categorycount = parseInt(categorycount) - 1;
+                                    document.getElementById('prev_btn').innerHTML = '<a class="btn-floating" data-slide="next" style="display:block;position: absolute;left:20;top:45%;background:#543E91;" onclick="getCategoryByName(\'' + name + '\',\'' + categorycount + '\')"><i class="fas fa-chevron-left" style = "color:white;"></i></a>';
+
+                                } else {
+
+                                    response.count = response.count - response.perPage
+                                    if (response.count > 4) {
+                                        document.getElementById('prev_btn').innerHTML = ''
+                                        document.getElementById('prev_btn').innerHTML = '<a class="btn-floating" data-slide="prev" style="display:block;position: absolute;left:20;top:45%;background:#543E91;" onclick="getCategoryByName(\'' + name + '\',\'' + (parseInt(categorycount) - 1) + '\')"><i class="fas fa-chevron-left" style = "color:white;"></i></a>';
+
+                                    }
+                                    if (response.count > 4 && response.currentPage == parseInt(categorycount)) {
+                                        document.getElementById('next_btn').innerHTML = '<a class="btn-floating" data-slide="next" style="position: absolute;right:85;top:45%;background:#543E91;" onclick="getCategoryByName(\'' + name + '\',\'' + (parseInt(categorycount) + 1) + '\')"><i class="fas fa-chevron-right" style = "color:white;"></i></a>';
+
+                                    }
+                                }
+
+                            }
+                        }
+
+                    },
+                    error: function() {
+
+                    }
+                })
+
+            }
+
+            function paginateData(sel) {
+                var num = Number(sel.options[sel.selectedIndex].text)
+                var url_address = window.location.href
+                $(document).ajaxStart(function() {
+                    $("#wait").css("display", "block");
+                });
+                $(document).ajaxComplete(function() {
+                    $("#wait").css("display", "none");
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/course/pagination-data?currentPage=" + parseInt(num) + "&page=1",
+                    dataType: "json",
+
+                    success: function(data) {
+                        window.history.replaceState(url_address, "Title", "/?page=1&currentPage=" + parseInt(num));
+
+                        document.getElementById('youtube_row_id').innerHTML = ''
+                        if (data.courses.length > 0) {
+                            for (let index = 0; index < data.courses.length; index++) {
+                                const element = data.courses[index];
+                                document.getElementById('youtube_row_id').innerHTML +=
+                                    '<div class="col-lg-4 col-md-12 mb-4">' +
+                                    '<div class="card card-cascade narrower">' +
+                                    '<div class="view img__wrap" >' +
+                                    '<img class="card-img-top img__img" src=' + data.courses[index].course_details[0].video_thumbnail + ' >' +
+                                    '<p class="img__description">' + element.course_title + '</p>' +
+                                    '</div>' +
+                                    '<div class="card-body card-body-cascade">' +
+                                    '<h5 class="pink-text pb-2 pt-1"> ' + element.course_title.substr(0, 35) + '...</h5>' +
+                                    '<a href = "/view-course?uid=' + element.uid + '&course=' + element.course_name + '" class="btn btn-unique">View Course</a>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+
+                            }
+
+                        } else {
+                            alert("No course Found!")
+                        }
+
+                    }
+                })
+
+            }
+        </script>

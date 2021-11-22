@@ -1,0 +1,28 @@
+#navbarDropdown {
+    margin-top: 5px;
+}
+
+#settings_icon {
+    font-size: 24px;
+}
+
+#show_hide_lbl {
+    background-color: #553E91 !important;
+    color: white !important;
+}
+
+#sub_menu_list {
+    background-color: white !important;
+}
+
+#categories_lbl {
+    background-color: none !important;
+}
+
+#nav_brand {
+    padding-top: 10px;
+}
+
+#signup_btn {
+    display: none;
+}

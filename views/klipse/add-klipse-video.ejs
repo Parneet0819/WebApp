@@ -1,0 +1,457 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/main.a6165544.css" rel="stylesheet">
+
+    <!------ Include the above in your HEAD tag ---------->
+    <style>
+        @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+        @import url(https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.3/css/mdb.min.css);
+        .hm-gradient {
+            background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+            /* height: 100% */
+        }
+        
+        .darken-grey-text {
+            color: #2E2E2E;
+        }
+        
+        .danger-text {
+            color: #ff3547;
+        }
+        
+        .form-white .md-form label {
+            color: #fff;
+        }
+        
+        .form-white input[type=text]:focus:not([readonly]) {
+            border-bottom: 1px solid #fff;
+            -webkit-box-shadow: 0 1px 0 0 #fff;
+            box-shadow: 0 1px 0 0 #fff;
+        }
+        
+        .form-white input[type=text]:focus:not([readonly])+label {
+            color: #fff;
+        }
+        
+        .form-white .form-control:focus {
+            color: #fff;
+        }
+        
+        .form-white .form-control {
+            color: #fff;
+        }
+        
+        .card {
+            margin: 0 auto;
+            /* Added */
+            float: none;
+            /* Added */
+            margin-bottom: 10px;
+            /* Added */
+        }
+        
+        .navbar {
+            background-color: #553E91 !important;
+        }
+        
+        #userEmail {
+            color: white;
+        }
+        
+        button {
+            color: #553E91 !important;
+        }
+        
+        #nav_brand {
+            color: white;
+        }
+        
+        .nav-link {
+            color: white ! important;
+        }
+        
+        #btns {
+            float: right;
+        }
+        
+        #kplis-div {
+            background-color: #BABABA;
+            border-radius: 8px;
+            padding: 8px 16px 16px;
+        }
+        
+        #kplis-form {
+            background-color: white !important;
+        }
+    </style>
+</head>
+
+<body class="hm-gradient">
+
+    <nav class="navbar navbar-expand-sm bg-light">
+        <!-- Links -->
+        <div class="container">
+            <ul class="navbar-nav float-left">
+                <li class="nav-item">
+                    <a class="navbar-brand" id="nav_brand">Curated</a>
+
+                </li>
+            </ul>
+            <ul class="nav nav-pills justify-content-end ml-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <%=user_info.email%>
+                    </a>
+                </li>
+                <li>
+                    <a class="nav-link" href="#">
+                        <!-- <i class="fa fa-gear" id="settings_icon"></i> Settings -->
+                        <% if (user_info.profile_image) { %>
+                            <img src="<%=user_info.profile_image%>" width="30" height="30" alt="logo">
+                            <%} else { %>
+                                <img src="/images/user_icon.png " class="img1" height="40" width="40" alt="logo">
+                                <% } %>
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <main>
+        <!--MDB Forms-->
+        <div class="container mt-1">
+            <br>
+            <div id="kplis-div">
+                <b>Inset the Kplis Video Link</b><br>
+                <Br>
+                <div class="md-form">
+                    <div class="mdc-text-field mdc-text-field--box mdc-text-field--fullwidth mdc-text-field--upgraded mdc-ripple-upgraded" style="--mdc-ripple-fg-size:775.2px; --mdc-ripple-fg-scale:1.68113; --mdc-ripple-fg-translate-start:-62.2406px, -342.924px; --mdc-ripple-fg-translate-end:258.4px, -359.6px;">
+                        <input type="text" style="padding:7px ! important;" box="true" fullwidth="true" label="https://..." pattern="https://app.klipse.co/v/.*" helpertext=" " id="tf-1" aria-controls="tf-1-helper-text"><label style="bottom:1px ! important;"
+                            for="tf-1" class="mdc-floating-label">https://...</label>
+                        <div class="mdc-line-ripple mdc-line-ripple--active mdc-line-ripple--deactivating" style="transform-origin: 325px center;"></div>
+                    </div>
+                    <p id="err" style="color: red; display: none;">Invalid Url</p><br>
+                    <div id="show-me" style=display:none;>
+                        <textarea readonly id="getUrl" style="background-color: white;padding:7px;">
+                     </textarea>
+                        <button type="button" onclick="copyToClipart()" class="btn btn-primary" style="background: #43486e !important;color:white;">Copy the Video Url</button>
+                    </div>
+                    <button type="button" onclick="generateUrlLink()" class="btn btn-primary" style="background: #43486e !important;color:white;">Get Video Url</button>
+
+                </div>
+
+            </div>
+            <div class="text-center darken-grey-text mb-4">
+                <h1 class="font-bold mt-4 mb-3 h5">Add Kplis Video To Course</h1>
+            </div>
+            <!-- Grid column -->
+            <div class="col-md-12 mb-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="addCourse" method="post">
+                            <!--Body-->
+                            <div class="md-form">
+                                <i class="fa fa-link prefix grey-text"></i>
+                                <input type="text" id="video_link" name="video_link" pattern="https://app.klipse.co/embed/video/.*" class="form-control">
+                                <label for="video-link">Google Video Link</label>
+                                <p id="video_link_err" style="color: red;display:none;">Please enter the valid video link</p>
+
+                            </div>
+                            <div class="md-form">
+                                <i class="fa fa-list-alt prefix grey-text"></i>
+                                <input type="text" name="course_title" id="course_title" class="form-control">
+                                <label for="course-title">Course Name</label>
+                                <p id="course_title_err" style="color: red;display:none;">Please enter the valid course name</p>
+
+                            </div>
+                            <div class="md-form">
+                                <i class="fa fa-picture-o prefix grey-text"></i>
+                                <input type="text" name="image_preview" id="image_preview" class="form-control">
+                                <label for="image_preview">Course Image</label>
+                                <p id="image_err" style="color: red;display:none;">Please enter the valid image url</p>
+
+                            </div>
+                            <div class="md-form mb-4 " id="meta_cat_div" style="display:none;">
+                                <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                <input type="text" readonly id="course_meta_cat" class="form-control ">
+                            </div>
+                            <div class="md-form mb-4 " id="sub_cat_div" style="display:none;">
+                                <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                <input type="text" name="course_sub_category" readonly id="course_sub_category" class="form-control ">
+                            </div>
+                            <div class="md-form mb-4 " id="m_cat_div" style="display:none;">
+                                <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                <input type="text" name="course_meta_category" readonly id="course_meta_category" class="form-control ">
+                            </div>
+                            <div class="md-form mb-4 " id="m_cat_id" style="display:none;">
+                                <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                                <input type="text" name="cat_id" readonly id="cat_id" class="form-control ">
+                            </div>
+                            <input id="user" name="user" value="<%=user%>" style="display:none;">
+                            <div class="md-form mb-4 ">
+                                <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" style="color:grey !important;" id="navbarDropdownMenuLink" aria-haspopup="true" aria-expanded="false"><i class="fa fa-list light-green-text-2" style="color:gray !important;"></i>&nbsp;&nbsp;Categories
+                                            </a>
+                                        <p id="course_category_err" style="color: red;display:none;">Please select the category from the list</p>
+                                        <div class="dropdown-menu dropdown-primary " aria-labelledby="navbarDropdownMenuLink">
+                                            <ul>
+                                                <% allcategories.forEach(function(course_categories) { %>
+                                                    <li class="dropdown-item dropdown-submenu p-0">
+                                                        <a href="#" data-toggle="dropdown" class="dropdown-toggle dropdown-item w-100">
+                                                            <%=course_categories.name%>
+                                                        </a>
+                                                        <ul id="select_me" class="dropdown-menu  rounded-0 white border-0 z-depth-1" style="height:200px; overflow-y: scroll;">
+                                                            <% course_categories.sub_categories.forEach(function(sub_cate) { %>
+                                                                <li class="dropdown-item p-0">
+                                                                    <a href="#" class="dropdown-item w-100" onclick="getCategoryName('<%=course_categories.name%>-<%=sub_cate.name%>','<%=course_categories.id%>-<%=sub_cate.id%>')">
+                                                                        <%=sub_cate.name%>
+                                                                    </a>
+                                                                </li>
+                                                                <% }); %>
+                                                        </ul>
+                                                    </li>
+                                                    <% }); %>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="text-center py-4">
+                                <input type="submit" value="ADD COURSE" class="btn btn-primary" id="submit" name="submit" style="background: #43486e !important;">
+                                <!-- <button class="btn btn-outline-grey">Add Course <i class="fa fa-paper-plane-o ml-1"></i></button> -->
+                            </div>
+                        </form>
+                    </div>
+                    <a id="goToCourse"></a>
+                </div><br>
+            </div>
+            <!-- Grid column -->
+        </div>
+        <!--MDB Forms-->
+
+        </div>
+        <!-- Central Modal Small -->
+    </main>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/js/mdb.min.js"></script>
+    <script>
+        //---------------------------------------------------------------------
+        // get the category name 
+        //---------------------------------------------------------------------
+        function getCategoryName(name, id) {
+            document.getElementById('course_category_err').style.display = "none";
+            document.getElementById('meta_cat_div').style.display = "block";
+            document.getElementById('course_meta_cat').value = ''
+            var split_name = name.split('-');
+            var split_id = id.split('-');
+            document.getElementById('cat_id').value = ''
+            document.getElementById('course_meta_cat').value = name
+            document.getElementById('course_meta_category').value = ''
+            document.getElementById('course_meta_category').value = split_name[0]
+            document.getElementById('course_meta_category').value = split_id[0]
+            document.getElementById('course_sub_category').value = ''
+            document.getElementById('course_sub_category').value = split_name[1]
+            document.getElementById('course_sub_category').value = split_id[1]
+            $.ajax({
+                type: 'POST',
+                url: 'api/course-category/getParticularCategory',
+                data: {
+                    id: split_id[0],
+                    name: split_name[0]
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        document.getElementById('cat_id').value = response.data._id
+                    } else {
+                        console.log("error")
+                    }
+                },
+                error: function() {}
+            })
+
+        } //getCategoryName
+
+        function copyToClipart() {
+            document.querySelector("textarea").select();
+            document.execCommand('copy');
+        }
+
+        function generateUrlLink() {
+            if (document.getElementById('tf-1').value == "" || document.getElementById('tf-1').value == null) {
+                document.getElementById('err').style.display = "block";
+            }
+            if (document.getElementById('tf-1').value != "") {
+                var regex = /http(s)?:\/\/app.klipse.co\/v\/.*/gi;
+                if (document.getElementById('tf-1').value.match(regex)) {
+                    console.log("Successful match");
+                    var parts = document.getElementById('tf-1').value.match(/v\/(.+)/);
+                    if (parts == null || parts.length < 2) {
+                        return
+                    } else {
+                        const url = "https://app.klipse.co/embed/video/" + parts[1];
+                        document.getElementById('show-me').style.display = "block";
+                        document.getElementById('getUrl').value = url;
+                    }
+                } else {
+                    document.getElementById('err').style.display = "block";
+
+                }
+            }
+        }
+
+        $(document).ready(function() {
+
+            // add course form request
+            $("#addCourse").submit(function(event) {
+                event.preventDefault();
+                if (document.getElementById('video_link').value === "" || document.getElementById('video_link').value == null) {
+                    document.getElementById('video_link_err').style.display = "block";
+                }
+                if (document.getElementById('course_title').value === "" || document.getElementById('course_title').value == null) {
+                    document.getElementById('course_title_err').style.display = "block";
+                }
+                if (document.getElementById('image_preview').value === "" || document.getElementById('image_preview').value == null) {
+                    document.getElementById('image_err').style.display = "block";
+                }
+                if (document.getElementById('course_sub_category').value === "" || document.getElementById('course_sub_category').value == null) {
+                    document.getElementById('course_category_err').style.display = "block";
+                } else {
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course/addGoogleVideo',
+                        data: $('#addCourse').serialize(),
+                        dataType: "json",
+                        success: function(response) {
+
+                            if (response.success == false && response.err_code == 2010) {
+                                return document.getElementById('course_title_err').style.display = "block";
+                            }
+                            if (response.success == false && response.err_code == 2009) {
+                                return document.getElementById('video_link_err').style.display = "block";
+                            }
+                            if (response.success == false && response.err_code == 2002) {
+                                document.getElementById('video_link_err').style.display = "block";
+                                document.getElementById('video_link_err').innerText = "OOPS! Course Already Exists"
+                                return
+
+                            }
+                            if (response.success == false && response.err_code == 2023) {
+                                document.getElementById('image_err').style.display = "block";
+                                document.getElementById('image_err').innerText = "Course Image cannot be Empty"
+                                return
+
+                            }
+                            if (response.success == false && response.err_code == 2024) {
+                                document.getElementById('image_err').style.display = "block";
+                                document.getElementById('image_err').innerText = "Invalid Course Image Url "
+                                return
+                            }
+                            if (response.success == false && response.err_code == 2021) {
+                                document.getElementById('course_title_err').style.display = "block";
+                                document.getElementById('course_title_err').innerText = "OOPS! Course Name Already Taken"
+                                return
+
+                            }
+                            if (response.success == false && response.err_code == 1009) {
+                                document.getElementById('course_title_err').style.display = "block";
+                                document.getElementById('course_title_err').innerText = "Something Went Wrong!"
+                                return
+
+                            }
+                            if (response.success == false && response.err_code == 1116) {
+                                document.getElementById('course_title_err').style.display = "block";
+                                document.getElementById('course_title_err').innerText = "Unable to save the data"
+                                return
+                            }
+                            if (response.success == false && response.err_code == 1118) {
+                                document.getElementById('course_title_err').style.display = "block";
+                                document.getElementById('course_title_err').innerText = "Unable to get the user udid"
+                                return
+                            } else if (response.success == true) {
+                                $('#addCourse')[0].reset();
+
+                                if (response.data != null && response.data.user != null) {
+                                    localStorage.setItem("userId", response.data.user._id);
+                                    document.getElementById("goToCourse").href = "/view-klipse-course?uid=" + response.data.user.uid + "&course=" + response.data.course_name;
+                                    document.getElementById("goToCourse").click();
+
+                                } else {
+                                    window.location.reload()
+                                }
+
+                            } else {
+                                console.log("-----else part---")
+                            }
+                        },
+                        error: function() {}
+                    })
+                }
+                // }
+
+            });
+
+            $('#video_link').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#video_link_err').show();
+                } else {
+                    $('#video_link_err').hide();
+                }
+            });
+
+
+            $('#image_preview').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#course_title_err').show();
+                } else {
+                    $('#course_title_err').hide();
+                }
+            });
+            $('#tf-1').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#err').show();
+                } else {
+                    $('#err').hide();
+                }
+            });
+            $('#image_preview').keyup(function() {
+
+                if ($(this).val() == '') {
+                    $('#image_err').show();
+                }
+                if ($(this).val() != '') {
+
+                    var imgRegex = /http(s)?:\/\/(.*)\.(jpe?g|png|bmp)$/gi;
+                    var imageViewRegex = new RegExp(imgRegex);
+
+                    if ($(this).val().match(imageViewRegex)) {
+                        $('#image_err').hide();
+                    } else {
+                        $('#image_err').show();
+                    }
+                }
+            });
+
+
+        });
+    </script>
+
+
+</body>
+
+</html>

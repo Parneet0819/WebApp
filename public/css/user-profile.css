@@ -1,0 +1,94 @@
+.profile-widget {
+    position: relative;
+  }
+  .profile-widget .image-container {
+    background-size: cover;
+    background-position: center;
+    padding: 190px 0 10px;
+  }
+  .profile-widget .image-container .profile-background {
+    width: 100%;
+    height: auto;
+  }
+  .profile-widget .image-container .avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 0 auto -60px;
+    display: block;
+  }
+  .profile-widget .details {
+    padding: 50px 15px 15px;
+    text-align: center;
+  }
+  
+  /* Component: Mini Profile Widget */
+  .mini-profile-widget .image-container .avatar {
+    width: 180px;
+    height: 180px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: white;
+    padding: 4px;
+    border: 1px solid #dddddd;
+  }
+  .mini-profile-widget .details {
+    text-align: center;
+  }
+  
+  /* Component: Panel */
+  .panel {
+    border-radius: 0;
+    margin-bottom: 30px;
+    padding-top: 10px;
+  }
+  .panel.solid-color {
+    color: white;
+  }
+  .panel .panel-heading {
+    border-radius: 0;
+    position: relative;
+  }
+  .panel .panel-heading > .controls {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+  }
+
+  .bg2 {
+    background-image: url('/images/profile-background.jpg');
+  }
+  #back_btn{
+    background-color: #553E91;
+    font-size: 20px;
+    width: 40px;;
+    height: 35px;
+    color: white;
+    text-align: center;
+    padding:5px;
+  }
+  
+#change_profile_btn{
+  padding-top:5%;
+  background-color: #553E91 !important;
+}
+ li{
+   color:#553E91 !important;
+ } 
+ #edit_profile{
+   display: none;
+ }
+ #upload_btn {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+label{
+  cursor: pointer;
+}
+.img1{
+  float: left;
+  border-radius: 50%;
+
+}

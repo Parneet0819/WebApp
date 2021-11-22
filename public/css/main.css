@@ -1,0 +1,304 @@
+
+/* body{
+    width:100%;
+} */
+.navbar .dropdown-menu a:hover{
+    width: 100%;
+    background-color: #CC8F85 !important;
+ }
+ #search_categories{
+    display: none;
+ }
+ #nav-tabContent{
+    margin-left: 10px;
+ }
+ .md-form label.active {
+   font-size: 0.8rem;
+   transform: translateY(-140%);
+}
+ #select_page{
+    border-color:light-gray; width:200px;
+ }
+
+ #dashboard-courses{
+    padding:20px;
+ }
+
+ #cat_data{
+    padding:20px; margin-left:20px;
+ }
+ #filter_lbl{
+    font-weight: bold;color:#543E91;padding-top:13px;font-size:18px
+ }
+ #img_display{
+    display:none;width:100px;height:100px;margin-left:auto;
+    margin-right:auto;
+    float :none;
+ }
+ .img__description {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(29, 106, 154, 0.72);
+    color: #fff;
+    visibility: hidden;
+    opacity: 0;
+    /* transition effect. not necessary */
+    transition: opacity .2s, visibility .2s;
+ }
+ .img__wrap:hover .img__description {
+    visibility: visible;
+    opacity: 1;
+ }
+.top-nav-collapse, .page-footer {
+    background-color: #563e91 !important;
+}
+.page-footer{
+   left: 0;
+   bottom: 0;
+   width: 100%;
+}
+.navbar {
+    background:rgb(85,62,145)!important;
+ }
+ @media (max-width: 991px) {
+    .navbar:not(.top-nav-collapse) {
+    background: #563e91 !important;
+    }
+ }
+ .rgba-gradient {
+    background: rgba(35, 7, 77, 0.6);
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, rgba(114, 73, 228, 0.6), rgba(35, 7, 77, 0.6)); 
+    background: linear-gradient(to right, rgba(51, 74, 204, 0.6), rgba(73, 15, 161, 0.6)); 
+ }
+ .img-gradient:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(220, 66, 37, 0.5)), color-stop(100%, rgba(0, 47, 75, 0.5)));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(0, 47, 75, 0.5) 0%, rgba(220, 66, 37, 0.5) 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(0, 47, 75, 0.5) 0%, rgba(220, 66, 37, 0.5) 100%);
+    /* Opera 11.10+ */
+    /* IE10+ */
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 47, 75, 0.5)), to(rgba(220, 66, 37, 0.5)));
+    background: linear-gradient(to bottom, rgba(0, 47, 75, 0.5) 0%, rgba(220, 66, 37, 0.5) 100%);
+    /* W3C */
+    /* filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#002f4b', endColorstr='#00000000', GradientType=0); */
+    /* IE6-9 */
+ }
+ #tabs{
+    background: white;
+ }
+ #tabs h6.section-title{
+    color: #eee;
+ }
+ #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs  {
+    color: #f3f3f3;
+    background-color: transparent;
+    border-color: transparent transparent #f3f3f3;
+    font-size: 20px;
+    font-weight: bold;
+ }
+ .nav-link.active{
+    border-bottom: 4px solid !important;
+ }
+ .nav-tabs{
+    background-color: #563e91;
+ }
+ #tabs .nav-tabs .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: #eee;
+    font-size: 20px;
+ }
+ .carousel-multi-item .carousel-indicators .active{
+    max-width:0px;
+    height: 0px;
+    width: 0px;
+ }
+ header,  #intro-section{
+    width: 100%;
+    height:100%;
+ }
+ .carousel-multi-item .controls-top .btn-floating{
+    background-color: #563e91;
+ }
+ #view_course_btn{
+     background:#543E91 !important;
+     color:white;
+ }
+
+#categories_container{
+    padding:20px;
+}
+* 									{padding: 0;}
+a									{ text-decoration: none; }
+ul									{ list-style: none; }
+
+/* 
+	LEVEL ONE
+*/
+ul.dropdown                         { position: relative; }
+ul.dropdown li                      { font-weight: bold; float: left; zoom: 1;  }
+ul.dropdown a:hover		            { color: #000;  background: white; }
+/* ul.dropdown a:active                { color: #ffa500; } */
+ul.dropdown li a                    { display: block; padding: 8px 8px; ;
+	 								  color: rgb(34, 34, 34);  background: white; }
+ul.dropdown li:last-child a         { border-right: none; } /* Doesn't work in IE */
+ul.dropdown li.hover,
+ul.dropdown li:hover                { color: black;  background: none; }
+ul.dropdown li.hover a              { color: black; }
+
+
+/* 
+	LEVEL TWO
+*/
+ul.dropdown ul 						{ width: 220px; visibility: hidden; position: absolute; top: 100%; left: 0; }
+ul.dropdown ul li 					{ font-weight: normal; background: white; color: #000; 
+									  float: none; }
+									  
+                                    /* IE 6 & 7 Needs Inline Block */
+ul.dropdown ul li a					{ border-right: none; width: 100%; } 
+
+/* 
+	LEVEL THREE
+*/
+ul.dropdown ul ul 					{ left: 100%; top: 0; }
+ul.dropdown li:hover > ul 			{ visibility: visible; }
+
+.field {
+   display: flex;
+   flex-flow: column-reverse;
+   margin-bottom: 1em;
+ }
+ /**
+ * Add a transition to the label and input.
+ * I'm not even sure that touch-action: manipulation works on
+ * inputs, but hey, it's new and cool and could remove the 
+ * pesky delay.
+ */
+ label, input {
+   transition: all 0.2s;
+   touch-action: manipulation;
+ }
+
+ .columnn {
+   flex: 10%;
+   max-width: 100%;
+   padding: 0 20px;
+}
+ 
+.column_ {
+   -ms-flex: 10%; /* IE10 */
+   flex: 10%;
+   max-width: 10%;
+   padding-bottom: 10px;
+   padding-top: 30px;
+   padding-left: 30px;
+
+}
+ input {
+   font-size: 1.1em;
+   border: 0;
+   border-bottom: 1px solid #ccc;
+   font-family: inherit;
+   -webkit-appearance: none;
+   border-radius: 0;
+   padding: 0;
+   cursor: text;
+ }
+ 
+ input:focus {
+   outline: 0;
+   border-bottom: 1px solid #666;
+ }
+ 
+ label {
+   letter-spacing: 0.05em;
+ }
+ /**
+ * Translate down and scale the label up to cover the placeholder,
+ * when following an input (with placeholder-shown support).
+ * Also make sure the label is only on one row, at max 2/3rds of the
+ * field—to make sure it scales properly and doesn't wrap.
+ */
+ input:placeholder-shown + label {
+   cursor: text;
+   /* max-width: 50.66%; */
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   transform-origin: left bottom;
+   transform: translate(0, 2.120rem) scale(1.1);
+ }
+ /**
+ * By default, the placeholder should be transparent. Also, it should 
+ * inherit the transition.
+ */
+ ::-webkit-input-placeholder {
+   opacity: 0;
+   transition: inherit;
+ }
+ /**
+ * Show the placeholder when the input is focused.
+ */
+ input:focus::-webkit-input-placeholder {
+   opacity: 1;
+ }
+ /**
+ * When the element is focused, remove the label transform.
+ * Also, do this when the placeholder is _not_ shown, i.e. when 
+ * there's something in the input at all.
+ */
+ input:not(:placeholder-shown) + label,
+ input:focus + label {
+   transform: translate(0, 0) scale(1);
+   cursor: pointer;
+ }
+ .dropdown:hover>.dropdown-menu {
+   display: block;
+}
+.dropdown>.dropdown-toggle:active { 
+/*Without this, clicking will make it sticky*/
+pointer-events: none;
+} 
+
+
+.dropdown-submenu>.dropdown-menu {
+top: 0;
+left: 96%;
+/* margin-top: -6px; */
+/* margin-left: 1px; */
+-webkit-border-radius: 0 6px 6px 6px;
+-moz-border-radius: 0 6px 6px;
+border-radius: 0 6px 6px 6px;
+}
+
+/* .dropdown-submenu:hover>.dropdown-menu {
+display: block;
+} */
+
+.dropdown-submenu>a:after {
+display: block;
+content: " ";
+float: right;
+width: 0;
+height: 0;
+border-color: transparent;
+border-style: solid;
+border-width: 5px 0 5px 5px;
+border-left-color: #ccc;
+margin-top: 5px;
+margin-right: -10px;
+}

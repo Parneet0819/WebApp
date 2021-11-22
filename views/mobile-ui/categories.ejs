@@ -1,0 +1,102 @@
+<% include header %>
+
+    <style>
+        .scrolling-wrapper {
+            overflow-x: auto;
+        }
+        
+        #cat_lbl {
+            margin-top: 10px;
+        }
+        
+        #block {
+            background-color: #fff;
+            border: none;
+            background-position: center;
+            background-size: cover;
+            transition: all 0.2s ease-in-out !important;
+            border-radius: 10px;
+            height: 250px;
+        }
+        
+        img {
+            border-radius: 5px;
+            ;
+        }
+    </style>
+    <div id="category-list" class="container-fluid">
+        <div id="message"></div>
+        <%if (data.length> 0) { %>
+            <h5><strong id="cat_lbl"> <%=cat_name%> Categories</strong></h5>
+            <div class="scrolling-wrapper row flex-row flex-nowrap mt-2 pb-2 pt-2" id="categories">
+                <% data.forEach(function(response,i) { %>
+                    <div class="upcomingfestivals col-7 col-sm-4">
+                        <div class="view img__wrap">
+                            <a href="/view-course?uid=<%=response.uid%>&course=<%=response.course_name%>">
+                                    <img class="card-img-top" src="<%=response.image_preview%>" height="150">
+                                </a>
+                        </div>
+                        <a href="/view-course?uid=<%=response.uid%>&course=<%=response.course_name%>">
+                            <p style="text-align: center;">
+                                <%=response.course_title%>
+                            </p>
+                        </a>
+                    </div>
+                    <%})%>
+            </div>
+            <% } else {%>
+                <div id="notfound"><strong>No Category Found!</strong></div>
+                <% } %>
+                    <%if (sub_arr.length> 0) { %>
+                        <h5><strong id="sub_cat_lbl"><%cat_name%> SubCateogries</strong></h5>
+                        <div class="scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2" id="sub_cat">
+                            <% sub_arr.forEach(function(response,i) { %>
+                                <div class="upcomingfestivals col-6 col-sm-3">
+                                    <div class=" card card-block">
+                                        <a href="/subcategory-list/<%= response.sub_name%>">
+                                            <p style="text-align: center;padding-top:15px;">
+                                                <%= response.sub_name%>
+                                            </p>
+                                        </a>
+                                    </div>
+                                </div>
+                                <%})%>
+                        </div>
+                        <% } else { %>
+                            <div id="nosubcat"><strong>No SubCategory Found!</strong> </div>
+                            <% } %>
+                                <%if (data.length> 0) { %>
+                                    <h5><strong id="cat_lbll"> <%=cat_name%> Categories List</strong></h5>
+                                    <table>
+                                        <% data.forEach(function(response,i) { %>
+                                            <tr>
+                                                <td>
+                                                    <div class="row flex-row flex-nowrap mt-2 pb-2 pt-2">
+                                                        <div class="col-4 col-sm-4">
+                                                            <div class="view img__wrap">
+                                                                <img src="<%=response.image_preview%>" width="100" height="80">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 col-sm-6" id="col_text">
+                                                            <a href="/view-course?uid=<%=response.uid%>&course=<%=response.course_name%>">
+                                                                <h6>
+                                                                    <%=response.course_title%>
+                                                                </h6>
+                                                            </a>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                            <% }) %>
+                                    </table>
+                                    <% } %>
+
+    </div>
+    <script>
+        var catlist = document.getElementById('category-list');
+        document.getElementById('page-content-wrapper').appendChild(catlist);
+    </script>

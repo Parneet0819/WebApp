@@ -1,0 +1,39 @@
+<% include header %>
+    <div id="sub_categories" class="container-fluid">
+        <%if (sub_cat_data.length> 0) { %>
+            <h5><strong id="cat_lbll"> <%=sub_cat_name%> Categories List</strong></h5>
+            <table>
+                <% sub_cat_data.forEach(function(response,i) { %>
+                    <tr>
+                        <td>
+                            <div class="row flex-row flex-nowrap mt-2 pb-2 pt-2">
+                                <div class="col-4 col-sm-4">
+                                    <div class="view img__wrap">
+                                        <img src="<%=response.image_preview%>" width="100" height="80">
+
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-6" id="col_text">
+                                    <a href="/view-course?uid=<%=response.uid%>&course=<%=response.course_name%>">
+                                        <h5>
+                                            <%=response.course_title%>
+                                        </h5>
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                    <% }) %>
+            </table>
+            <% } else { %>
+                <div>
+                    <h5>No Sub Category Found!</h5>
+                </div>
+                <% } %>
+    </div>
+    <script>
+        var subcategories = document.getElementById('sub_categories');
+        document.getElementById('page-content-wrapper').appendChild(subcategories);
+    </script>

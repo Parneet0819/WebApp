@@ -1,0 +1,727 @@
+<% layout('layout') -%>
+    <style>
+        /* Create two equal columns that floats next to each other */
+        
+        .my-column {
+            float: left;
+        }
+        /* Clear floats after the columns */
+        
+        .my-columnn {
+            float: left;
+            width: 60%;
+            padding: 10px;
+            /* height: 300px; */
+            /* Should be removed. Only for demonstration */
+        }
+        
+        img {
+            border-radius: 5px;
+        }
+        /* Portrait and Landscape */
+        
+        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Portrait */
+        
+        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Landscape */
+        
+        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+        /* Portrait and Landscape */
+        
+        @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Portrait */
+        
+        @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Landscape */
+        
+        @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+        /* Portrait and Landscape */
+        
+        @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Portrait */
+        
+        @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Landscape */
+        
+        @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* ----------- iPhone 6+, 7+ and 8+ ----------- */
+        /* Portrait and Landscape */
+        
+        @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Portrait */
+        
+        @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Landscape */
+        
+        @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* ----------- iPhone X ----------- */
+        /* Portrait and Landscape */
+        
+        @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Portrait */
+        
+        @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        /* Landscape */
+        
+        @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+            .my-column {
+                font-size: 16px !important;
+            }
+        }
+        
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+    <br><br>
+    <div class="container">
+        <div class="card border mb-3">
+            <div class="card-body" style="overflow-x:auto;">
+                <%if (obj.length > 0) { %>
+                    <div class="row">
+                        <div class="my-column">
+                            <select id="select-value" class="browser-default custom-select custom-select-lg mb-3" onChange="sortCourses(this)">
+                      <option value="" disabled="">Sort</option>
+                      <option value="newest" selected="">Newest</option>
+                      <option value="oldest" >
+                       Oldest</option>
+                       <option value="highest-rated">Highest Rated</option>
+                      </select>
+                        </div>
+                        <div class="my-columnn">
+                            <h5 style="text-align:center;color:#553E91;"> My Courses </h5>
+                        </div>
+                    </div>
+                    <div id="my-sort-data">
+                        <table class="table">
+
+                            <% obj.forEach(function(course_data) { %>
+
+                                <tr>
+                                    <td>
+                                        <div>
+                                            <div class="row" id="my-row">
+                                                <div class="my-column">
+                                                    <div class="view img__wrap">
+                                                        <img src="<%=course_data.image_preview%>" width="150" height="140">
+                                                    </div>
+                                                </div>
+                                                <div class="my-columnn">
+                                                    <%if (course_data.course_details.length >0) { %>
+                                                        <h5>
+                                                            <a href="/view-course?uid=<%=course_data.uid%>&course=<%=course_data.course_name%>">
+                                                                <%=course_data.course_title%>
+                                                            </a>
+                                                        </h5>
+                                                        <a href="/view-course?uid=<%=course_data.uid%>&course=<%=course_data.course_name%>">
+                                                            <p class="card-text" style="padding-right:10px;justify-content: center;">
+                                                                <%=course_data.course_details[0].video_description.substr(0, 200)%>...
+                                                            </p>
+                                                        </a><br>
+                                                        <a href="/view-course?uid=<%=course_data.uid%>&course=<%=course_data.course_name%>">
+                                                            <p class="card-text"><b>Total Lectures:
+                                                                <%=course_data.course_details.length%></b>
+                                                            </p>
+                                                        </a>
+                                                        <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% }); %>
+
+                                    <% } %>
+
+
+                        </table>
+                    </div>
+            </div>
+
+        </div>
+        <div id="my-pages">
+            <nav aria-label="Page navigation example">
+                <% if (pages > 0) { %>
+                    <ul class="pagination pagination-circle pg-blue;pagination d-flex justify-content-center">
+                        <% if (currentPage == 1) { %>
+                            <li class="page-item disabled"><a class="page-link">First</a></li>
+                            <% } else { %>
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="" aria-label="First">
+                                        <span aria-hidden="true">&laquo;</span>
+                                        <span class="sr-only">First</span>
+                                    </a>
+                                </li>
+                                <% } %>
+                                    <% var i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+                                        <% if (i !== 1) { %>
+                                            <li class=" page-item disabled"><a class="page-link">...</a></li>
+                                            <% } %>
+                                                <% for (; i <= (Number(currentPage) + 4) && i <= pages; i++) { %>
+                                                    <% if (i == currentPage) { %>
+                                                        <li class="page-item active">
+                                                            <a class="page-link" href="/my-courses/1?value=newest>">
+                                                                <%= i %>
+                                                            </a>
+                                                        </li>
+                                                        <% } else { %>
+                                                            <li class="page-item ">
+                                                                <a class="page-link" href="/my-courses/<%=i%>?value=newest">
+                                                                    <%= i %>
+                                                                </a>
+                                                            </li>
+                                                            <% } %>
+                                                                <% if (i == Number(currentPage) + 4 && i < pages) { %>
+                                                                    <li class=" page-item disabled"><a class="page-link">...</a></li>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                                            <% if (currentPage == pages) { %>
+                                                                                <li class="page-item disabled"><a class="page-link">Last</a></li>
+                                                                                <% } else { %>
+                                                                                    <li class="page-item"><a href="/my-courses/<%=pages%>?value=newest " class="page-link">Last</a></li>
+                                                                                    <% } %>
+                    </ul>
+                    <% } %>
+            </nav>
+        </div>
+    </div>
+    <script>
+        function sortCourses(sel) {
+            // var num = Number(sel.options[sel.selectedIndex].text)
+            var selectedValue = sel.options[sel.selectedIndex].text;
+            var url_address = window.location.href
+            $(document).ajaxStart(function() {
+                $("#wait").css("display", "block");
+            });
+            $(document).ajaxComplete(function() {
+                $("#wait").css("display", "none");
+            });
+
+            if (selectedValue == "Oldest") {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/course/getOldestCourse?currentPage=10&page=1",
+                    data: {
+                        user: '<%=user%>'
+                    },
+                    dataType: "json",
+
+                    success: function(data) {
+                        window.history.replaceState(url_address, "Title", "?page=1&currentPage=10");
+                        if (data.obj.length > 0) {
+                            document.getElementById('my-sort-data').innerHTML = '';
+
+                            for (let index = 0; index < data.obj.length; index++) {
+                                const element = data.obj[index];
+                                document.getElementById('my-sort-data').innerHTML +=
+                                    '<table class= "table"><tr><td><div class="my-column">' +
+                                    '<div class="view img__wrap">' +
+                                    '<img src="' + data.obj[index].course_details[0].video_thumbnail + '" width="150" height="140">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="my-columnn">' +
+                                    '<h5>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' + element.course_title +
+                                    '</a>' +
+                                    '</h5>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p class="card-text" style="padding-right:10px;justify-content: center;">' + element.course_details[0].video_description.substr(0, 200) + '...' +
+                                    '</p>' +
+                                    '</a><br>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p class="card-text"><b>Total Lectures:' + element.fav_count +
+                                    '</b></p>' +
+                                    '</a>' +
+                                    '</div></td></tr></table>';
+
+
+                            }
+                            document.getElementById('my-pages').innerHTML = '';
+                            var paginationNav = document.createElement('nav');
+                            paginationNav.setAttribute("aria-label", "Page navigation example");
+                            document.getElementById('my-pages').appendChild(paginationNav);
+                            if (data.pages > 0) {
+
+                                var ulList = document.createElement('ul');
+                                ulList.className = "pagination pagination-circle pg-blue;pagination d-flex justify-content-center";
+                                paginationNav.appendChild(ulList);
+                                if (data.currentPage == 1) {
+                                    var listItem = document.createElement('li');
+                                    listItem.className = "page-item disabled";
+                                    ulList.appendChild(listItem);
+                                    var linkItem = document.createElement('a');
+                                    linkItem.className = "page-link";
+                                    linkItem.innerText = "First";
+                                    listItem.appendChild(linkItem);
+                                } else {
+                                    var listItemElement = document.createElement('li');
+                                    listItemElement.className = "page-item disabled";
+                                    listItemElement.appendChild(listItemElement);
+                                    var linkItemElement = document.createElement('a');
+                                    linkItemElement.className = "page-link";
+                                    listItemElement.setAttribute("aria-label", "First");
+                                    listItemElement.appendChild(linkItemElement);
+                                    var spanItem = document.createElement('span');
+                                    spanItem.id = "my-span";
+                                    spanItem.innerText = "& laquo;";
+                                    spanItem.setAttribute("aria-hidden", "true");
+                                    linkItemElement.appendChild(spanItem);
+                                    var spanItemInner = document.createElement('span');
+                                    spanItemInner.innerText = "First";
+                                    spanItemInner.className = "sr-only";
+                                    linkItemElement.appendChild(spanItemInner);
+                                }
+                                var i = (Number(data.currentPage) > 5 ? Number(data.currentPage) - 4 : 1);
+                                if (i !== 1) {
+                                    var pageList = document.getElementById('li');
+                                    pageList.className = "page-item disabled";
+                                    ulList.appendChild(pageList);
+                                    var aItem = document.createElement('a');
+                                    aItem.className = "page-link";
+                                    aItem.innerText = "...";
+                                    pageList.appendChild(aItem);
+
+                                }
+                                for (; i <= (Number(data.currentPage) + 4) && i <= data.pages; i++) {
+                                    if (i == data.currentPage) {
+                                        var activeListItem = document.createElement('li');
+                                        activeListItem.className = "page-item active";
+                                        ulList.appendChild(activeListItem);
+                                        var activeALink = document.createElement('a');
+                                        activeALink.href = "/my-courses/1?value=oldest";
+                                        activeALink.innerText = i;
+                                        activeALink.className = "page-link";
+                                        activeListItem.appendChild(activeALink);
+
+                                    } else {
+                                        console.log("====true")
+                                        $("#select-value").val("oldest").attr("selected", "selected");
+
+                                        var pageItemList = document.createElement('li');
+                                        pageItemList.className = "page-item";
+                                        ulList.appendChild(pageItemList);
+                                        var aPageLink = document.createElement('a');
+                                        aPageLink.href = "/my-courses/" + i + "?value=oldest";
+                                        aPageLink.className = "page-link";
+                                        aPageLink.innerText = i;
+                                        pageItemList.appendChild(aPageLink);
+                                    }
+                                    if (i == Number(data.currentPage) + 4 && i < data.pages) {
+                                        var pageItemDisabedList = document.createElement('li');
+                                        pageItemDisabedList.className = "page-item disabled";
+                                        ulList.appendChild(pageItemDisabedList);
+                                        var linkItem = document.createElement('a');
+                                        linkItem.className = "page-link";
+                                        linkItem.innerText = "...";
+                                        pageItemDisabedList.appendChild(linkItem);
+                                    }
+
+                                }
+                                if (data.currentPage == data.pages) {
+                                    var pagesListItem = document.createElement('li');
+                                    pagesListItem.className = "page-item disabled";
+                                    ulList.appendChild(pagesListItem);
+                                    var aPageLink = document.createElement('a');
+                                    aPageLink.innerText = "Last";
+                                    aPageLink.className = "page-link";
+                                    pagesListItem.appendChild(aPageLink);
+                                } else {
+                                    var itemList = document.createElement('li');
+                                    itemList.className = "page-item";
+                                    ulList.appendChild(itemList);
+                                    var link = document.createElement('a');
+                                    link.href = "/my-courses/" + data.pages + "?value=oldest";
+                                    link.className = "page-link";
+                                    link.innerText = "Last";
+                                    itemList.appendChild(link);
+
+                                }
+
+                            }
+
+                        } else {
+                            alert("No course Found!")
+                        }
+
+                    }
+
+                })
+            } else if (selectedValue == "Newest") {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/course/getLatestCourse?currentPage=10&page=1",
+                    data: {
+                        user: '<%=user%>'
+                    },
+                    dataType: "json",
+
+                    success: function(data) {
+                        window.history.replaceState(url_address, "Title", "?page=1&currentPage=10");
+                        if (data.obj.length > 0) {
+                            document.getElementById('my-sort-data').innerHTML = '';
+
+                            for (let index = 0; index < data.obj.length; index++) {
+                                const element = data.obj[index];
+                                document.getElementById('my-sort-data').innerHTML +=
+                                    '<table class= "table"><tr><td><div class="my-column">' +
+                                    '<div class="view img__wrap">' +
+                                    '<img src="' + data.obj[index].course_details[0].video_thumbnail + '" width="150" height="140">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="my-columnn">' +
+                                    '<h5>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' + element.course_title +
+                                    '</a>' +
+                                    '</h5>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p class="card-text" style="padding-right:10px;justify-content: center;">' + element.course_details[0].video_description.substr(0, 200) + '...' +
+                                    '</p>' +
+                                    '</a><br>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p class="card-text"><b>Total Lectures:' + element.fav_count +
+                                    '</b></p>' +
+                                    '</a>' +
+                                    '</div></td></tr></table>';
+
+
+                            }
+                            document.getElementById('my-pages').innerHTML = '';
+                            var paginationNav = document.createElement('nav');
+                            paginationNav.setAttribute("aria-label", "Page navigation example");
+                            document.getElementById('my-pages').appendChild(paginationNav);
+                            if (data.pages > 0) {
+                                var ulList = document.createElement('ul');
+                                ulList.className = "pagination pagination-circle pg-blue;pagination d-flex justify-content-center";
+                                paginationNav.appendChild(ulList);
+                                if (data.currentPage == 1) {
+                                    var listItem = document.createElement('li');
+                                    listItem.className = "page-item disabled";
+                                    ulList.appendChild(listItem);
+                                    var linkItem = document.createElement('a');
+                                    linkItem.className = "page-link";
+                                    linkItem.innerText = "First";
+                                    listItem.appendChild(linkItem);
+                                } else {
+                                    var listItemElement = document.createElement('li');
+                                    listItemElement.className = "page-item disabled";
+                                    listItemElement.appendChild(listItemElement);
+                                    var linkItemElement = document.createElement('a');
+                                    linkItemElement.className = "page-link";
+                                    listItemElement.setAttribute("aria-label", "First");
+                                    listItemElement.appendChild(linkItemElement);
+                                    var spanItem = document.createElement('span');
+                                    spanItem.id = "my-span";
+                                    spanItem.innerText = "& laquo;";
+                                    spanItem.setAttribute("aria-hidden", "true");
+                                    linkItemElement.appendChild(spanItem);
+                                    var spanItemInner = document.createElement('span');
+                                    spanItemInner.innerText = "First";
+                                    spanItemInner.className = "sr-only";
+                                    linkItemElement.appendChild(spanItemInner);
+                                }
+                                var i = (Number(data.currentPage) > 5 ? Number(data.currentPage) - 4 : 1);
+                                if (i !== 1) {
+                                    var pageList = document.getElementById('li');
+                                    pageList.className = "page-item disabled";
+                                    ulList.appendChild(pageList);
+                                    var aItem = document.createElement('a');
+                                    aItem.className = "page-link";
+                                    aItem.innerText = "...";
+                                    pageList.appendChild(aItem);
+
+                                }
+                                for (; i <= (Number(data.currentPage) + 4) && i <= data.pages; i++) {
+                                    if (i == data.currentPage) {
+                                        var activeListItem = document.createElement('li');
+                                        activeListItem.className = "page-item active";
+                                        ulList.appendChild(activeListItem);
+                                        var activeALink = document.createElement('a');
+                                        activeALink.href = "/my-courses/1?value=newest";
+                                        activeALink.innerText = i;
+                                        activeALink.className = "page-link";
+                                        activeListItem.appendChild(activeALink);
+
+                                    } else {
+
+                                        var pageItemList = document.createElement('li');
+                                        pageItemList.className = "page-item";
+                                        ulList.appendChild(pageItemList);
+                                        var aPageLink = document.createElement('a');
+                                        aPageLink.href = "/my-courses/" + i + "?value=newest";
+                                        aPageLink.className = "page-link";
+                                        aPageLink.innerText = i;
+                                        pageItemList.appendChild(aPageLink);
+                                    }
+                                    if (i == Number(data.currentPage) + 4 && i < data.pages) {
+                                        var pageItemDisabedList = document.createElement('li');
+                                        pageItemDisabedList.className = "page-item disabled";
+                                        ulList.appendChild(pageItemDisabedList);
+                                        var linkItem = document.createElement('a');
+                                        linkItem.className = "page-link";
+                                        linkItem.innerText = "...";
+                                        pageItemDisabedList.appendChild(linkItem);
+                                    }
+
+                                }
+                                if (data.currentPage == data.pages) {
+                                    var pagesListItem = document.createElement('li');
+                                    pagesListItem.className = "page-item disabled";
+                                    ulList.appendChild(pagesListItem);
+                                    var aPageLink = document.createElement('a');
+                                    aPageLink.innerText = "Last";
+                                    aPageLink.className = "page-link";
+                                    pagesListItem.appendChild(aPageLink);
+                                } else {
+                                    var itemList = document.createElement('li');
+                                    itemList.className = "page-item";
+                                    ulList.appendChild(itemList);
+                                    var link = document.createElement('a');
+                                    link.href = "/my-courses/" + data.pages + "?value=newest";
+                                    link.className = "page-link";
+                                    link.innerText = "Last";
+                                    itemList.appendChild(link);
+
+                                }
+
+                            }
+
+                        } else {
+                            alert("No course Found!")
+                        }
+
+                    }
+                })
+            } else if (selectedValue == "Highest Rated") {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/api/course/sortByFavorites?currentPage=10&page=1",
+                    dataType: "json",
+
+                    success: function(data) {
+                        window.history.replaceState(url_address, "Title", "?page=1&currentPage=10");
+                        if (data.obj.length > 0) {
+                            document.getElementById('my-sort-data').innerHTML = '';
+
+                            for (let index = 0; index < data.obj.length; index++) {
+                                const element = data.obj[index];
+                                document.getElementById('my-sort-data').innerHTML +=
+                                    '<table class= "table"><tr><td><div class="my-column">' +
+                                    '<div class="view img__wrap">' +
+                                    '<img src="' + data.obj[index].course_details[0].video_thumbnail + '" width="150" height="140">' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '<div class="my-columnn">' +
+                                    '<h5>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' + element.course_title +
+                                    '</a>' +
+                                    '</h5>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p class="card-text" style="padding-right:10px;justify-content: center;">' + element.course_details[0].video_description.substr(0, 200) + '...' +
+                                    '</p>' +
+                                    '</a><br>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '"><h6>Number of favs:' + element.fav_count + '&nbsp;<i class="fa fa-heart"></i></h6> </a>' +
+                                    '<a href="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p class="card-text"><b>Total Lectures:' + element.fav_count +
+                                    '</b></p>' +
+                                    '</a>' +
+                                    '</div></td></tr></table>';
+
+                            }
+                            document.getElementById('my-pages').innerHTML = '';
+                            var paginationNav = document.createElement('nav');
+                            paginationNav.setAttribute("aria-label", "Page navigation example");
+                            document.getElementById('my-pages').appendChild(paginationNav);
+                            if (data.pages > 0) {
+                                var ulList = document.createElement('ul');
+                                ulList.className = "pagination pagination-circle pg-blue;pagination d-flex justify-content-center";
+                                paginationNav.appendChild(ulList);
+                                if (data.currentPage == 1) {
+                                    var listItem = document.createElement('li');
+                                    listItem.className = "page-item disabled";
+                                    ulList.appendChild(listItem);
+                                    var linkItem = document.createElement('a');
+                                    linkItem.className = "page-link";
+                                    linkItem.innerText = "First";
+                                    listItem.appendChild(linkItem);
+                                } else {
+
+                                    var listItemElement = document.createElement('li');
+                                    listItemElement.className = "page-item disabled";
+                                    listItemElement.appendChild(listItemElement);
+                                    var linkItemElement = document.createElement('a');
+                                    linkItemElement.className = "page-link";
+                                    listItemElement.setAttribute("aria-label", "First");
+                                    listItemElement.appendChild(linkItemElement);
+                                    var spanItem = document.createElement('span');
+                                    spanItem.id = "my-span";
+                                    spanItem.innerText = "& laquo;";
+                                    spanItem.setAttribute("aria-hidden", "true");
+                                    linkItemElement.appendChild(spanItem);
+                                    var spanItemInner = document.createElement('span');
+                                    spanItemInner.innerText = "First";
+                                    spanItemInner.className = "sr-only";
+                                    linkItemElement.appendChild(spanItemInner);
+                                }
+                                var i = (Number(data.currentPage) > 5 ? Number(data.currentPage) - 4 : 1);
+                                if (i !== 1) {
+                                    var pageList = document.getElementById('li');
+                                    pageList.className = "page-item disabled";
+                                    ulList.appendChild(pageList);
+                                    var aItem = document.createElement('a');
+                                    aItem.className = "page-link";
+                                    aItem.innerText = "...";
+                                    pageList.appendChild(aItem);
+
+                                }
+                                for (; i <= (Number(data.currentPage) + 4) && i <= data.pages; i++) {
+                                    if (i == data.currentPage) {
+                                        var activeListItem = document.createElement('li');
+                                        activeListItem.className = "page-item active";
+                                        ulList.appendChild(activeListItem);
+                                        var activeALink = document.createElement('a');
+                                        activeALink.href = "/my-courses/1?value=highest-rated";
+                                        activeALink.innerText = i;
+                                        activeALink.className = "page-link";
+                                        activeListItem.appendChild(activeALink);
+
+                                    } else {
+
+                                        var pageItemList = document.createElement('li');
+                                        pageItemList.className = "page-item";
+                                        ulList.appendChild(pageItemList);
+                                        var aPageLink = document.createElement('a');
+                                        aPageLink.href = "/my-courses/" + i + "?value=highest-rated";
+                                        aPageLink.className = "page-link";
+                                        aPageLink.innerText = i;
+                                        pageItemList.appendChild(aPageLink);
+                                    }
+                                    if (i == Number(data.currentPage) + 4 && i < data.pages) {
+                                        var pageItemDisabedList = document.createElement('li');
+                                        pageItemDisabedList.className = "page-item disabled";
+                                        ulList.appendChild(pageItemDisabedList);
+                                        var linkItem = document.createElement('a');
+                                        linkItem.className = "page-link";
+                                        linkItem.innerText = "...";
+                                        pageItemDisabedList.appendChild(linkItem);
+                                    }
+
+                                }
+                                if (data.currentPage == data.pages) {
+                                    var pagesListItem = document.createElement('li');
+                                    pagesListItem.className = "page-item disabled";
+                                    ulList.appendChild(pagesListItem);
+                                    var aPageLink = document.createElement('a');
+                                    aPageLink.innerText = "Last";
+                                    aPageLink.className = "page-link";
+                                    pagesListItem.appendChild(aPageLink);
+                                } else {
+                                    var itemList = document.createElement('li');
+                                    itemList.className = "page-item";
+                                    ulList.appendChild(itemList);
+                                    var link = document.createElement('a');
+                                    link.href = "/my-courses/" + data.pages + "?value=highest-rated";
+                                    link.className = "page-link";
+                                    link.innerText = "Last";
+                                    itemList.appendChild(link);
+
+                                }
+
+                            }
+
+                        } else {
+                            alert("No course Found!")
+                        }
+
+                    }
+                })
+
+            }
+        }
+        window.onload = function() {
+            var url = new URL(window.location.href);
+
+            if (url.searchParams.get('value')) {
+                var getValue = url.searchParams.get('value');
+                if (getValue == "oldest") {
+                    $("option:selected").removeAttr("selected");
+
+                    $("#select-value").val("oldest").attr("selected", "selected");
+                }
+                if (getValue == "newest") {
+                    $("option:selected").removeAttr("selected");
+
+                    $("#select-value").val("newest").attr("selected", "selected");
+
+                }
+                if (getValue == "highest-rated") {
+                    $("option:selected").removeAttr("selected");
+
+                    $("#select-value").val("highest-rated").attr("selected", "selected");
+
+                }
+            }
+        }
+    </script>

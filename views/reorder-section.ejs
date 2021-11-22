@@ -1,0 +1,63 @@
+<% layout('layout') -%>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/reorder-section.css">
+<a href ="/edit_course_section/<%=section_id%>"><button class="btn btn-primary" id="back_btn"  ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+</button><a>
+    <div id ="home-layout" style ="display:block;">
+        <div id ="main_div" class = "container"><h3 >Reorder the section videos</h3>
+    <div class = "card" id = "section_card" >
+        <div class = "card-body">
+            <table class="table" id = "myTable" >
+                <%if (section_videos.length > 0) { %>
+                <tbody class="row_position" id = "sortable">
+                    <tr id ="_id_<%=_id%>"></tr>
+                        <% section_videos.forEach(function(sec, i) { %>
+                        <tr  id = "course_ids_<%= sec.course_id %>" class='drag'>
+                            <td  name = "_id">
+                                <div class="row">
+                                    <div class="column">
+                                        <img src="<%= sec.video_thumbnail%>" id ="img_thumbnail" name = "video_thumbnail" class="rounded" />
+                                    </div>
+                                    <div class="column" >
+                                        <h6 name = "video_title"  id ="sec_video_title" > <%= sec.video_title%> </h6>
+                                    </div>
+                                </td>
+                            </tr>
+                         <% }) %>
+                    <% } %>
+                </table>
+                <button   id ="save_redorder_section" class="btn btn-unique" onclick = "reorderVideo()">Save</button>
+            </div>
+        </div>
+    </div><br><br>
+</div>
+<script>
+
+    //sort section videos
+    $('#sortable').sortable({
+        items: "tr:not('.headings')",
+     
+        stop: function() {
+   
+            const ids =  $('#sortable').sortable('serialize');
+            const id = $('.table').attr("id")
+               
+            const url = '/api/course-section/updateSectionPosition';
+            $.post(url, ids, function(res) {
+            });  
+        }
+
+     });//sort section videos
+    
+    //navigate to view course after section reorderring
+    function reorderVideo(){
+        const ids =  $('#sortable').sortable('serialize');
+        var url = "/view-course?uid=<%=uid%>&course=<%=course_name%>";
+        var link = document.createElement('a');
+        link.href = url;
+        document.body.appendChild(link);
+        link.click();  
+             
+    }//reorderVideo
+
+</script>

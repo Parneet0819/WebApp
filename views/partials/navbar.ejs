@@ -1,0 +1,131 @@
+<link rel="stylesheet" href="/css/switch.css">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top scrolling-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="/" id="nav_brand">Curated</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+       </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto ">
+                <ul class="dropdown">
+                    <li id="categories_lbl">
+                        <a>
+                            <i class="fa fa-list light-green-text-2"></i>&nbsp;Categories
+                        </a>
+                        <div id="sub_menu_list">
+                            <ul class="sub_menu">
+                                <%if (categories.length > 0) { %>
+                                    <% categories.forEach(function(response) { %>
+                                        <li>
+                                            <a onclick="getMetaCategory('<%= response.name%>',1)">
+                                                <%= response.name%>
+                                            </a>
+                                            <ul>
+                                                <% response.sub_categories.forEach(function(resp) { %>
+                                                    <li>
+                                                        <a onclick="getSubCategoryName('<%= resp.sub_name%>','<%= resp.sub_id%>')">
+                                                            <%= resp.sub_name%>
+                                                        </a>
+                                                    </li>
+                                                    <%})%>
+                                            </ul>
+                                        </li>
+                                        <%})%>
+                                            <%} %>
+
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </ul>
+            <ul class="navbar-nav nav-flex-icons">
+                <%if (isLoggedIn == true) { %>
+                    <li class="nav-item">
+                        <%if (user && role == "Admin" || user && role == "Creator") { %>
+                            <button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" data-toggle="modal" data-target="#modalAddCourse">Add Course </button>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://curated.tivul.com/my-courses"><button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" >My Courses  </button>
+                    </a></li>
+                    <% }%>
+                        <%if (user && role == "Admin" || user && role == "Creator" || user && role == "Normal User") { %>
+
+                            <li class="nav-item">
+                                <a href="https://curated.tivul.com/favorite_courses/<%=user%>"><button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" >My Favorites &nbsp;<i class = "fa fa-heart-o" style ="color:white;"></i> </button>
+                            </a></li>
+                            <% }%>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownn" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <!-- <i class="fa fa-gear" id="settings_icon"></i> Settings -->
+                                        <% if (user_info.profile_image) { %>
+                                            <img src="<%=user_info.profile_image%>" width="30" height="30" alt="logo">
+                                            <%} else { %>
+                                                <img src="/images/user_icon.png " class="img1" height="40" width="40" alt="logo">
+                                                <% } %>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdownn">
+                                        <a class="dropdown-item" href="https://curated.tivul.com/user_profile/<%=user%>">
+                                            <%=user_info.email%>
+                                        </a>
+                                        <a class="dropdown-item" href="https://curated.tivul.com/user_profile/<%=user%>">Profile</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="/logout">Logout</a>
+                                    </div>
+                                </li>
+                                <!-- <a href = "/logout" ><button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3">Logout</button></a> -->
+                                <% } else{ %>
+                                    <li class="nav-item">
+                                        <a class="nav-link">
+                                            <button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" data-toggle="modal" data-target="#modalLoginForm">Login</button>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link">
+                                            <button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" id="signup_btn" style="display:block;" data-toggle="modal" data-target="#modalRegisterForm">Signup</button>
+                                        </a>
+                                    </li>
+                                    <!-- <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-gear fa-spin" id="settings_icon"></i> Settings
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                            <a class="dropdown-item" id="show_hide_lbl">Show/hide Signup</a>
+                                            <div class="dropdown-divider"></div>
+                                            <div class="switch">
+                                                <label>
+                                                <input type="checkbox" id ="switch_toggle" value="false"  >
+                                                    <span class="lever"></span> 
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </li> -->
+                                    <%} %>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Navbar -->
+<script>
+    // var switchStatus = false;
+
+    // if (localStorage.getItem('signup_bool') == "false") {
+    //     document.getElementById('signup_btn').style.display = 'block';
+
+    // }
+
+    // $("#switch_toggle").on('change', function() {
+    //     if ($(this).is(':checked')) {
+    //         switchStatus = $(this).is(':checked');
+    //         document.getElementById('signup_btn').style.display = 'block';
+    //         localStorage.setItem('signup_bool', document.getElementById('switch_toggle').value);
+
+    //     } else {
+    //         switchStatus = $(this).is(':checked');
+    //         document.getElementById('signup_btn').style.display = 'none';
+    //         localStorage.removeItem('signup_bool')
+    //     }
+    // });
+</script>

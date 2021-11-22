@@ -1,0 +1,2032 @@
+<html>
+<title>
+    <%=course.course_title%>
+</title>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/view-course.css">
+    <meta charset="utf-8">
+
+    <!-- Open Graph / Facebook -->
+    <link rel="image_src" href="<%=image_preview%>">
+    <meta property="og:type" content="curated.tivul.com">
+    <meta property="og:url" content="https://curated.tivul.com/view-klipse-course?uid=<%=course.uid%>&course<%=course.course_name%>">
+    <meta property="og:title" content="<%=course.course_title%>">
+    <meta property="og:image" content="<%=image_preview%>">
+    <meta property="og:description" content="<%=course_data[0].video_title%>:<%=course_data[0].video_desc%>">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://curated.tivul.com/view-klipse-course?uid=<%=course.uid%>&course=<%=course.course_name%>">
+    <meta property="twitter:title" content="<%=course.course_title%>">
+    <meta property="twitter:image" content="<%=image_preview%>">
+    <meta property="twitter:description" content="<%=course_data[0].video_title%>:<%=course_data[0].video_desc%>">
+    <script src="/js/jquery.min.js"></script>
+
+
+    <style>
+        #edit_btns {
+            display: none;
+        }
+        
+        @media screen and (max-width: 700px) {
+            /* .stuck {
+                display: none;
+            } */
+            .column-video {
+                width: 100% !important;
+            }
+            .column-info {
+                width: 100% !important;
+            }
+            #edit_section_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #share_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #full_screen {
+                width: 100%;
+                margin-left: 10px;
+            }
+        }
+        
+        @media screen and (max-width: 400px) {
+            /* .stuck {
+                display: none;
+            } */
+            .column-video {
+                width: 100% !important;
+                margin-left: 10px;
+            }
+            .column-info {
+                width: 100% !important;
+                margin-left: 10px;
+            }
+            #edit_section_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #share_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #full_screen {
+                width: 100%;
+                margin-left: 10px;
+            }
+        }
+        
+        @media screen and (max-width: 600px) {
+            /* .stuck {
+                display: none;
+            } */
+            .column-video {
+                width: 100% !important;
+            }
+            .column-info {
+                width: 100% !important;
+            }
+            #edit_section_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #share_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #full_screen {
+                width: 100%;
+                margin-left: 10px;
+            }
+        }
+        
+        @media screen and (max-width: 800px) {
+            /* .stuck {
+                display: none;
+            } */
+            .column-video {
+                width: 100% !important;
+            }
+            .column-info {
+                width: 100% !important;
+            }
+            #edit_section_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #share_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #full_screen {
+                width: 100%;
+                margin-left: 10px;
+            }
+        }
+        
+        @media screen and (max-width: 900px) {
+            /* .stuck {
+                display: none;
+            } */
+            .column-video {
+                width: 100% !important;
+            }
+            .column-info {
+                width: 100% !important;
+            }
+            #edit_section_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #share_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #full_screen {
+                width: 100%;
+                margin-left: 10px;
+            }
+        }
+        
+        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+            /* .stuck {
+                display: none;
+            } */
+            .column-video {
+                width: 100% !important;
+            }
+            .column-info {
+                width: 100% !important;
+            }
+            #edit_section_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #share_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #full_screen {
+                width: 100%;
+                margin-left: 10px;
+            }
+        }
+        
+        @media screen and (orientation:portrait) {
+            .column-video {
+                width: 100% !important;
+                margin-left: 10px;
+            }
+            .column-info {
+                width: 100% !important;
+                margin-left: 10px;
+            }
+            #edit_section_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #share_btn {
+                width: 100%;
+                margin-left: 10px;
+            }
+            #full_screen {
+                width: 100%;
+                margin-left: 10px;
+            }
+        }
+        /* Clear floats after the columns */
+        
+        .column-info {
+            width: 50%;
+            padding: 15px;
+        }
+        
+        .column-video {
+            width: 50%;
+            padding: 15px;
+            float: left;
+        }
+    </style>
+</head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async>
+    (function(s, u, m, o, j, v) {
+        j = u.createElement(m);
+        v = u.getElementsByTagName(m)[0];
+        j.async = 1;
+        j.src = o;
+        j.dataset.sumoSiteId = '2a21aa489a437bc690e5cfcb0418c02c99ae6fc719033ccf4afef46536fc1e07';
+        v.parentNode.insertBefore(j, v)
+    })(window, document, 'script', '//load.sumo.com/');
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-27176211-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    var url = new URL(window.location.href);
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-27176211-5');
+</script>
+
+<% layout('layout') -%>
+
+    <body>
+        <div id="fb-root"></div>
+        <script>
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+        <div class="alert alert-success" role="alert" id="alert_message" style="display:none;">
+
+        </div>
+        <a href="/"><button class="btn btn-primary" id="back_btn"  ><i class="fa fa-arrow-left" aria-hidden="true"></i>
+</button><a>
+<div style="display:none;">
+    <h4>
+        <%=course.course_title%>
+    </h4>
+    <p>
+        <%=course_data[0].video_title%>:
+            <%=course_data[0].video_desc%>
+    </p>
+</div>
+<div id="home-layout" style="display:block;">
+    <section id="course_view">
+        <div class="row" style="padding:10px;">
+            <div class="column-video">
+                <div class="video-wrap">
+                    <div class="video">
+                        <div id="min_max_btns" style="display:none;background-color: black;border-radius:5px;padding:10px;">
+                            <div class="cols_video"><i class="fa fa-expand" style="color:white;font-size:16px;text-align:center;padding-top:10px;" type="button" onclick="fullScreenVideoPreview()" data-toggle="modal" data-target="#fullScreenPreview"></i></div>
+                            <div class="col_video"><i class="fa fa-window-minimize" aria-hidden="true" style="color:white;font-size:16px;text-align:center;padding-top:10px;" type="button" onclick="minimisePreview()"></i>
+                            </div>
+                        </div>
+                      
+                        <iframe frameborder="0" width="640" height="360" src=" <%=course.video_link%>" style="border:0px #ffffff none;" scrolling="no" frameborder="0" marginheight="0px" marginwidth="0px" id="google-video-iframe"></iframe>
+                              
+                    </div>
+                </div>
+  
+            <%if (user && role == "Admin" || user && role == "Creator" || user && role == "Normal User") { %>
+
+                <%if (fav_courses != null ) { %>
+                    <input id="unfav" style="display:none;" value="<%=fav_courses._id%>"><label id="fav_lbl" style="margin-top:20px;">UnFavorite Course </label>&nbsp;<i class="fa fa-heart" id="add_fav<%= course._id%>" aria-hidden="true" style="font-size:20px;color:#543E91;cursor: pointer;margin-top:20px;"
+                        onclick="favCourse('<%= course._id%>','<%=fav_courses._id%>')"></i>
+                    <% } else {%>
+                        <label id="fav_lbl" style="margin-top:20px;">Favorite Course </label>&nbsp;<i style="font-size:20px;color:#543E91;cursor: pointer;margin-top:20px;" class="fa fa-heart-o" id="add_fav<%= course._id%>" onclick="favCourse('<%= course._id%>','<%=user%>')"></i>
+                        <% } %>
+                            <% } %>
+                            <%if (user && role == "Admin" || user && role == "Creator" ) { %>
+                                <a href="/edit_klipse_course_section/<%=course._id%>"><button class="btn btn-unique" id="edit_section_btn"><i class ="fa fa-edit" ></i> Edit</button></a>
+        <% } %>
+            <button type="button" id="share_btn" class="btn btn-primary" data-toggle="modal" data-target="#shareButtonModal">
+                                                <i class ="fa fa-share" style ="color:white;">  </i> Share
+                                                </button>
+            <!-- <button type="button" onclick="test()" id="full_screen" data-toggle="modal" data-target="#fullScreenPreview" class="btn btn-primary"><i class ="fa fa-eye" style="color: white;" ></i> Full Screen</button> -->
+            <button type="button" onclick="fullScreenVideoPreview()" id="full_screen" class="btn btn-primary" data-toggle="modal" data-target="#fullScreenPreview"><i class ="fa fa-eye" style="color: white;" ></i> Full Screen</button>
+
+            </div>
+            <div class="column-info">
+                <h3 id="video_playlist_title"><strong><%=course.course_title%></strong></h3>
+                <h4 id="video_title"> </h4>
+                <div id="channel_info"> </div>
+
+                <div id="timestamp_data"></div>
+
+            </div>
+            <div id="next_course">
+            </div>
+            </div>
+            <div>
+                <div class="card" style="margin-left:20px;margin-right:20px;">
+                    <div id="header">
+
+                    </div>
+                    <div class="card-block">
+                        <div id="more_videos" class="row">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%if (user && role == "Admin" || user && role == "Creator") { %>
+                <div class="row " id="course-name">
+                    &nbsp; Course:
+                    <h6 id="edit_course_name"><strong><%= course.course_name%>&nbsp;</strong></h6>
+                    &nbsp;<i class="fa fa-send" id="save_edit" onclick="saveCourseName('<%= course._id%>','<%= course.course_name%>')"> Save</i>&nbsp;<i class="fa fa-edit" id="edit_courseName" onclick="editCourseName()"></i>
+                </div>
+                <% } %>
+
+                    <section id="section_tabs">
+                        <div>
+                            <ul class="nav " role="tablist">
+                                <li class="nav-item"><a style="color: grey;" class="nav-link active" href="#courseContent" aria-controls="courseContent" role="tab" data-toggle="tab">Course Content</a></li>
+                                <li class="nav-item"><a style="color: grey;" class="nav-link " href="#courseDesc" style=" border-bottom: 1px solid; " aria-controls="courseDesc" role="tab" data-toggle="tab">Description</a></li>
+                                <li class="nav-item"><a style="color: grey;" class="nav-link" type="button" onclick="commentsTab()" aria-controls="courseCategory" role="tab" data-toggle="tab">Comments</a></li>
+                                <li><a class="nav-link" onclick="expandAll()">Expand All</a></li>
+                            </ul>
+                            <hr>
+                            <img style="display:none;width:100px;height:100px;margin-left:auto;
+                                              margin-right:auto;
+                                              float :none;" src="/images/loader.gif" alt="description of gif" id="wait" />
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane " id="courseDesc">
+                                    <%if (user && role == "Admin" || user && role == "Creator" ) { %>
+
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true" id="edit_modal" data-toggle="modal" data-target="#modalDesc" onclick="descriptionData('<%=video%>')">Edit</i>
+                                        <% } %>
+                                            <div id="desc">
+                                            </div>
+                                            <a id="toggleButton" onclick="descClick()" style="color:blue;">See More</a>
+                                </div>
+                                <div role="tabpanel" class="tab-pane active" id="courseContent">
+                                    <div id="course_sections_data">
+                                    </div>
+
+                                    <%if (bool_section_check == false) { %>
+                                        <div id="course_list" style="display:block">
+                                            <%if (course.course_details.length > 0) { %>
+                                                <div id="course_content">
+                                                    <% course.course_details.forEach(function(response,i) { %>
+                                                        <table class="table" id="<%= response._id%>" style="background-color:#FAFAFA">
+
+                                                            <tbody>
+                                                                <tr id="<%= response._id%>">
+                                                                    <td>
+                                                                        <div class="row">
+                                                                            <div class="column">
+                                                                                <a onclick="courseOnClick('<%= response._id%>','1');"><img src="<%= response.video_thumbnail%>" class="rounded" style="width: 120px !important; height: 80px !important;" >
+                                    </a>
+                                                                            </div>
+                                                                            <div class="column">
+                                                                                <a style="text-decoration: none;">
+                                                                                                <h6 onclick =" courseOnClick('<%= response._id%>','1');" > <%= response.video_title%> </h6>
+                                                                                              </a>
+                                                                                <a id="video_link" style="text-decoration: none; color:grey">
+                                                                                                <h6 onclick ="courseOnClick('<%= response._id%>','1');" ><%= response.video_description.substr(0,40)%>...</h6>
+                                                                                              </a>
+                                                                                <div id="about_channel">
+                                                                                    <a style="cursor: pointer;color:black;" href="<%= response.channel_link%>">
+                                                                                        <h6><b><%= response.channel_title%></b></h6>
+                                                                                    </a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <%if (user && role == "Admin" || user && role == "Creator") { %>
+                                                                                <div class="column" style="padding-top:5px;">
+                                                                                    <i style="cursor: pointer;font-size: 20px;" data-toggle="modal" onclick="editVideoDetails('<%=response._id%>')" data-target="#editCourseData" class="fa fa-edit"></i>
+                                                                                    <i class="fa fa-picture-o" aria-hidden="true" onclick="editVideoThumbnail('<%=course._id%>','<%=response.video_thumbnail%>')" style="cursor: pointer;font-size:20px;"></i>&nbsp;
+                                                                                    <i type="button" data-toggle="modal" data-target="#frameModalBottom" style="font-size: 20px;cursor: pointer;" ; onclick="deleteCourse( '<%=response._id%>')" aria-hidden="true" class="fa fa-trash"></i>
+                                                                                </div>
+                                                                                <% } %>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <%})%>
+
+                                                            <% } %>
+                                                </div>
+
+                                        </div>
+                                        <% } %>
+                                            <div id="course_sections">
+                                            </div>
+                                            <% if (bool_section_check == true) { %>
+
+                                                <br>
+                                                <%if (nonsections) { %>
+                                                    <%if (nonsections.course_details.length > 0) { %>
+                                                        <div id="course_list_non_section" style="display:block">
+                                                            <div id="course_content_nonsec">
+                                                                <%nonsections.course_details.forEach(function(response,i) { %>
+                                                                    <table class="table" id="<%= response._id%>">
+                                                                        <tbody>
+                                                                            <tr id="<%= response._id%>">
+                                                                                <td>
+                                                                                    <div class="row">
+                                                                                        <div class="column">
+                                                                                            <a onclick="courseOnClick('<%= response._id%>','1')"><img id ="img" src="<%= response.video_thumbnail%>" class="rounded"  >
+                                    </a>
+                                                                                        </div>
+                                                                                        <div class="column">
+                                                                                            <a style="text-decoration: none;">
+                                                                                                        <h6 onclick ="courseOnClick('<%= response._id%>','1')" > <%= response.video_title%> </h6>
+                                                                                                        </a>
+                                                                                            <a id="video_link" style="text-decoration: none; color:grey">
+                                                                                                        <h6 onclick ="courseOnClick('<%= response._id%>','1')" ><%= response.video_description.substr(0,40)%>...</h6>
+                                                                                                        </a>
+                                                                                            <a href="<%= response.channel_link%>">
+                                                                                                <%= response.channel_title%>
+                                                                                            </a>
+                                                                                            </a>
+                                                                                        </div>
+                                                                                        <%if (user && role == "Admin" || user && role == "Creator" ) { %>
+
+                                                                                            <div class="column" style="padding-top:5px;">
+                                                                                                <i style="cursor: pointer;font-size: 20px;" type="button" data-toggle="modal" onclick="editVideoDetails('<%=response._id%>')" data-target="#editCourseData" class="fa fa-edit"></i>
+                                                                                                <i class="fa fa-picture-o" onclick="editVideoThumbnail('<%=course._id%>','<%=response.video_thumbnail%>')" aria-hidden="true" style="cursor: pointer;font-size:20px;"></i>&nbsp;
+                                                                                                <i style="font-size: 20px;cursor: pointer;" data-toggle="modal" data-target="#frameModalBottom" onclick="deleteCourse('<%=response._id%>')" class="fa fa-trash"></i>
+
+                                                                                            </div>
+                                                                                            <% } %>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                    <%})%>
+
+
+                                                                        <% } %>
+
+                                                                            <% } %>
+                                                            </div>
+
+                                                        </div>
+                                                        <% } %>
+
+                                </div>
+                            </div>
+                            <div id="editModal"></div>
+                            <div id="descModal"></div>
+
+                        </div>
+                    </section>
+                    <button id="fixedbutton" onclick="maximizePreview()" style="display:none;"><i class="fa fa-window-maximize" aria-hidden="true" style = "color:white" ></i></button>
+
+                    </section>
+                    <div class="modal fade" id="shareButtonModal" tabindex="-1" role="dialog" aria-labelledby="shareModalTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Share</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-unstyled list-inline text-center">
+                                        <li class="list-inline-item">
+                                            <a class="btn-floating btn-fb mx-1" onclick="share_fb('curated.tivul.com/view-klipse-course?uid=<%= course.uid%>&course=<%= course.course_name%>')" rel="nofollow" share_url="https://curated.tivul.com/view-klipse-course?uid=<%= course.uid%>&course=<%= course.course_name%>">
+                                                <i class="fab fa-facebook"> </i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="btn-floating btn-reddit mx-1" onclick="share_reddit('curated.tivul.com/view-klipse-course?uid=<%= course.uid%>&course=<%= course.course_name%>')" target="_blank">
+                                                <i class="fab fa-reddit"> </i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="btn-floating btn-tw mx-1" href="https://twitter.com/share?url=https://curated.tivul.com/view-klipse-course?uid=<%= course.uid%>&course=<%= course.course_name%>">
+                                                <i class="fab fa-twitter"> </i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="btn-floating btn-pinterest mx-1" style="color: white;background: #CC3B27;" href="https://pinterest.com/pin/create/button?url=https://curated.tivul.com/view-klipse-course?uid=<%= course.uid%>&course=<%= course.course_name%>">
+                                                <i class="fab fa-pinterest"> </i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a class="btn-floating btn-li mx-1" href="https://www.linkedin.com/uas/login/share?url=https://curated.tivul.com/view-klipse-course?uid=<%= course.uid%>&course=<%= course.course_name%>">
+                                                <i class="fab fa-linkedin"> </i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade right" id="fullScreenPreview" tabindex="-1" role="dialog" aria-labelledby="fullScreenModalPreviewLabel" aria-hidden="true">
+                        <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+                            <div class="modal-content-full-width modal-content ">
+                                <div class=" modal-header-full-width   modal-header text-center" style="padding-top:50px;">
+                                    <h5 class="modal-title w-100" id="fullScreenModalPreviewLabel"></h5>
+                                    <button type="button" class="close " onclick="closeFullPreviewMode()" id="close_btn" data-dismiss="modal" aria-label="Close">
+                    <span style="font-size: 1.3em;" aria-hidden="true" >&times;</span>
+                </button>
+                                </div>
+                                <div class="modal-body">
+                                    <button type="button" style="background-color:black;color:white;border:none;" data-toggle="modal" data-target="#timestamp_preview" onclick="timestampPreview()" id="timestamp_modal"><h5>Timestamps</h5> </button>
+                                    <div id="full_video_preview">
+                                        <iframe id="full_video"></iframe>
+                                    </div>
+                                </div>
+                                <div class="modal-footer-full-width  modal-footer">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal left fade" id="timestamp_preview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel">Timestamps</h4>
+                                    <button type="button" class="close" data-dismiss="modal" id="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+                                </div>
+
+                                <div class="modal-body">
+                                    <div id="timestamps"></div>
+                                </div>
+
+                            </div>
+                            <!-- modal-content -->
+                        </div>
+                        <!-- modal-dialog -->
+                    </div>
+                    <div class="modal top" id="frameModalBottom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+                        <!-- Add class .modal-frame and then add class .modal-bottom (or other classes from list above) to set a position to the modal -->
+                        <div class="modal-dialog modal-frame modal-top" role="document">
+                            <button type="button" class="close" data-dismiss="modal" id="closeModal" style="display: none;"></button>
+
+                            <div id="alert_popup">
+                            </div>
+                        </div>
+                    </div>
+                    <%if (user && role == "Admin" || user && role == "Creator" ) { %>
+
+                        <div class="modal fade" id="deleteSectionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div id="deleteModal">
+
+                            </div>
+                        </div>
+                        <% } %>
+                            <div id="LangTable">
+                                <a href="/dashboard" id="editPage"></a>
+                            </div>
+
+                            <div class="fb-comments" data-href="https://curated.tivul.com/comments?uid=<%=course.uid%>&course=<%=course.course_name%>" data-numposts="5" data-width="" is="x-frame-bypass"></div>
+                            </div>
+                            <a id="back-to-top" onclick="moveToTop()" class="btn btn-dark btn-lg back-to-top" role="button" style="background-color:#553E91 ! important;"><i class="fas fa-chevron-up"></i></a>
+
+                            <script>
+                                var desc_Arr = []
+                                var video_id_arr = []
+
+                                var status = "more";
+                                var url_address = window.location.href;
+                                var regExp = /((([0-9]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])|([0-5]?[0-9]):([0-5]?[0-9])))/g;
+                                var letter_regex = /[a-zA-Z](.*)[a-zA-Z\?/!@()]/g;
+
+                                getCourse('<%=bool_section_check%>');
+
+                                if (!url.searchParams.get('video_id')) {
+                                    document.title = 'Curated:<%=course.course_title%>(<%=count%>videos)';
+
+                                }
+                                if (url.searchParams.get('video_id')) {
+                                    document.title = '<%=course_data[0].video_title%>:<%=course.course_title%>';
+
+                                }
+
+                                function moveToTop() {
+                                    $('html, body').animate({
+                                        scrollTop: 0
+                                    }, 400);
+
+                                }
+
+                                function deleteCourse(id) {
+                                    $.ajax({
+                                        type: 'DELETE',
+                                        url: '/api/course/deleteCourseById',
+                                        data: {
+                                            id: id
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            if (response.success == true) {
+                                                document.getElementById('alert_popup').innerHTML = ' <div class="alert alert-success" role="alert"> Course video deleted Succesfully !</div>';
+                                                $("#alert_popup").fadeIn(300).delay(1500).fadeOut(400);
+                                                $('.table#' + id + '').remove();
+                                                setTimeout('$("#closeModal").click()', 1500);
+
+                                            };
+                                        },
+                                        error: function() {}
+
+                                    })
+
+                                } //deleteCourse  
+
+                                var section_index = 0;
+
+                                function expandAll() {
+                                    $('.collapse').toggle();
+
+                                }
+
+                                function closeFullPreviewMode() {
+                                    var iframe = document.getElementById('full_video');
+                                    iframe.src = ''
+
+
+                                    // $('iframe').attr('src', $('iframe').attr('src'));
+
+                                }
+                                /*
+                                get course data 
+                                 */
+                                function getCourse(bool) {
+
+                                    $(document).ajaxStart(function() {
+                                        $("#wait").css("display", "block");
+                                    });
+                                    $(document).ajaxComplete(function() {
+                                        $("#wait").css("display", "none");
+                                    });
+                                    if (bool == "false") {
+
+                                        $.ajax({
+                                            type: 'POST',
+                                            url: '/api/course-section/getCourses',
+                                            data: {
+                                                id: '<%=course._id%>'
+                                            },
+                                            dataType: "json",
+                                            success: function(response) {
+
+                                                if (response.success == true) {
+                                                    var timestamp_div = document.getElementById('timestamp_data');
+                                                    var video_title = document.getElementById('video_title');
+                                                    var channel_info = document.getElementById('channel_info');
+
+                                                    const v_id = url.searchParams.get('video_id');
+
+                                                    var frameVideo = document.getElementById('google-video-iframe');
+                                                    frameVideo.src = "https://app.klipse.co/embed/video/" + response.data.course_details[0].video_id;
+
+
+                                                    if (response.data.course_details.length > 0) {
+                                                        channel_info.innerHTML = '';
+                                                        channel_info.innerHTML = '<h6><b>Curator: ' + response.data.user.name + '</b></h6>';
+
+                                                        response.data.course_details.forEach(element => {
+                                                            // channel_info.innerHTML = '<a href="' + element.channel_link + '" style ="cursor:pointer;color:black;"><h6><b>Channel Title: ' + element.channel_title + '</b></h6></a>';
+
+                                                            if (url.searchParams.get('video_id')) {
+
+                                                                if (element.video_id == v_id) {
+                                                                    video_title.innerHTML = '';
+
+                                                                    toggleText(element.video_description);
+                                                                    video_title.innerHTML = element.video_title;
+                                                                    var frameVideo = document.getElementById('google-video-iframe');
+                                                                    frameVideo.src = "https://app.klipse.co/embed/video/" + element.video_id;
+
+
+                                                                    if (element.video_timestamp.length > 0) {
+
+                                                                        timestamp_div.style.height = "350px;";
+                                                                        timestamp_div.style.background = "lightgray";
+                                                                        timestamp_div.style.padding = "10px";
+                                                                        timestamp_div.style.overflow = "scroll";
+                                                                        timestamp_div.style.overflowX = "hidden";
+
+                                                                        timestamp_div.innerHTML = '';
+                                                                        element.video_timestamp.forEach(time_data => {
+                                                                            var time = time_data.match(regExp);
+                                                                            var match_elem = time_data.replace(regExp, " ");
+                                                                            var link_text = urlify(time_data)
+
+                                                                            if (time != null) {
+                                                                                document.getElementById('timestamp_data').innerHTML += '<table >' +
+                                                                                    '<tr>' +
+                                                                                    '<td>' +
+                                                                                    '<a style="color: blue;"  onclick = "clickMe(\'' + time + '\' )">' + time + '</a>&nbsp;' + match_elem + '' +
+                                                                                    '</td>' +
+                                                                                    '</tr>' +
+                                                                                    '</table>';
+                                                                            }
+                                                                            if (time == null) {
+                                                                                document.getElementById('timestamp_data').innerHTML += '<table><tr><td style="color:black;">' + link_text + '</td></tr></table>';
+
+                                                                            }
+                                                                        });
+
+                                                                    }
+                                                                    if (element.video_timestamp.length == 0) {
+                                                                        timestamp_div.innerHTML = '';
+                                                                        timestamp_div.style.background = "white";
+                                                                        timestamp_div.style.height = "0px ! important";
+
+                                                                    }
+                                                                }
+                                                            } else {
+                                                                toggleText(response.data.course_details[0].video_description);
+                                                                video_title.innerHTML = '';
+                                                                video_title.innerHTML = response.data.course_details[0].video_title;
+                                                                if (response.data.course_details[0].video_timestamp.length > 0) {
+                                                                    timestamp_div.style.height = "350px;";
+                                                                    timestamp_div.style.background = "lightgray";
+                                                                    timestamp_div.style.padding = "10px";
+                                                                    timestamp_div.style.overflow = "scroll";
+                                                                    timestamp_div.style.overflowX = "hidden";
+                                                                    timestamp_div.innerHTML = '';
+
+                                                                    response.data.course_details[0].video_timestamp.forEach(time_details => {
+                                                                        var timestamp = time_details.match(regExp);
+                                                                        var match_elem_ = time_details.replace(regExp, " ");
+                                                                        var link_text = urlify(time_details);
+                                                                        if (timestamp != null) {
+
+                                                                            timestamp_div.innerHTML += '<table >' +
+                                                                                '<tr>' +
+                                                                                '<td>' +
+                                                                                '<a style="color: blue;"  onclick = "clickMe(\'' + timestamp + '\' )">' + timestamp + '</a>&nbsp;' + match_elem_ + '' +
+                                                                                '</td>' +
+                                                                                '</tr>' +
+                                                                                '</table>';
+                                                                        }
+                                                                        if (timestamp == null) {
+                                                                            timestamp_div.innerHTML += '<table><tr><td style="color:white;">' + link_text + '</td></tr></table>';
+                                                                        }
+                                                                    });
+                                                                }
+                                                                if (response.data.course_details[0].video_timestamp.length == 0) {
+                                                                    timestamp_div.innerHTML = '';
+                                                                    timestamp_div.style.background = "white";
+                                                                    timestamp_div.style.height = "0px ! important";
+                                                                }
+                                                            }
+
+                                                        })
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: '/api/course/getNextPrevCourse',
+                                                            data: {
+                                                                id: '<%=c_id[0]%>'
+                                                            },
+                                                            dataType: "json",
+                                                            success: function(response) {
+                                                                document.getElementById('next_course').innerHTML = '';
+                                                                if (response.course_obj.length >= 2) {
+                                                                    document.getElementById('next_course').innerHTML += '<div class = "row" style = "margin-left:10px;"><div class = "col-sm-12"><a style ="color:blue;" onclick = "courseOnClick(\'' + response.course_obj[0]._id + '\' ,\'' + parseInt(1) + '\')">Next :' + response.course_obj[0].video_title + '</a></div><div class = "col-sm-12"><a style ="color:blue;" onclick = "courseOnClick(\'' + response.course_obj[1]._id + '\' ,\'' + parseInt(1) + '\')">Previous:' + response.course_obj[1].video_title + '</a></div></div>';
+
+                                                                }
+                                                                if (response.course_obj.length == 1) {
+                                                                    document.getElementById('next_course').innerHTML = '<a style ="color:blue;margin-left:10px;" onclick = "courseOnClick(\'' + response.course_obj[0]._id + '\' ,\'' + parseInt(1) + '\')">Next :' + response.course_obj[0].video_title + ' </a>';
+                                                                }
+                                                                if (response.prev_course.length > 0) {
+                                                                    document.getElementById('next_course').innerHTML = '<a style ="color:blue;margin-left:10px;" onclick = "courseOnClick(\'' + response.prev_course[0]._id + '\' ,\'' + parseInt(1) + '\')">Previous:' + response.prev_course[0].video_title + ' </a>';
+
+                                                                }
+
+                                                            },
+                                                            error: function() {
+
+                                                            }
+                                                        })
+
+                                                    }
+
+                                                }
+                                            },
+                                            error: function() {
+
+                                            }
+                                        })
+
+                                    } else if (bool == "true") {
+
+                                        var section_data = document.getElementById('course_sections');
+                                        var video_title = document.getElementById('video_title');
+                                        var timestamp_div = document.getElementById('timestamp_data');
+                                        var channel_info = document.getElementById('channel_info');
+
+                                        $.ajax({
+                                                type: 'POST',
+                                                url: '/api/course-section/getSectionWithCId',
+                                                data: {
+                                                    complete_course_id: '<%=course._id%>'
+                                                },
+                                                dataType: "json",
+                                                success: function(response) {
+                                                        section_data.innerHTML = '';
+                                                        channel_info.innerHTML = '';
+
+                                                        var kk = 2;
+
+                                                        if (response.success == true) {
+                                                            if (response.data.length > 0) {
+                                                                if (response.data[0].course_section.length > 0) {
+                                                                    toggleText(response.data[0].course_section[0].course_details[0].video_description)
+                                                                    channel_info.innerHTML = '<h6><b>Curator: ' + response.data[0].complete_course_id.user.name + '</b></h6>';
+
+                                                                    response.data.forEach(function(response1, index) {
+                                                                            response1.course_section.forEach(function(courses, j) {
+                                                                                section_data.innerHTML += '<div  id="accordion' + j + '" role="tablist" aria-multiselectable="true"><div class="card">' +
+                                                                                    '<div class="card-header"role="tab"  id="headingOne' + kk + '">' +
+                                                                                    '<h5 class="mb-0">' +
+                                                                                    '<button class="btn btn-link" data-toggle="collapse"  data-target="#collapseOne' + j + '" aria-expanded="true" aria-controls="collapseOne' + j + '">' +
+                                                                                    '' + courses.section_name + '</button>' +
+                                                                                    '</h5>' +
+                                                                                    '</div>';
+                                                                                if ('<%=user%>' && '<%=role%>' == 'Admin' || '<%=user%>' && '<%=role%>' == 'Creator') {
+                                                                                    section_data.innerHTML += '<button  class="fa fa-trash" onclick = "deleteSection(\'' + courses._id + '\',\'' + response1._id + '\',\'' + response1.complete_course_id._id + '\')"  style = "margin-left:90%;padding-top:5px;font-size:20px;;color:#rgb(86,62,145);cursor: pointer;" type="button"  data-toggle="modal" data-target="#deleteSectionModal" ></button>';
+                                                                                }
+
+                                                                                if ('<%=googleUrl%>' == 'false') {
+
+                                                                                } else {
+                                                                                    if (courses.course_details.length > 0) {
+                                                                                        var frameVideo = document.getElementById('google-video-iframe');
+                                                                                        frameVideo.src = "https://app.klipse.co/embed/video/" + courses.course_details[0].video_id + "/preview";
+
+                                                                                    }
+
+                                                                                }
+                                                                                courses.course_details.forEach(function(courses_data, i, arr) {
+
+                                                                                    if (url.searchParams.get('video_id')) {
+                                                                                        const param_video = url.searchParams.get('video_id');
+                                                                                        if (courses_data.video_id == param_video) {
+                                                                                            toggleText(courses_data.video_description);
+                                                                                            video_title.innerHTML = '';
+                                                                                            video_title.innerHTML = courses_data.video_title;
+
+                                                                                            if (courses.course_details.length > 0) {
+                                                                                                var frameVideo = document.getElementById('google-video-iframe');
+                                                                                                frameVideo.src = "https://app.klipse.co/embed/video/" + courses_data.video_id + "/preview";
+                                                                                            }
+
+                                                                                            if (courses_data.video_timestamp.length > 0) {
+
+                                                                                                timestamp_div.style.height = "350px;";
+                                                                                                timestamp_div.style.background = "lightgray";
+                                                                                                timestamp_div.style.padding = "10px";
+                                                                                                timestamp_div.style.overflow = "scroll";
+                                                                                                timestamp_div.style.overflowX = "hidden";
+
+                                                                                                timestamp_div.innerHTML = '';
+                                                                                                courses_data.video_timestamp.forEach(time_data => {
+                                                                                                    var time = time_data.match(regExp);
+                                                                                                    var match_elem = time_data.replace(regExp, " ");
+                                                                                                    var link_text = urlify(time_data);
+                                                                                                    if (time != null) {
+                                                                                                        document.getElementById('timestamp_data').innerHTML += '<table >' +
+                                                                                                            '<tr>' +
+                                                                                                            '<td>' +
+                                                                                                            '<a style="color: blue;"  onclick = "clickMe(\'' + time + '\' )">' + time + '</a>&nbsp;' + match_elem + '' +
+                                                                                                            '</td>' +
+                                                                                                            '</tr>' +
+                                                                                                            '</table>';
+                                                                                                    }
+                                                                                                    if (time == null) {
+                                                                                                        document.getElementById('timestamp_data').innerHTML += '<table><tr><td style="color:black;">' + link_text + '</td></tr></table>';
+
+                                                                                                    }
+                                                                                                });
+
+                                                                                            }
+                                                                                            if (courses_data.video_timestamp.length == 0) {
+                                                                                                timestamp_div.innerHTML = '';
+                                                                                                timestamp_div.style.background = "white";
+                                                                                                timestamp_div.style.height = "0px ! important";
+
+                                                                                            }
+                                                                                        }
+                                                                                        if (courses_data.video_id != param_video) {
+
+                                                                                            var frameVideo = document.getElementById('google-video-iframe');
+                                                                                            frameVideo.src = "https://app.klipse.co/embed/video/" + param_video + "/preview";
+
+
+                                                                                            $.ajax({
+                                                                                                type: 'POST',
+                                                                                                url: '/api/course/getSelectedCourses',
+                                                                                                data: {
+                                                                                                    id: '<%=course._id%>'
+                                                                                                },
+                                                                                                dataType: "json",
+                                                                                                success: function(response) {
+                                                                                                    if (response.success == true) {
+                                                                                                        if (response.data.length > 0) {
+                                                                                                            response.data.forEach(element => {
+                                                                                                                if (element.course_details.length > 0) {
+                                                                                                                    element.course_details.forEach(element_obj => {
+                                                                                                                        if (element_obj.video_id == param_video) {
+                                                                                                                            document.getElementById('video_title').innerHTML = ''
+                                                                                                                            document.getElementById('channel_info').innerHTML = ''
+                                                                                                                            document.getElementById('video_title').innerHTML = element_obj.video_title
+                                                                                                                            toggleText(element_obj.video_description);
+                                                                                                                            document.getElementById('channel_info').innerHTML = '<h6><b>Curator: ' + element.user.name + '</b></h6>';
+
+                                                                                                                            if (element_obj.video_timestamp.length > 0) {
+
+                                                                                                                                timestamp_div.style.height = "350px;";
+                                                                                                                                timestamp_div.style.background = "lightgray";
+                                                                                                                                timestamp_div.style.padding = "10px";
+                                                                                                                                timestamp_div.style.overflow = "scroll";
+                                                                                                                                timestamp_div.style.overflowX = "hidden";
+
+                                                                                                                                timestamp_div.innerHTML = '';
+                                                                                                                                element_obj.video_timestamp.forEach(time_data => {
+                                                                                                                                    var time = time_data.match(regExp);
+                                                                                                                                    var match_elem = time_data.replace(regExp, " ");
+                                                                                                                                    var link_text = urlify(time_data);
+                                                                                                                                    if (time != null) {
+                                                                                                                                        document.getElementById('timestamp_data').innerHTML += '<table >' +
+                                                                                                                                            '<tr>' +
+                                                                                                                                            '<td>' +
+                                                                                                                                            '<a style="color: blue;"  onclick = "clickMe(\'' + time + '\' )">' + time + '</a>&nbsp;' + match_elem + '' +
+                                                                                                                                            '</td>' +
+                                                                                                                                            '</tr>' +
+                                                                                                                                            '</table>';
+                                                                                                                                    }
+                                                                                                                                    if (time == null) {
+                                                                                                                                        document.getElementById('timestamp_data').innerHTML += '<table><tr><td style="color:black;">' + link_text + '</td></tr></table>';
+                                                                                                                                    }
+                                                                                                                                });
+
+                                                                                                                            }
+                                                                                                                            if (element_obj.video_timestamp.length == 0) {
+                                                                                                                                timestamp_div.innerHTML = '';
+                                                                                                                                timestamp_div.style.background = "white";
+                                                                                                                                timestamp_div.style.height = "0px ! important";
+
+                                                                                                                            }
+
+                                                                                                                            return
+                                                                                                                        }
+                                                                                                                    });
+                                                                                                                }
+
+                                                                                                            });
+
+                                                                                                        }
+
+
+                                                                                                    }
+                                                                                                },
+                                                                                                error: function() {
+
+                                                                                                }
+                                                                                            })
+
+                                                                                        }
+
+
+                                                                                    } else {
+
+                                                                                        var video_source;
+
+                                                                                        var frameVideo = document.getElementById('google-video-iframe');
+                                                                                        video_source = frameVideo.src;
+                                                                                        var parts = frameVideo.src.match(/\/video\/(.+)\//);
+                                                                                        if (parts == null || parts.length < 2) {
+                                                                                            return
+                                                                                        } else {
+                                                                                            video_source = parts[1];
+
+                                                                                        }
+
+                                                                                        if (video_source != null) {
+
+                                                                                            // var video_id = document.getElementById('google-iframe').src.split('&id=')[1];
+                                                                                            // var videoId = video_id.split('?');
+
+                                                                                            if (video_source != null) {
+                                                                                                if (courses_data.video_id == video_source) {
+                                                                                                    video_title.innerHTML = '';
+                                                                                                    video_title.innerHTML = courses_data.video_title;
+
+                                                                                                    if (courses_data.video_timestamp.length > 0) {
+
+                                                                                                        timestamp_div.style.height = "350px;";
+                                                                                                        timestamp_div.style.background = "lightgray";
+                                                                                                        timestamp_div.style.padding = "10px";
+                                                                                                        timestamp_div.style.overflow = "scroll";
+                                                                                                        timestamp_div.style.overflowX = "hidden";
+
+                                                                                                        timestamp_div.innerHTML = '';
+                                                                                                        for (let m = 0; m < courses_data.video_timestamp.length; m++) {
+                                                                                                            const element = courses_data.video_timestamp[m];
+
+                                                                                                            var time_ = element.match(regExp);
+                                                                                                            var match_elem_ = element.replace(regExp, " ")
+                                                                                                            var link_text = urlify(element);
+                                                                                                            if (time_ != null) {
+                                                                                                                document.getElementById('timestamp_data').innerHTML += '<table >' +
+                                                                                                                    '<tr>' +
+                                                                                                                    '<td>' +
+                                                                                                                    '<a style="color: blue;"  onclick = "clickMe(\'' + time_ + '\' )">' + time_ + '</a>&nbsp;' + match_elem_ + '' +
+                                                                                                                    '</td>' +
+                                                                                                                    '</tr>' +
+                                                                                                                    '</table>';
+                                                                                                            }
+                                                                                                            if (time_ == null) {
+                                                                                                                document.getElementById('timestamp_data').innerHTML += '<table><tr><td style="color:black;">' + link_text + '</td></tr></table>';
+                                                                                                            }
+
+                                                                                                        }
+
+                                                                                                    }
+                                                                                                    if (courses_data.video_timestamp.length == 0) {
+                                                                                                        timestamp_div.style.background = "white";
+                                                                                                        timestamp_div.innerHTML = '';
+                                                                                                        timestamp_div.style.height = "0px ! important;"
+
+                                                                                                    }
+                                                                                                }
+
+                                                                                            }
+                                                                                        }
+
+                                                                                    }
+
+                                                                                    section_data.innerHTML += '<div id="collapseOne' + j + '" class="collapse show" aria-labelledby="headingOne' + kk + '" data-parent="#accordion' + j + '">' +
+                                                                                        '<div class="card-body"  ><div class = "' + courses_data.course_id + '">' +
+                                                                                        '<div class = "row" id = "' + section_index + '"><div class = "column">' +
+
+                                                                                        '<a onclick = "courseOnClick(\'' + courses_data.course_id + '\',\'' + parseInt(1) + '\')">' +
+                                                                                        '<img class="rounded" id ="img_src" src = "' + courses_data.video_thumbnail + '" ></a> ' +
+                                                                                        '</div>' +
+                                                                                        '<div class = "column"> ' +
+                                                                                        '<a onclick = "courseOnClick(\'' + courses_data.course_id + '\',\'' + parseInt(1) + '\')" style="text-decoration: none;">' +
+                                                                                        '<h6> ' + courses_data.video_title + ' </h6>' +
+                                                                                        '</a>' +
+                                                                                        '<a id ="video_link" onclick = "courseOnClick(\'' + courses_data.course_id + '\',\'' + parseInt(1) + '\')"  style="text-decoration: none; color:grey" >' +
+                                                                                        '<h6  >' + courses_data.video_description.substr(0, 40) + '...</h6>' +
+                                                                                        '</a>' +
+                                                                                        '<a style ="cursor:pointer;color:black;" href="' + courses_data.channel_link + '"><h6><b>' + courses_data.channel_title + '</b></h6></a>' +
+
+                                                                                        '</div>' +
+                                                                                        '<div class = "column" id ="edit_btns' + courses_data.course_id + j + '" style = "padding-top:5px;display:none;">' +
+                                                                                        '<i data-toggle="modal" onclick = "editVideoDetails(\'' + courses_data.course_id + '\')" style = "cursor: pointer;font-size:20px;" data-target="#editCourseData" class ="fa fa-edit" ></i>&nbsp' +
+                                                                                        '<i class="fa fa-picture-o" onclick = "editVideoThumbnail(\'' + response1.complete_course_id._id + '\',\'' + courses_data.video_thumbnail + '\')"  aria-hidden="true"  style = "cursor: pointer;font-size:20px;"></i>&nbsp' +
+                                                                                        '<i class="fa fa-trash" style="cursor:pointer;font-size:20px;" aria-hidden="true"  data-toggle="modal" data-target="#frameModalBottom" onclick = "deleteVideoFromSection(\'' + courses_data.course_id + '\' ,\'' + response1.complete_course_id._id + '\',\'' + section_index + '\')"></i>' +
+
+                                                                                        '</div></div>' +
+                                                                                        '</div>' +
+                                                                                        '</div>' +
+                                                                                        '</div>';
+
+                                                                                    kk = kk + 1;
+                                                                                    section_index = section_index + 1;
+                                                                                    if ('<%=user%>' && '<%=role%>' == 'Admin' || '<%=user%>' && '<%=role%>' == 'Creator') {
+                                                                                        document.getElementById('edit_btns' + courses_data.course_id + j + '').style.display = "block";
+
+                                                                                    }
+
+
+                                                                                })
+
+
+                                                                            })
+
+                                                                        }) //for 
+
+                                                                } //if
+
+                                                                $(document).ajaxStart(function() {
+                                                                    $("#wait").css("display", "block");
+                                                                });
+                                                                $(document).ajaxComplete(function() {
+                                                                    $("#wait").css("display", "none");
+                                                                });
+
+                                                                var pagecount = parseInt(1)
+
+                                                                var id_value = '<%=c_id[0]%>';
+
+                                                                document.getElementById('more_videos').innerHTML = '';
+                                                                document.getElementById('header').innerHTML = '';
+                                                                $.ajax({
+                                                                    type: 'POST',
+                                                                    url: '/api/course-section/getRequestedSection',
+                                                                    data: {
+                                                                        complete_course_id: '<%=course._id%>',
+                                                                        course_id: '<%=c_id[0]%>',
+                                                                        page: pagecount,
+                                                                        currentPage: 6
+                                                                    },
+                                                                    dataType: "json",
+                                                                    success: function(response) {
+                                                                        if (response.success == true) {
+                                                                            if (response.obj.length > 0) {
+                                                                                document.getElementById('header').innerHTML = '<div class="card-header" style="color:red;">Related Videos</div>';
+                                                                                response.obj.forEach(element => {
+                                                                                    document.getElementById('more_videos').innerHTML += ' <div class="col-md-2">' +
+                                                                                        '<div class="photo-box">' +
+                                                                                        '<a style = "cursor:pointer;" onclick = "courseOnClick(\'' + element._id + '\',\'' + parseInt(1) + '\')"><img class="img-fluid" src="' + element.video_thumbnail + '" alt="image"></a>' +
+                                                                                        '<h6 style = "padding:10px;cursor:pointer;color:blue;" onclick = "courseOnClick(\'' + element._id + '\',\'' + parseInt(1) + '\')"><b>' + element.video_title + '</b></h6>' +
+                                                                                        '</div>' +
+                                                                                        '</div>' +
+                                                                                        '<div id = "prev_btn"></div>' +
+                                                                                        '<div id = "next_btn"></div>';
+                                                                                });
+                                                                            }
+                                                                            if (response.total > 6 && response.page == 1) {
+                                                                                pagecount = parseInt(pagecount) + 1;
+                                                                                document.getElementById('next_btn').innerHTML = '<a class="btn-floating" data-slide="next" style="position: absolute;right:0;top:35%;background:#543E91;" onclick = "courseOnClick(\'' + id_value + '\',\'' + parseInt(pagecount) + '\')" ><i class="fas fa-chevron-right" style = "color:white;"></i></a>';
+
+                                                                            } else if (response.page != 1) {
+                                                                                if (response.pages == response.currentPage) {
+                                                                                    pagecount = parseInt(pagecount) - 1;
+                                                                                    document.getElementById('prev_btn').innerHTML = '<a class="btn-floating" data-slide="next" style="display:block;position: absolute;left:0;top:35%;background:#543E91;" onclick = "courseOnClick(\'' + id_value + '\',\'' + parseInt(pagecount) + '\')" )"><i class="fas fa-chevron-left" style = "color:white;"></i></a>';
+
+                                                                                } else {
+
+                                                                                    response.total = response.total - response.per_page
+                                                                                    if (response.total > 6) {
+                                                                                        document.getElementById('prev_btn').innerHTML = ''
+                                                                                        document.getElementById('prev_btn').innerHTML = '<a class="btn-floating" data-slide="prev" onclick = "courseOnClick(\'' + id_value + '\',\'' + (parseInt(pagecount) - 1) + '\')" style="display:block;position: absolute;left:0;top:35%;background:#543E91;")"><i class="fas fa-chevron-left" style = "color:white;"></i></a>';
+
+                                                                                    }
+                                                                                    if (response.total > 6 && response.page == parseInt(pagecount)) {
+                                                                                        document.getElementById('next_btn').innerHTML = '<a class="btn-floating" data-slide="next" style="position: absolute;right:0;top:35%;background:#543E91;" onclick = "courseOnClick(\'' + id_value + '\',\'' + (parseInt(pagecount) + 1) + '\')" ><i class="fas fa-chevron-right" style = "color:white;"></i></a>';
+
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                })
+                                                            }
+
+                                                        }
+                                                    } //success
+
+                                            }) //ajax
+                                    }
+                                } //getCourse
+
+                                function deleteVideoFromSection(c_id, main_id, sec_id) {
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/api/course-section/deleteSectionAndCourseVideo',
+                                        data: {
+                                            course_id: c_id,
+                                            id: main_id
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            if (response.success == true) {
+                                                document.getElementById('alert_popup').innerHTML = ' <div class="alert alert-success" role="alert" > Section video deleted Succesfully !</div>';
+                                                $("#alert_popup").fadeIn(300).delay(1500).fadeOut(400);
+                                                $('div.' + c_id + '').remove()
+                                                setTimeout('$("#closeModal").click()', 1500);
+
+
+                                            } else {
+                                                alert("Error")
+                                            }
+                                        }
+                                    })
+                                }
+
+                                function deleteSection(section_id, main_course_id, course_id) {
+
+                                    document.getElementById('deleteModal').innerHTML =
+                                        '<div class="modal-dialog modal-notify modal-success" role="document">' +
+                                        '<div class="modal-content">' +
+                                        '<div class="modal-header" style = "background-color:#553E91 !important">' +
+                                        '<p class="heading lead">Confirmation</p>' +
+
+                                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                                        '<span aria-hidden="true" class="white-text">&times;</span>' +
+                                        '</button>' +
+                                        '</div>' +
+
+                                        '<div class="modal-body">' +
+                                        '<div class="text-center">' +
+                                        ' <i class=" fas fa-question-circle fa-4x mb-3 animated rotateIn fa-4x mb-3 animated rotateIn" style = "color:red ! important;"></i>' +
+                                        '<p>Are you sure you want to delete ?</p>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="modal-footer justify-content-center">' +
+                                        '<a type="button" class="btn btn-danger" onclick = "deleteSectionConfirmation(\'' + section_id + '\',\'' + main_course_id + '\',\'' + course_id + '\')">Yes </a>' +
+                                        '<a type="button" class="btn btn-outline-danger waves-effect" data-dismiss="modal">No</a>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>';
+
+
+                                }
+
+                                function descriptionData(id) {
+
+                                    const param_video = url.searchParams.get('video_id');
+
+                                    if (param_video) {
+                                        id = param_video
+                                    }
+
+                                    var descModal = document.getElementById('descModal');
+                                    descModal.innerHTML = '<div class="modal fade" id="modalDesc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">' +
+                                        '<div class="modal-dialog modal-lg" role="document"  ><form id = "desc_edit">' +
+                                        '<div class="modal-content">' +
+                                        '<div class="modal-header text-center" style ="background:#543E91;color:white;">' +
+                                        '<h4 class="modal-title w-100 font-weight-bold">Edit Description</h4>' +
+                                        '<button type="button" id="close_btn" class="close" data-dismiss="modal" aria-label="Close" style ="color:white;">' +
+                                        '<span aria-hidden="true">&times;</span>' +
+                                        '</button>' +
+                                        '</div>' +
+                                        '<div class="modal-body mx-3">' +
+                                        '<div class="md-form mb-5">' +
+                                        '<textarea id = "description_video" cols="50" rows="100" ></textarea>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="modal-footer d-flex justify-content-center">' +
+                                        '<button type ="button" id = "edit_desc_btn" onclick = "editDescriptionData(\'' + id + '\')" style = "">Save <i class="fa fa-edit ml-1"></i></button>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</form>' +
+                                        '</div>' +
+                                        '</div>';
+
+                                    var regex = /<br\s*[\/]?>/gi;
+                                    document.getElementById('description_video').innerHTML = desc_Arr[0].replace(regex, "\n");
+
+                                }
+
+                                function editDescriptionData(id) {
+                                    document.getElementById('description_video').innerHTML = $('textarea#description_video').val()
+
+                                    $(document).ajaxStart(function() {
+                                        $("#wait").css("display", "block");
+                                    });
+                                    $(document).ajaxComplete(function() {
+                                        $("#wait").css("display", "none");
+                                    });
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/api/course/getCourseIdByVideoId',
+                                        data: {
+                                            video_id: id
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            if (response.success == true) {
+                                                if (response.data.length > 0) {
+                                                    $.ajax({
+                                                        type: 'PUT',
+                                                        url: '/api/course/editDescForCourse',
+                                                        data: {
+                                                            id: response.data[0]._id,
+                                                            video_description: document.getElementById('description_video').innerHTML
+                                                        },
+                                                        dataType: "json",
+                                                        success: function(response) {
+                                                            if (response.success == true) {
+                                                                document.getElementById('close_btn').click();
+                                                            } else {
+                                                                alert("Error")
+                                                            }
+                                                        }
+
+                                                    })
+                                                }
+                                            } else {
+                                                alert("Failed to Error")
+                                            }
+                                        }
+                                    })
+                                }
+
+
+                                function deleteSectionConfirmation(section_id, main_course_id, course_id) {
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/api/course-section/removeSection',
+                                        data: {
+                                            id: main_course_id,
+                                            idd: section_id
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            if (response.success == true) {
+                                                window.location.reload()
+                                            } else {
+                                                alert("Error")
+                                            }
+                                        }
+                                    })
+                                }
+                                /*
+                                Edit video thumbnail 
+                                */
+                                function editVideoThumbnail(id, image_url) {
+
+                                    $.ajax({
+                                        type: 'PUT',
+                                        url: '/api/course/updateCourseThumbnail',
+                                        data: {
+                                            id: id,
+                                            image_preview: image_url
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            if (response.success == true) {
+                                                document.getElementById('alert_message').style.display = "block";
+                                                document.getElementById('alert_message').innerText = "Thumbnail Updated Successfully!";
+                                                $("#alert_message").fadeIn(300).delay(1500).fadeOut(400);
+
+                                                document.getElementById("dashboard").click();
+
+                                            } else {
+                                                alert("Editing Failed!")
+                                            }
+                                        },
+                                        error: function() {
+                                            alert("Error")
+                                        }
+                                    })
+
+                                } //edit Video Preview
+
+                                /*
+                                full screen video preview
+                                */
+                                function fullScreenVideoPreview() {
+
+                                    var iframe = document.getElementById('full_video');
+
+                                    if (url.searchParams.get('video_id')) {
+
+                                        var frameVideo = document.getElementById('google-video-iframe');
+                                        document.getElementById('full_video').src = frameVideo.src;
+
+
+                                    } else {
+
+                                        var frameVideo = document.getElementById('google-video-iframe');
+                                        document.getElementById('full_video').src = frameVideo.src;
+                                    }
+
+                                    document.getElementById('fullScreenModalPreviewLabel').innerHTML = document.getElementById('video_title').innerHTML
+
+
+                                }
+
+                                function urlify(text) {
+                                    var urlRegex = /(https?:\/\/[^\s]+)/g;
+                                    return text.replace(urlRegex, function(url) {
+                                            return '<a href="' + url + '">' + url + '</a>';
+                                        })
+                                        // or alternatively
+                                        // return text.replace(urlRegex, '<a href="$1">$1</a>')
+                                }
+
+                                function timestampPreview() {
+                                    var time_data = document.getElementById('timestamps');
+                                    var video_source;
+
+                                    var frameVideo = document.getElementById('google-video-iframe');
+                                    video_source = frameVideo.src;
+                                    var parts = frameVideo.src.match(/\/video\/(.+)\//);
+                                    if (parts == null || parts.length < 2) {
+                                        return
+                                    } else {
+                                        video_source = parts[1];
+
+                                    }
+                                    console.log("===video src===", video_source);
+                                    if (video_source != null) {
+                                        $.ajax({
+                                            type: 'GET',
+                                            url: '/api/course/get-timestamp?video_id=' + video_source,
+                                            dataType: "json",
+                                            success: function(response) {
+                                                if (response.success == true) {
+                                                    time_data.innerHTML = ''
+                                                    if (response.data.length > 0) {
+                                                        for (let index = 0; index < response.data.length; index++) {
+                                                            for (let index1 = 0; index1 < response.data[index].timestamp_details.length; index1++) {
+                                                                var time = response.data[index].timestamp_details[index1].match(regExp);
+                                                                var time_title = response.data[index].timestamp_details[index1].replace(regExp, " ");
+                                                                var link_text = urlify(response.data[index].timestamp_details[index1])
+                                                                if (response.data[index].timestamp_details.length == 0) {
+                                                                    time_data.innerHTML = '<h5 style = "color:white;">No timestamp avaliable!</h5> ';
+                                                                }
+                                                                if (time != null) {
+                                                                    time_data.innerHTML += '<table><tr><td style="color:white;"><a style ="color:lightblue ! important;cursor:pointer;" onclick = "timestampOnClick(\'' + time + '\' , \'' + video_source + '\' )">' + time + '</a>&nbsp;' + time_title + '</td></tr></table>';
+
+                                                                }
+                                                                if (time == null) {
+                                                                    time_data.innerHTML += '<table><tr><td style="color:white;">' + link_text + '</td></tr></table>';
+
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                    if (response.data.length == 0) {
+                                                        time_data.innerHTML = '';
+                                                        time_data.innerHTML = '<h5 style="color:white;">No timestamp Present!</h5>'
+                                                        return;
+                                                    }
+                                                } else {
+                                                    alert("Need to fix it TODO!")
+                                                }
+                                            },
+                                            error: function() {
+
+                                            }
+                                        })
+                                    }
+                                }
+
+                                function timestampOnClick(time, v_id) {
+                                    var data = time.split(':')
+                                    if (data.length == 2) {
+                                        var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                                        var videoframe = document.getElementById('full_video');
+                                        var frameVideo = document.getElementById('google-video-iframe');
+                                        videoframe = frameVideo.src;
+
+
+                                    } else if (data.length == 3) {
+                                        var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                        var videoframe = document.getElementById('full_video');
+                                        var frameVideo = document.getElementById('google-video-iframe');
+                                        videoframe.src = frameVideo.src;
+
+                                    }
+                                }
+                                var fav_Arr = []
+
+                                function favCourse(c_id, id) {
+
+                                    if ($('#add_fav' + c_id).hasClass('fa fa-heart-o')) {
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/api/fav/addFavCourse",
+                                            data: {
+                                                user: id,
+                                                course_id: c_id
+                                            },
+                                            dataType: "json",
+                                            success: function(data) {
+                                                if (data.success == true) {
+                                                    fav_Arr.push(data.data._id)
+                                                    if ($('#add_fav' + c_id).hasClass('fa fa-heart-o')) {
+                                                        $('#add_fav' + c_id).removeClass('fa fa-heart-o');
+                                                        document.getElementById('fav_lbl').innerHTML = "UnFavorite Course"
+                                                        $('#add_fav' + c_id).addClass('fa fa-heart');
+                                                    }
+
+
+                                                } else {
+                                                    alert('Failed to add Favorite')
+                                                }
+                                            }
+
+                                        })
+                                    } else if ($('#add_fav' + c_id).hasClass('fa fa-heart')) {
+                                        if (fav_Arr.length == 0) {
+                                            fav_Arr.push(document.getElementById('unfav').value)
+                                        }
+
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/api/fav/unFavCourse",
+                                            data: {
+                                                id: fav_Arr[0]
+                                            },
+                                            dataType: "json",
+                                            success: function(data) {
+                                                if (data.success == true) {
+
+                                                    if ($('#add_fav' + c_id).hasClass('fa fa-heart')) {
+                                                        $('#add_fav' + c_id).removeClass('fa fa-heart');
+                                                        document.getElementById('fav_lbl').innerHTML = "Favorite Course"
+                                                        fav_Arr = []
+                                                        $('#add_fav' + c_id).addClass('fa fa-heart-o');
+                                                    }
+
+                                                } else {
+                                                    alert('Failed to remove Favorite')
+                                                }
+                                            }
+
+                                        })
+
+                                    }
+
+                                }
+
+
+                                function editVideoDetails(id) {
+
+                                    var editDoc = document.getElementById('editModal')
+                                    editDoc.innerHTML = '<div class="modal fade" id="editCourseData" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">' +
+                                        '<div class="modal-dialog modal-lg" role="document"  ><form id = "edit_details">' +
+                                        '<div class="modal-content">' +
+                                        '<div class="modal-header text-center">' +
+                                        '<h4 class="modal-title w-100 font-weight-bold">Edit Details</h4>' +
+                                        '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+                                        '<span aria-hidden="true">&times;</span>' +
+                                        '</button>' +
+                                        '</div>' +
+                                        '<div class="modal-body mx-3">' +
+                                        '<div class="md-form mb-5">' +
+                                        '<i class="fas fa-link prefix grey-text"></i>' +
+                                        '<input type="text" id="video_link1" value = "" name = "video_link" class="form-control " placeholder = "Video link">' +
+                                        '</div>' +
+                                        '<div class="md-form mb-4">' +
+                                        '<i class="fas fa-bandcamp prefix grey-text"></i>' +
+                                        '<input type="text" id="video_title1" value = "" name = "video_title"class="form-control "placeholder = "Video Title">' +
+                                        '</div>' +
+                                        '<div class="md-form mb-5">' +
+                                        '<i class="fas fa-picture-o prefix grey-text"></i>' +
+                                        '<input type="text" id="thumbnail" name = "video_thumbnail" placeholder ="Video Thumbnail.." pattern="https://.*||http://.*">' +
+                                        '</div>' +
+                                        '<textarea id="video_timestamp1" placeholder="Add timestamp and title..." ></textarea>' +
+
+                                        '<div class="modal-footer d-flex justify-content-center">' +
+                                        '<button class="btn btn-primary" style = "background-color:rgb(86,62,145) ! important;">Save <i class="fa fa-edit ml-1"></i></button>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</form>' +
+                                        '</div>' +
+                                        '</div>';
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/api/course/getCourseByCId',
+                                        data: {
+                                            id: id
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            if (response.success == true) {
+                                                var video_title = document.getElementById('video_title1');
+                                                var video_link = document.getElementById('video_link1');
+                                                var time_list = document.getElementById('video_timestamp1');
+                                                var thumbnail = document.getElementById('thumbnail');
+
+                                                response.data.forEach(element => {
+                                                    video_title.value = element.video_title;
+                                                    thumbnail.value = element.video_thumbnail;
+
+                                                    if (element.video_embed_link == 'undefined' || element.video_embed_link == undefined) {
+                                                        video_link.value = 'https://www.youtube.com/embed/' + element.video_id
+                                                    } else {
+                                                        video_link.value = element.video_embed_link;
+
+                                                    }
+
+                                                    if (element.video_timestamp.length > 0) {
+                                                        time_list.innerHTML = '';
+
+                                                        element.video_timestamp.forEach(data => {
+                                                            time_list.innerHTML += data + '\n'
+                                                        })
+                                                    }
+
+                                                    $("#edit_details").submit(function(event) {
+                                                        var form = document.getElementById("edit_details");
+                                                        event.preventDefault();
+                                                        $.ajax({
+                                                            type: 'PUT',
+                                                            url: '/api/course/updateCourseById',
+                                                            data: {
+                                                                id: element._id,
+                                                                video_title: video_title.value,
+                                                                video_embed_link: video_link.value,
+                                                                video_timestamp: time_list.value,
+                                                                video_thumbnail: thumbnail.value
+                                                            },
+                                                            dataType: "json",
+                                                            success: function(response) {
+                                                                $('#edit_details')[0].reset();
+                                                                time_list.value = ''
+                                                                if (response.success == true) {
+                                                                    window.location.reload()
+                                                                };
+                                                            },
+                                                            error: function() {}
+                                                        })
+                                                    })
+                                                });
+                                            };
+                                        },
+                                        error: function() {}
+
+                                    });
+                                } //edit course data
+
+                                /*
+                                chagne course data on click 
+                                 */
+                                function courseOnClick(id, page_no) {
+
+                                    video_id_arr = []
+                                    var video_title = document.getElementById('video_title');
+                                    const v_id = url.searchParams.get('video_id');
+                                    const timestamp_div = document.getElementById('timestamp_data');
+                                    var channel_info = document.getElementById('channel_info');
+
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/api/course/getCourseByCId',
+                                        data: {
+                                            id: id
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            if (response.success == true) {
+                                                channel_info.innerHTML = ''
+                                                response.data.forEach(function(element, index) {
+                                                    toggleText(element.video_description);
+                                                    // channel_info.innerHTML = '<a style ="cursor:pointer;color:black;" href="' + element.channel_link + '"><h6><b>Channel Title: ' + element.channel_title + '</b></h6></a>';
+                                                    channel_info.innerHTML = '<h6><b>Curator: ' + response.user_data.user.name + '</b></h6>';
+
+                                                    window.history.replaceState(url_address, "Title", "/view-klipse-course?uid=<%=course.uid%>&course=<%= course.course_name%>&video_id=" + element.video_id);
+
+                                                    var frameVideo = document.getElementById('google-video-iframe');
+                                                    frameVideo.src = "https://app.klipse.co/embed/video/" + element.video_id;
+
+
+
+                                                    video_title.innerHTML = element.video_title;
+                                                    if (element.video_timestamp.length > 0) {
+
+                                                        timestamp_div.style.height = "350px;";
+                                                        timestamp_div.style.background = "lightgray";
+                                                        timestamp_div.style.padding = "10px";
+                                                        timestamp_div.style.overflow = "scroll";
+                                                        timestamp_div.style.overflowX = "hidden";
+                                                        timestamp_div.style.display = "block";
+
+                                                        document.getElementById('timestamp_data').innerHTML = '';
+                                                        element.video_timestamp.forEach(time_data => {
+                                                            var time = time_data.match(regExp);
+                                                            var match_elem = time_data.match(letter_regex);
+                                                            var link_text = urlify(time_data)
+
+                                                            if (time != null) {
+                                                                document.getElementById('timestamp_data').innerHTML += '<table >' +
+                                                                    '<tr>' +
+                                                                    '<td>' +
+                                                                    '<a style="color: blue;"  onclick = "clickMe(\'' + time + '\' )">' + time + '</a>&nbsp;' + match_elem + '' +
+                                                                    '</td>' +
+                                                                    '</tr>' +
+                                                                    '</table>';
+                                                            }
+                                                            if (time == null) {
+                                                                document.getElementById('timestamp_data').innerHTML += '<table><tr><td style="color:white;">' + link_text + '</td></tr></table>';
+
+                                                            }
+                                                        });
+
+
+
+                                                    }
+                                                    if (element.video_timestamp.length == 0) {
+                                                        timestamp_div.innerHTML = '';
+                                                        timestamp_div.style.background = "white";
+                                                        timestamp_div.style.height = "0px ! important";
+
+                                                    }
+                                                    if ('<%=bool_section_check%>' == "true") {
+                                                        $(document).ajaxStart(function() {
+                                                            $("#wait").css("display", "block");
+                                                        });
+                                                        $(document).ajaxComplete(function() {
+                                                            $("#wait").css("display", "none");
+                                                        });
+                                                        document.getElementById('more_videos').innerHTML = '';
+                                                        document.getElementById('header').innerHTML = '';
+
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: '/api/course-section/getRequestedSection',
+                                                            data: {
+                                                                complete_course_id: '<%=course._id%>',
+                                                                course_id: id,
+                                                                page: page_no,
+                                                                currentPage: 6
+                                                            },
+                                                            dataType: "json",
+                                                            success: function(response) {
+                                                                if (response.success == true) {
+                                                                    if (response.obj.length > 0) {
+                                                                        document.getElementById('header').innerHTML = '<div class="card-header" style="color:red;">Related Videos</div>';
+
+                                                                        response.obj.forEach(element => {
+                                                                            document.getElementById('more_videos').innerHTML += ' <div class="col-md-2">' +
+                                                                                '<div class="photo-box">' +
+                                                                                '<a style = "cursor:pointer;" onclick = "courseOnClick(\'' + element._id + '\' ,\'' + parseInt(1) + '\')"><img class="img-fluid" src="' + element.video_thumbnail + '" alt="image"></a>' +
+                                                                                '<h6 style = "padding:10px;cursor:pointer;color:blue;" onclick = "courseOnClick(\'' + element._id + '\',\'' + parseInt(1) + '\')"><b>' + element.video_title + '</b></h6>' +
+                                                                                '</div>' +
+                                                                                '</div>' +
+                                                                                '<div id = "prev_btn1"></div>' +
+                                                                                '<div id = "next_btn1"></div>';
+
+                                                                        });
+                                                                    }
+                                                                    if (response.total > 6 && response.page == 1) {
+                                                                        page_no = parseInt(page_no) + 1;
+                                                                        document.getElementById('next_btn1').innerHTML = '<a class="btn-floating" data-slide="next" style="position: absolute;right:0;top:35%;background:#543E91;" onclick = "courseOnClick(\'' + id + '\',\'' + page_no + '\' )" ><i class="fas fa-chevron-right" style = "color:white;"></i></a>';
+
+                                                                    } else if (response.page != 1) {
+                                                                        if (response.pages == response.currentPage) {
+                                                                            page_no = parseInt(page_no) - 1;
+                                                                            document.getElementById('prev_btn1').innerHTML = '<a class="btn-floating" data-slide="next" style="display:block;position: absolute;left:0;top:35%;background:#543E91;" onclick = "courseOnClick(\'' + id + '\' ,\'' + page_no + '\')"><i class="fas fa-chevron-left" style = "color:white;"></i></a>';
+
+                                                                        } else {
+
+                                                                            response.total = response.total - response.per_page
+                                                                            if (response.total > 6) {
+                                                                                document.getElementById('prev_btn1').innerHTML = ''
+                                                                                document.getElementById('prev_btn1').innerHTML = '<a class="btn-floating" data-slide="prev" onclick = "courseOnClick(\'' + id + '\' ,\'' + (parseInt(page_no) - 1) + '\')" style="display:block;position: absolute;left:0;top:35%;background:#543E91;")"><i class="fas fa-chevron-left" style = "color:white;"></i></a>';
+
+                                                                            }
+                                                                            if (response.total > 6 && response.page == parseInt(page_no)) {
+                                                                                document.getElementById('next_btn1').innerHTML = '<a class="btn-floating" data-slide="next" style="position: absolute;right:0;top:35%;background:#543E91;" onclick = "courseOnClick(\'' + id + '\',\'' + (parseInt(page_no) - 1) + '\' )" ><i class="fas fa-chevron-right" style = "color:white;"></i></a>';
+
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+
+
+                                                            }
+                                                        })
+                                                    }
+                                                    if ('<%=bool_section_check%>' == "false") {
+                                                        $.ajax({
+                                                            type: 'POST',
+                                                            url: '/api/course/getNextPrevCourse',
+                                                            data: {
+                                                                id: id
+                                                            },
+                                                            dataType: "json",
+                                                            success: function(response) {
+                                                                document.getElementById('next_course').innerHTML = '';
+
+                                                                if (response.course_obj.length >= 2) {
+                                                                    document.getElementById('next_course').innerHTML += '<div class = "row" style = "margin-left:10px;"><div class = "col-sm-12"><a style ="color:blue;" onclick = "courseOnClick(\'' + response.course_obj[0]._id + '\' ,\'' + parseInt(1) + '\')">Next :' + response.course_obj[0].video_title + '</a></div><div class = "col-sm-12"><a style ="color:blue;" onclick = "courseOnClick(\'' + response.course_obj[1]._id + '\' ,\'' + parseInt(1) + '\')">Previous:' + response.course_obj[1].video_title + '</a></div></div>';
+                                                                }
+                                                                if (response.course_obj.length == 1) {
+                                                                    document.getElementById('next_course').innerHTML = '<a style ="color:blue;margin-left:10px;" onclick = "courseOnClick(\'' + response.course_obj[0]._id + '\' ,\'' + parseInt(1) + '\')">Next :' + response.course_obj[0].video_title + ' </a>';
+                                                                }
+                                                                if (response.prev_course.length > 0) {
+                                                                    document.getElementById('next_course').innerHTML = '<a style ="color:blue;margin-left:10px;" onclick = "courseOnClick(\'' + response.prev_course[0]._id + '\' ,\'' + parseInt(1) + '\')">Previous:' + response.prev_course[0].video_title + ' </a>';
+
+                                                                }
+
+                                                            },
+                                                            error: function() {
+
+                                                            }
+                                                        })
+                                                    }
+
+                                                });
+
+                                            };
+                                        },
+                                        error: function() {}
+                                    })
+
+                                }
+
+                                function commentsTab() {
+                                    $('html,body').animate({
+                                            scrollTop: $(".fb-comments").offset().top
+                                        },
+                                        'slow');
+
+                                }
+
+
+                                //toggle description text more or less
+                                function toggleText(data) {
+
+                                    document.getElementById('desc').innerHTML = ''
+
+                                    var x = matchUrl(data)
+                                    var y = matchTimestamp(x)
+
+                                    desc_Arr = []
+
+                                    if (status == "less") {
+
+                                        descData(data)
+                                        document.getElementById("toggleButton").innerText = "See Less";
+
+                                        status = "more";
+
+                                    } else if (status == "more") {
+
+                                        document.getElementById("desc").innerHTML = y.substr(0, 100) + '...';
+
+                                        document.getElementById("toggleButton").innerText = "See More";
+                                        status = "less"
+                                    }
+
+                                    desc_Arr.push(data)
+
+                                } //toggleText
+
+                                function descClick() {
+                                    toggleText(desc_Arr[0])
+
+                                }
+
+                                function matchTimestamp(data) {
+                                    var urlRegex = /((([0-9]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])|([0-5]?[0-9]):([0-5]?[0-9])))/g;
+                                    return data.replace(urlRegex, function(time) {
+                                        if (time != null) {
+                                            return '<a  onclick = "clickMe(\'' + time + '\' );" style ="color:blue;">' + time + '</a>';
+                                        } else {
+                                            return data
+                                        }
+                                    })
+                                }
+
+                                function descData(data) {
+
+                                    var x = matchUrl(data)
+                                    var y = matchTimestamp(x)
+                                    document.getElementById("desc").innerHTML = y
+
+                                }
+
+                                //video timestamp click (for description content)
+                                function clickMe(data) {
+                                    var data = data.split(':')
+
+                                    if (url.searchParams.get('video_id')) {
+                                        for (var i = 0; i < data.length; i++) {
+                                            if (data.length == 2) {
+                                                var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                                                var iframeSrc = document.getElementById('google-video-iframe');
+                                                iframeSrc.src = "https://app.klipse.co/embed/video/" + url.searchParams.get('video_id') + '?t=' + time;
+
+                                            } else if (data.length == 3) {
+                                                var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                                var iframeSrc = document.getElementById('google-video-iframe');
+                                                iframeSrc.src = "https://app.klipse.co/embed/video/" + url.searchParams.get('video_id') + '?t=' + time;
+
+                                            }
+                                        }
+                                    } else {
+                                        for (var i = 0; i < data.length; i++) {
+                                            if (data.length == 2) {
+                                                var time = parseInt(data[0]) * 60 + parseInt(data[1]);
+                                                var iframeSrc = document.getElementById('google-video-iframe');
+                                                var splitUrlId = iframeSrc.src.split('/video/')[1];
+                                                splitUrlId = splitUrlId.split('/preview');
+                                                splitUrlId = splitUrlId[0];
+                                                iframeSrc.src = 'https://app.klipse.co/embed/video/' + splitUrlId + '/preview' + '?t=' + time;
+
+                                            } else if (data.length == 3) {
+                                                var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                                var splitUrlId = iframeSrc.src.split('/video/')[1];
+                                                splitUrlId = splitUrlId.split('/preview');
+                                                splitUrlId = splitUrlId[0];
+                                                iframeSrc.src = 'https://app.klipse.co/embed/video/' + splitUrlId + '/preview' + '?t=' + time;
+                                            }
+                                        }
+                                    }
+
+                                } //clickMe
+
+                                function saveCourseName(id, course_name) {
+                                    document.getElementById('alert_popup').innerHTML = ''
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: '/api/course/editCourseName',
+                                        data: {
+                                            id: id,
+                                            course_name: document.getElementById('edit_course_name').innerText
+                                        },
+                                        dataType: "json",
+                                        success: function(response) {
+                                            document.getElementById('alert_popup').innerHTML = ' <div class="alert alert-secondary" role="alert"> Course name edited Succesfully !</div>';
+                                            document.getElementById('editPage').click()
+                                        },
+                                        error: function() {}
+                                    })
+                                }
+
+                                function editCourseName() {
+                                    document.getElementById('edit_course_name').contentEditable = "true";
+                                    document.getElementById('edit_course_name').style.outline = "1px solid #553E91";
+                                    document.getElementById('save_edit').style.display = "block";
+                                    document.getElementById('edit_courseName').style.display = "none";
+
+                                }
+
+                                function timestampClick(data) {
+                                    document.getElementById('full_video').src = document.getElementById('full_video').src + '?enablejsapi&start=' + data + '&autolay=1';
+                                }
+
+                                function matchUrl(rootDomNode) {
+                                    var urlRegex = (/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g) || [];
+                                    return rootDomNode.replace(urlRegex, function(url) {
+                                        if (url != null) {
+                                            return '<a href="' + url + '" >' + url + '</a>';
+                                        } else {
+                                            return rootDomNode
+                                        }
+                                    })
+                                }
+
+                                function share_fb(url) {
+                                    var leftPosition, topPosition;
+                                    var width = "626";
+                                    var height = "436"
+                                        //Allow for borders.
+                                    leftPosition = (window.screen.width / 2) - ((width / 2) + 10);
+                                    //Allow for title and status bars.
+                                    topPosition = (window.screen.height / 2) - ((height / 2) + 50);
+                                    var windowFeatures = "status=no,height=" + height + ",width=" + width + ",resizable=yes,left=" + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY=" + topPosition + ",toolbar=no,menubar=no,scrollbars=no,location=no,directories=no";
+                                    window.open('https://www.facebook.com/sharer/sharer.php?u=' + url + '', 'sharer', windowFeatures)
+                                }
+
+                                function share_reddit(url) {
+                                    var leftPosition, topPosition;
+                                    var width = "626";
+                                    var height = "436"
+                                        //Allow for borders.
+                                    leftPosition = (window.screen.width / 2) - ((width / 2) + 10);
+                                    //Allow for title and status bars.
+                                    topPosition = (window.screen.height / 2) - ((height / 2) + 50);
+                                    var windowFeatures = "status=no,height=" + height + ",width=" + width + ",resizable=yes,left=" + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY=" + topPosition + ",toolbar=no,menubar=no,scrollbars=no,location=no,directories=no";
+                                    window.open('https://www.reddit.com/submit?url=' + url + '', 'sharer', windowFeatures)
+                                }
+
+                                function minimisePreview() {
+                                    var $videoWrap = $('.video-wrap');
+                                    var $video = $('.video');
+
+                                    if (document.getElementById('min_max_btns').style.display == "block") {
+                                        document.getElementById('min_max_btns').style.display = "none"
+                                    }
+                                    $videoWrap.height('auto');
+                                    $video.removeClass('stuck');
+                                    if (document.getElementById('fixedbutton').style.display == "none") {
+                                        document.getElementById('fixedbutton').style.display = "block";
+
+                                    }
+                                }
+
+                                function maximizePreview() {
+                                    document.getElementById('fixedbutton').style.display = "none";
+                                    $('html,body').animate({
+                                        scrollTop: document.body.scrollHeight
+                                    }, "slow");
+                                }
+
+                                (function($) {
+                                    var $window = $(window);
+                                    var $videoWrap = $('.video-wrap');
+                                    var $video = $('.video');
+                                    var videoHeight = $video.outerHeight();
+
+                                    $window.on('scroll', function() {
+                                        var windowScrollTop = $window.scrollTop();
+                                        var videoBottom = videoHeight + $videoWrap.offset().top;
+                                        // if (screen.width > 1026) {
+                                        if (document.getElementById('fixedbutton').style.display == "none") {
+                                            if (windowScrollTop > videoBottom) {
+                                                $videoWrap.height(videoHeight);
+                                                $video.addClass('stuck');
+                                                document.getElementById('min_max_btns').style.display = 'block'
+                                            } else {
+                                                $videoWrap.height('auto');
+                                                $video.removeClass('stuck');
+                                                document.getElementById('min_max_btns').style.display = 'none'
+
+                                            }
+                                        } else {
+                                            if (windowScrollTop > videoBottom) {
+                                                document.getElementById('fixedbutton').style.display = 'block'
+
+                                            } else {
+
+                                            }
+
+                                        }
+
+                                    });
+                                }(jQuery));
+                            </script>
+    </body>
+
+</html>

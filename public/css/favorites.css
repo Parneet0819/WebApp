@@ -1,0 +1,30 @@
+
+.test:after {
+    content: '\2807';
+    font-size: 50px;
+    color: #5e5e5e;
+    }
+ 
+    #img_preview{
+        border-radius:5px;
+    }
+    h3{
+        cursor: pointer;
+    }
+   
+    label{
+        cursor: pointer;
+    }
+    .view img__wrap{
+        cursor: pointer;
+    }
+
+    td{
+        padding:10px;
+    
+    }
+    a{
+
+        color: black;
+    }
+  

@@ -1,0 +1,20 @@
+#save_redorder_section{
+    bottom:20px;float: right;background-color: #563e91 !important;color: white;text-align:center;border: none;width: 130px;height: 40px;
+}
+#sec_video_title{
+    padding:20px;
+}
+#img_thumbnail{
+    width: 90px !important; height: 90px !important;
+}
+#section_card{
+    overflow:scroll;text-align: justify; height:450px;overflow-x: hidden; overflow-y: inherit;
+}
+h3{
+    text-align: center;
+    padding-top:10px;
+}
+#back_btn{
+    background-color: #563e91 !important;
+    width:20px;
+}

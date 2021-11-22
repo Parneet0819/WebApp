@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html>
+
+
+<head>
+
+    <!-- Open Graph / Facebook -->
+    <link rel="image_src" href="<%=image_preview%>">
+    <meta property="og:type" content="curated.tivul.com">
+    <meta property="og:url" content="https://curated.tivul.com/view-course?uid=<%=course.uid%>&course<%=course.course_name%>">
+    <meta property="og:title" content="<%=course.course_title%>">
+    <meta property="og:image" content="<%=image_preview%>">
+    <meta property="og:description" content="<%=course_data[0].video_title%>:<%=course_data[0].video_desc%>">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://curated.tivul.com/view-course?uid=<%=course.uid%>&course=<%=course.course_name%>">
+    <meta property="twitter:title" content="<%=course.course_title%>">
+    <meta property="twitter:image" content="<%=image_preview%>">
+    <meta property="twitter:description" content="<%=course_data[0].video_title%>:<%=course_data[0].video_desc%>">
+
+
+
+</head>
+
+<body>test
+    <div id="fb-root"></div>
+    <script>
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+</body>
+
+</html>

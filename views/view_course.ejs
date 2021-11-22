@@ -1,0 +1,1686 @@
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- <base href="/">  -->
+       <!-- Primary Meta Tags -->
+       <meta name="title" content="<%=data.course_title%>">
+       <meta name="description" content="<%=meta_video_desc%>">
+       
+       <!-- Open Graph / Facebook -->
+       <meta property="og:type" content="curated.tivul.com">
+       <meta property="og:url" content="https://curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>">
+       <meta property="og:title" content="<%=data.course_title%>">
+       <meta property="og:description" content="<%=meta_video_title%>:<%=meta_video_desc%>'">
+       <meta property="og:image" content="<%=data.image_preview%>">
+       
+       <!-- Twitter -->
+       <meta property="twitter:card" content="summary_large_image">
+       <meta property="twitter:url" content="https://curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>">
+       <meta property="twitter:title" content="<%=data.course_title%>">
+
+       <meta property="twitter:description" content="<%=meta_video_title%>:<%=meta_video_desc%>">
+       <meta property="twitter:image" content="<%=data.image_preview%>">
+       
+    
+       <link rel='stylesheet' id='compiled.css-css' href='/css/compiled-4.5.7.min.css?ver=4.5.7' type='text/css' media='all' />
+       <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script async src="https://www.youtube.com/iframe_api"></script>
+
+      <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen, projection"/>
+      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+        <style>
+         @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+         @import url(https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.4.1/css/mdb.min.css);
+         /* Required for full background image */
+         body
+         {
+         min-height: 100vh;
+         width:100% !important;
+         /* height: 100%; */
+         }
+         .navbar .dropdown-menu a:hover{
+            background-color: blueviolet !important;
+            
+         }
+         header{
+         height: 15%;
+         }
+         .img__description {
+         position: absolute;
+         top: 0;
+         bottom: 0;
+         left: 0;
+         right: 0;
+         background: rgba(29, 106, 154, 0.72);
+         color: #fff;
+         visibility: hidden;
+         opacity: 0;
+         /* transition effect. not necessary */
+         transition: opacity .2s, visibility .2s;
+         }
+         .img__wrap:hover .img__description {
+         visibility: visible;
+         opacity: 1;
+         }
+       
+         .navbar , .page-footer {
+         background-color: #563e91 !important;
+         }
+         .nav-link.active{
+         border-bottom: 4px solid !important;
+         }
+         .nav-tabs{
+         background-color: #563e91;
+         }
+         #tabs .nav-tabs .nav-link {
+         border: 1px solid transparent;
+         border-top-left-radius: .25rem;
+         border-top-right-radius: .25rem;
+         color: #eee;
+         font-size: 20px;
+         }
+         a .nav-link active{
+         border-bottom: 1px solid; 
+         }
+         .tab-content{
+         padding-top: 0;
+         }
+         .md-form label{
+         margin-top: 10px;
+         }
+         #parent > button {
+         opacity: 0.3;
+         position:relative;
+         float: right;
+         /* bottom:35px; */
+         transition: 0.5s;
+         }
+         #parent > button {
+         opacity: 1;
+         } 
+         #minimise_btn {
+         display: none;
+         position: fixed;
+         bottom: 27%;
+         right: 0px;
+         /* width:40px; */
+         height: 50px;
+         z-index: 99;
+         font-size: 18px;
+         border: none;
+         outline: none;
+         border-radius: 5px;
+         background-color: black;
+         color: white;
+         cursor: pointer;
+         padding: 15px;
+         border-radius: 4px;
+         }
+         #full_screen_btn{
+         display: none;
+         position: fixed;
+         bottom:27%;
+         right: 40px;
+         border-radius: 5px;
+         /* width:40px; */
+         height: 50px;
+         z-index: 99;
+         font-size: 18px;
+         border: none;
+         outline: none;
+         background-color: black;
+         color: white;
+         cursor: pointer;
+         padding: 15px;
+         border-radius: 4px;
+         }
+         #maximize_btn{
+         display: none;
+         position: fixed;
+         bottom: 30%;
+         right: 0px;
+         border-radius: 5px;
+         /* width:40px; */
+         height: 50px;
+         z-index: 99;
+         font-size: 18px;
+         border: none;
+         outline: none;
+         background-color: black;
+         color: white;
+         cursor: pointer;
+         padding: 15px;
+         border-radius: 4px;
+         } 
+         #video-placeholder {
+         border: 10px solid #212223;
+         transition: 0.5s;
+         }
+         #video-placeholder.in { animation: ac 0.5s; }
+
+         #video-placeholder.out {
+         position: fixed;
+         /* bottom: 0; */
+         top:73%;
+         right: 0;
+         width:   14.375rem;
+         height: 12.6875rem;
+         z-index: 999;
+         animation: an 0.5s;
+         } 
+         /* #video-placeholder.in { animation: ac 2s; } 
+
+         #video-placeholder.out {
+            position: fixed;
+            top:55%;
+            right: 20;
+            border-radius: 5px;
+            border-color: white;
+            width:   14.375rem;
+            height: 12.6875rem;
+            z-index: 1010;
+         }
+         #minimise_btn.in { animation: ac 2s; } 
+
+         #minimise_btn.out {
+            position: fixed;
+            top:52%;
+            border-color: white;
+         } */
+          .row {
+            display: -ms-flexbox; /* IE10 */
+            display: flex;
+            -ms-flex-wrap: wrap; /* IE10 */
+            flex-wrap: wrap;
+            padding: 0 4px;
+          }
+
+         /* Create four equal columns that sits next to each other */
+         .column {
+            -ms-flex: 10%; /* IE10 */
+            /* flex: 10%; */
+            max-width: 40%;
+            padding: 0 10px;
+         }
+
+         .column img {
+            margin-top: 8px;
+            vertical-align: middle;
+            /* width: 100px; */
+         }
+
+      </style>
+      <script>
+
+         $(function(){
+
+         $("ul.dropdown li").hover(function(){
+
+            $(this).addClass("hover");
+            $('ul:first',this).css('visibility', 'visible');
+
+         }, function(){
+
+            $(this).removeClass("hover");
+            $('ul:first',this).css('visibility', 'hidden');
+
+         });
+
+         $("ul.dropdown li ul li:has(ul)").find("a:first").append(" &raquo; ");
+
+         });
+
+</script>
+      <script>
+         var url = new URL(window.location.href);
+
+          if(url.searchParams.get('video_id')){
+            document.title = 'Curated:<%=meta_video_title%>-<%=course_title%>';
+
+         }
+         else if(!url.searchParams.get('video_id')){
+            document.title = 'Curated:<%=course_title%>(<%=count%>videos)';
+         
+         }
+            var url_address =  window.location.href
+
+          //document ready function
+        $(document).ready(function(){
+         var url = new URL(window.location.href);
+
+         $('#minimise_btn').css('display','none');
+         $('#full_screen_btn').css('display','none');
+
+
+         $('#timestamp_hover').mouseover(function () {
+                $("#timestamp_hover").click()
+               $('#time_titles').css('display' , 'block')
+
+   
+         });
+         $('#timestampPopup').mouseout(function () {
+          $('#time_titles').css('display' , 'none')
+          
+      });
+
+            $( "#loginForm" ).submit(function(event) {
+                event.preventDefault();                
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    data: $('#loginForm').serialize(),
+                    dataType: "json",
+                    success: function(response){
+                    $('#loginForm')[0].reset();
+                   
+                    if (response.success == true) {
+                        if (typeof(Storage) !== "undefined") {
+                        localStorage.setItem('userId',response.user);
+                     } 
+                        document.getElementById("dashboard").click();
+                     };
+                    },
+                    error: function() {
+                    } 
+                })
+
+            });// login form request
+
+            $( "#signupForm" ).submit(function(event) {
+                event.preventDefault();                
+                $.ajax({
+                    type: 'POST',
+                    url: '/signup',
+                    data: $('#signupForm').serialize(),
+                    dataType: "json",
+                    success: function(response){
+                    $('#signupForm')[0].reset();
+                   
+                    if (response.success == true) {
+                        document.getElementById("dashboard").click();
+                    };
+                    },
+                    error: function() {
+                    } 
+                })
+
+            });// login form request
+         
+            var url =  window.location.href
+
+            var id = url.substring(url.lastIndexOf('=') + 1);
+       
+            
+         });//document ready 
+
+    //This code loads the IFrame Player API code asynchronously.
+    var tag = document.createElement('script');
+
+   tag.src = "https://www.youtube.com/iframe_api";
+   var firstScriptTag = document.getElementsByTagName('script')[0];
+   firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+   var player;
+   var player1; 
+
+   var url_address =  window.location.href
+
+  
+   var url_data = new URL(window.location.href);
+
+   function onYouTubeIframeAPIReady() {  
+
+      if('<%=section_boolean%>' == 1){        
+         player = new YT.Player('video-placeholder', {
+         videoId: '<%=video[0]%>',
+         events: {
+            'onReady': onPlayerReady
+         },
+      });
+   }
+   else if('<%=section_boolean%>' == 0){
+      player = new YT.Player('video-placeholder', {
+      videoId: '<%=first_section.video_id%>',
+      events: {
+         'onReady': onPlayerReady
+      },
+      });
+   }
+      player1 = new YT.Player('video-placeholder1', {
+         videoId: '<%=video[0]%>',
+            events: {
+               'onReady': onPlayerReady,
+            }
+      });
+   }
+
+
+         //The API will call this function when the video player is ready.
+         function onPlayerReady(event) {
+           var embedCode = event.target.getVideoEmbedCode();           
+            if (document.getElementById('video-placeholder')) {
+               document.getElementById('video-placeholder').innerHTML = embedCode;
+            }
+               var url = new URL(window.location.href);
+
+               if (url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('uid') && url.searchParams.get('course') ||url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('uid') || url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('course') || url.searchParams.get('timestamp') && url.searchParams.get('video_id') ) {
+                              
+                              const param_timestamp = url.searchParams.get('timestamp'); 
+                              var data = param_timestamp.split(':')
+                              const v_id = url.searchParams.get('video_id')
+                              if(data.length == 2){
+                                 var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                                 var videoframe = document.getElementById('video-placeholder');
+                                 videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&start='+time+'&autoplay=1&loop=1&enablejsapi=1&controls=1'; 
+                                           
+                              }
+                              else if(data.length == 3){
+                                 var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                 var videoframe = document.getElementById('video-placeholder');
+                              videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&start='+time+'&loop=1&enablejsapi=1&controls=1'; 
+
+                              }
+                           
+                             } 
+                             else if ( url.searchParams.get('video_id') && url.searchParams.get('uid') && url.searchParams.get('course') ||  url.searchParams.get('video_id') && url.searchParams.get('uid') ||  url.searchParams.get('video_id') && url.searchParams.get('course') ) {                          
+                                const v_id = url.searchParams.get('video_id')
+                                var videoframe = document.getElementById('video-placeholder');
+                                videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&autoplay=1&loop=1&controls=1'; 
+  
+                             }
+                             else if (url.searchParams.get('uid') && url.searchParams.get('timestamp') ||url.searchParams.get('course') && url.searchParams.get('timestamp') ){
+                             
+                                const param_timestamp = url.searchParams.get('timestamp'); 
+                                var data = param_timestamp.split(':')
+                                   var v_id = document.getElementById('video-placeholder').src  
+                                   regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,
+                                   videoId = v_id.match(regExp);
+
+                                   if (videoId && videoId[1].length >0) {
+                                      if(data.length == 2){
+                                   var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                                   var videoframe = document.getElementById('video-placeholder');
+                                   videoframe.src =  'https://www.youtube.com/embed/'+videoId[1]+'?rel=0;&start='+time+'&autoplay=1&loop=1&controls=1'; 
+                                            
+                                }
+                                else if(data.length == 3){
+                                   var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                   var videoframe = document.getElementById('video-placeholder');
+                                videoframe.src =  'https://www.youtube.com/embed/'+videoId[1]+'?rel=0;&start='+time+'&loop=1&controls=1'; 
+
+                                }
+                             }
+                             
+ 
+                       }
+
+
+                     } 
+    
+         function matchUrl(rootDomNode) {
+      var urlRegex =  (/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/g) || [];
+      return rootDomNode.replace(urlRegex, function(url) {
+         if(url != null ){
+            return '<a href="' + url + '" >' + url + '</a>';
+
+         }
+         else{
+            return rootDomNode
+         }
+         })
+      }
+
+      function matchTimestamp(data) {
+      var urlRegex =  /((([0-9]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])|([0-5]?[0-9]):([0-5]?[0-9])))/g;
+      return data.replace(urlRegex, function(time) {
+         if(time!= null ){
+            return '<a  onclick = "clickMe(\'' + time + '\' );" style ="color:blue;">' + time + '</a>';
+
+         }
+         else{
+            return data
+         }
+         })
+      }
+       var status = "more";
+
+        var video_link_id = []
+
+        var desc_Arr = []
+
+        //toggle description text more or less
+        function toggleText(data){
+
+           var x =  matchUrl(data)
+           var y = matchTimestamp(x)
+           desc_Arr = []
+            if (status == "less") {
+
+                descData(data)
+                document.getElementById("toggleButton").innerText = "See Less";
+                
+                 status = "more";
+         
+            } else if (status == "more") {
+             
+                document.getElementById("desc").innerHTML = y.substr(0, 200)+'...';
+            
+                document.getElementById("toggleButton").innerText = "See More";
+                status = "less"
+            }
+
+            desc_Arr.push(data)
+
+        }//toggleText
+
+        function descClick(){
+         toggleText(desc_Arr[0])
+
+        }
+
+        function descData(data){
+
+         var x =  matchUrl(data)
+         var y = matchTimestamp(x)
+         document.getElementById("desc").innerHTML = y
+
+        }
+
+      
+        //video timestamp click (for description content)
+        function clickMe(data){
+            
+            var myvideo = document.getElementById('video');
+            var data = data.split(':')
+            
+            for (var i = 0; i<data.length; i++){
+                if(data.length == 2){
+                var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                player.seekTo(parseInt(time));
+                }
+                else if(data.length == 3){
+                    var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                    player.seekTo(parseInt(time)); 
+                }
+            }
+            player.playVideo();
+         
+        }//clickMe
+        
+        var boool = '<%=section_boolean%>'
+        //timestamp click for videos 
+        function timeStampClick(data){
+         console.log("===data is==:", data,player)
+          
+             // if(player.f != null){
+
+
+              // if (url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('list')) {
+              //   player.playVideo()
+              // }
+             var data = data.split(':')
+            for (var i = 0; i<data.length; i++){
+                if(data.length == 2){
+                var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                  player.seekTo(time,true);
+
+                
+                }
+                else if(data.length == 3){
+                    var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+
+                  player.seekTo(time,true);
+           
+                }
+            // }
+            // if(player.stopVideo()){
+            //    player.playVideo();
+            // }
+
+           // playVideo()
+          }
+                
+
+        }//timeStampClick
+
+            //timestamp click for videos 
+            function timeStampClickPopup(data){
+               player.stopVideo();
+
+         var data = data.split(':')
+         for (var i = 0; i<data.length; i++){
+             if(data.length == 2){
+             var time = parseInt(data[0]) * 60 + parseInt(data[1])
+             player1.seekTo(parseInt(time));
+             }
+             else if(data.length == 3){
+                 var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                 player1.seekTo(parseInt(time)); 
+
+             }
+
+         }
+         
+         player1.playVideo();
+       
+       }//timeStampClick
+
+        function expandAll(){
+            $('.collapse').toggle();
+          
+         }
+
+         //preview data
+         function getSectionPreview (id){
+            video_link_id.push(id)
+            var video_id = document.getElementById('video-placeholder');
+            var video_title = document.getElementById('video_title');
+            var timestamp_data = document.getElementById('timestamp_table');
+            $.ajax({
+               type: 'POST',
+               url: '/api/course/getCourseByCId',
+               data: {id:id},
+               dataType: "json",
+               success: function(response){
+                      if (response.success == true) {
+                        response.data.forEach( function (element, index ) {
+                           video_id.src  = ''
+                           // player.loadVideoById(element.video_id)
+                           video_id.src =  'https://www.youtube.com/embed/'+element.video_id+'?rel=0;&autoplay=1&loop=1&enablejsapi=1&controls=1'; 
+                           // player.stopVideo()
+                           //  player.playVideo()
+                           if(url.searchParams.get('video_id')){
+                              document.title = 'Curated:'+element.video_title+'-<%=meta_video_title%>';
+
+                           }
+                           window.history.replaceState(url_address, "Title", "https://curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>&video_id="+element.video_id );
+                                 
+                           video_title.innerHTML = element.video_title;
+
+                           toggleText(element.video_description)
+
+
+                           if(element.video_timestamp.length > 0){
+                              document.getElementById('show_timestamps').style.display = "block"
+                              timestamp_data.innerHTML = ''
+
+         
+                              element.video_timestamp.forEach(data => {
+                              var regExp = /((([0-9]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])|([0-5]?[0-9]):([0-5]?[0-9])))/g
+                              var time = data.match(regExp)
+                              var letter_regex =  /[a-zA-Z](.*)[a-zA-Z\?/!@]/g;
+                              var match_elem =  data.match(letter_regex)
+         
+                              timestamp_data.innerHTML +='<table id = "timestamp_table1" style="padding-left: 10px;">'+
+                              '<tr>'+
+                              '<td>'+                
+                              '<a style="color: blue;"  onclick = "timeStampClick(\'' + time + '\' )">'+time+'</a>&nbsp;'+match_elem+''+
+                              '</td>'+                     
+                              '</tr>'+
+                              '</table>';
+                           })
+                           }
+                           if(element.video_timestamp.length == 0){
+                              document.getElementById('show_timestamps').style.display = "none"
+                           }
+                          
+                        });
+                     
+                        
+                      };
+                   },
+                   error: function() {
+                   }
+                })
+                video_id.src = ''
+                console.log("====src isssss====:", video_id.src)
+
+         }
+     
+         var i_index = 1;
+
+        function getSectionBoolean(number){
+         var url =  window.location.href
+            var id = url.substring(url.lastIndexOf('=') + 1);
+            var section_data = document.getElementById('course_sections_data');
+            var courses_data = document.getElementById('courses_list');
+             var url = new URL(window.location.href);
+
+
+            if(number == 1){
+
+                courses_data.style.display = "block";
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/course-section/getCourses',
+                    data: {id:'<%=data._id%>'},
+                    dataType: "json",
+                    success: function(response){
+                        courses_data.innerHTML = '';
+         
+                        if (response.success == true) {
+                           toggleText(response.data.course_details[0].video_description )
+
+
+                            for (let index = 0; index < response.data.course_details.length; index++) {
+                                const element = response.data.course_details[index];
+                                if(url.searchParams.get('video_id')){
+                                    const param_video = url.searchParams.get('video_id');
+                                    if(element.video_id == param_video ){
+                                       toggleText(element.video_description )
+
+                                    }
+                                    }
+                                     console.log("====",player)
+                                     if(player == undefined || player.f == null){
+                                  console.log("===nulll")
+                                    player = new YT.Player('video-placeholder', {
+                                      videoId: response.data.course_details[0].video_id,
+                                       playerVars: {autoplay:1, loop:1}
+                                  
+                                   });
+                           
+                                   if (url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('uid') && url.searchParams.get('course') ||url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('uid') || url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('course') || url.searchParams.get('timestamp') && url.searchParams.get('video_id') ) {
+                              
+                              const param_timestamp = url.searchParams.get('timestamp'); 
+                              var data = param_timestamp.split(':')
+                              const v_id = url.searchParams.get('video_id')
+                              if(data.length == 2){
+                                 var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                                 var videoframe = document.getElementById('video-placeholder');
+                                 console.log("===videoframe",videoframe)
+                                 videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&start='+time+'&autoplay=1&loop=1&enablejsapi=1&controls=1'; 
+                                           
+                              }
+                              else if(data.length == 3){
+                                 var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                 var videoframe = document.getElementById('video-placeholder');
+                              videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&start='+time+'&loop=1&enablejsapi=1&controls=1'; 
+
+                              }
+                           
+                             } 
+                             else if ( url.searchParams.get('video_id') && url.searchParams.get('uid') && url.searchParams.get('course') ||  url.searchParams.get('video_id') && url.searchParams.get('uid') ||  url.searchParams.get('video_id') && url.searchParams.get('course') ) {
+                                console.log("====videoid----lis---")
+                          
+                                const v_id = url.searchParams.get('video_id')
+                                var videoframe = document.getElementById('video-placeholder');
+                                console.log("===videoframe",videoframe)
+                                videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&autoplay=1&loop=1&controls=1'; 
+  
+                             }
+                             else if (url.searchParams.get('uid') && url.searchParams.get('timestamp') ||url.searchParams.get('course') && url.searchParams.get('timestamp') ){
+                                console.log("=====list, timestamp===")
+                             
+                                const param_timestamp = url.searchParams.get('timestamp'); 
+                                var data = param_timestamp.split(':')
+                                   var v_id = document.getElementById('video-placeholder').src  
+                                   console.log("===vi_id src is===:", v_id);   
+                                   regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,
+                                   videoId = v_id.match(regExp);
+
+                                   if (videoId && videoId[1].length >0) {
+                                      console.log("----",videoId[1]);
+                                      if(data.length == 2){
+                                   var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                                   var videoframe = document.getElementById('video-placeholder');
+                                   console.log("===videoframe",videoframe)
+                                   videoframe.src =  'https://www.youtube.com/embed/'+videoId[1]+'?rel=0;&start='+time+'&autoplay=1&loop=1&controls=1'; 
+                                            
+                                }
+                                else if(data.length == 3){
+                                   var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                   var videoframe = document.getElementById('video-placeholder');
+                                videoframe.src =  'https://www.youtube.com/embed/'+videoId[1]+'?rel=0;&start='+time+'&loop=1&controls=1'; 
+
+                                }
+                             }
+                             
+ 
+                       }
+
+
+                     } 
+                                    courses_data.innerHTML += 
+                                '<table class="table" id = "myTable" style = "background-color:#FAFAFA" >'+
+                                    '<tbody class="row_position" >'+
+                                        '<tr >'+ 
+                                            '<td>'+
+                                              '<div class = "row"> '+
+                                                '<div class = "column">'+
+                                                   '<a onclick = "getSectionPreview(\'' + response.data.course_details[index]._id + '\')" ><img src="'+response.data.course_details[index].video_thumbnail+'"   class="rounded" style="width: 100px !important; height: 100px !important;" >'+
+                                                  '</a>'+
+                                                   
+                                                   '</div>'+
+                                                '<div class = "column">'+
+                                                   '<a onclick = "getSectionPreview(\'' + response.data.course_details[index]._id + '\')" style="text-decoration: none;">'+
+                                                            '<h6> '+response.data.course_details[index].video_title+' </h6>'+
+                                                        '</a>'+
+                                                        '<a id ="video_link" onclick = "getSectionPreview(\'' + response.data.course_details[index]._id + '\')"  style="text-decoration: none; color:grey" >'+
+                                                            '<h6  >'+response.data.course_details[index].video_description.substr(0,40)+'...</h6>'+
+                                                        '</a>'+
+                                                   '</div>'+
+                                                '</div>' 
+                                            '</td>'+
+                                        '</tr>'+
+                                    '</tbody>'+
+                                '</table>';
+                                i_index = i_index + 1;  
+                              //   if(index == 0){
+                              //    document.getElementById("desc").innerHTML = response.data.course_details[0].video_description.substr(0, 300);
+
+                              //   }
+                       
+                            }
+                           
+
+                        }
+                         
+                    }
+
+                })//ajax
+
+
+            }//if
+
+            else{
+                courses_data.style.display = 'none';
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/course-section/getSectionWithCId',
+                    data: {complete_course_id:'<%=data._id%>'},
+                    dataType: "json",
+                    success: function(response){
+                        section_data.innerHTML = '';
+                        var kk = 2; 
+
+                        if (response.success == true) {
+                           toggleText(   response.data[0].course_section[0].course_details[0].video_description )
+
+                           response.data.forEach(function(response1,index) {  
+                                
+                             response1.course_section.forEach(function(courses ,j) {  
+                                section_data.innerHTML += '<div  id="accordion'+j+'" role="tablist" aria-multiselectable="true"><div class="card">'+
+                                '<div class="card-header"role="tab"  id="headingOne'+kk+'">'+
+                                    '<h5 class="mb-0">'+
+                                       '<button class="btn btn-link" data-toggle="collapse" onclick = "toggleSection(\'collapseOne'+j+ '\')" data-target="#collapseOne'+j+'" aria-expanded="true" aria-controls="collapseOne'+j+'">'+
+                                        ''+ courses.section_name+'</button>'+
+                                    '</h5>'+
+                                '</div>';
+
+                                 if(player == undefined || player.f == null){
+                                    player = new YT.Player('video-placeholder', {
+                                      videoId: courses.course_details[0].video_id,
+                                       playerVars: {autoplay:1, loop:1}
+                                  
+                                   });
+                           
+                                             if (url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('uid') && url.searchParams.get('course') ||url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('uid') || url.searchParams.get('timestamp') && url.searchParams.get('video_id') && url.searchParams.get('course') || url.searchParams.get('timestamp') && url.searchParams.get('video_id') ) {
+                                          
+                                          const param_timestamp = url.searchParams.get('timestamp'); 
+                                          var data = param_timestamp.split(':')
+                                          const v_id = url.searchParams.get('video_id')
+                                          if(data.length == 2){
+                                             var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                                             var videoframe = document.getElementById('video-placeholder');
+                                             videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&start='+time+'&autoplay=1&loop=1&enablejsapi=1&controls=1'; 
+                                                      
+                                          }
+                                          else if(data.length == 3){
+                                             var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                             var videoframe = document.getElementById('video-placeholder');
+                                          videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&start='+time+'&loop=1&enablejsapi=1&controls=1'; 
+
+                                          }
+                                       
+                                       } 
+                                       else if ( url.searchParams.get('video_id') && url.searchParams.get('uid') && url.searchParams.get('course') ||  url.searchParams.get('video_id') && url.searchParams.get('uid') ||  url.searchParams.get('video_id') && url.searchParams.get('course') ) {
+                                          console.log("====videoid----lis---")
+                                    
+                                          const v_id = url.searchParams.get('video_id')
+                                          var videoframe = document.getElementById('video-placeholder');
+                                          console.log("===videoframe",videoframe)
+                                          videoframe.src =  'https://www.youtube.com/embed/'+v_id+'?rel=0;&autoplay=1&loop=1&controls=1'; 
+            
+                                       }
+                                       else if (url.searchParams.get('uid') && url.searchParams.get('timestamp') ||url.searchParams.get('course') && url.searchParams.get('timestamp') ){
+                                          console.log("=====list, timestamp===")
+                                       
+                                          const param_timestamp = url.searchParams.get('timestamp'); 
+                                          var data = param_timestamp.split(':')
+                                             var v_id = document.getElementById('video-placeholder').src  
+                                             console.log("===vi_id src is===:", v_id);   
+                                             regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/,
+                                             videoId = v_id.match(regExp);
+
+                                             if (videoId && videoId[1].length >0) {
+                                                console.log("----",videoId[1]);
+                                                if(data.length == 2){
+                                             var time = parseInt(data[0]) * 60 + parseInt(data[1])
+                                             var videoframe = document.getElementById('video-placeholder');
+                                             console.log("===videoframe",videoframe)
+                                             videoframe.src =  'https://www.youtube.com/embed/'+videoId[1]+'?rel=0;&start='+time+'&autoplay=1&loop=1&controls=1'; 
+                                                      
+                                          }
+                                          else if(data.length == 3){
+                                             var time = parseInt(data[0]) * 3600 + parseInt(data[1] * 60 + parseInt(data[2]))
+                                             var videoframe = document.getElementById('video-placeholder');
+                                          videoframe.src =  'https://www.youtube.com/embed/'+videoId[1]+'?rel=0;&start='+time+'&loop=1&controls=1'; 
+
+                                          }
+                                       }
+            
+                                    }
+
+                                 }
+                                courses.course_details.forEach(function(courses_data,i) {   
+                                 if(url.searchParams.get('video_id')){
+                                    const param_video = url.searchParams.get('video_id');
+                                    if(courses_data.video_id == param_video ){
+                                       toggleText(courses_data.video_description );
+                                       document.getElementById('video_title').innerHTML = ''
+                                       document.getElementById('video_title').innerHTML = courses_data.video_title;
+
+                                    }
+                                    }
+                                    // if(i == 0)  {
+                                    //    document.getElementById('video_title').innerHTML = ''
+                                    // }
+                                   section_data.innerHTML +='<div id="collapseOne'+j+'" class="collapse show" aria-labelledby="headingOne'+kk+'" data-parent="#accordion'+j+'">'+
+                                    '<div class="card-body" >'+
+                                       '<div class = "row"><div class = "column">'+
+                                          '<a onclick = "getSectionPreview(\'' +courses_data.course_id+ '\')">'+
+                                        '<img class="rounded" src = "'+courses_data.video_thumbnail+'"  style = "width:100 ! important;height:100 ! important;"></a> '+
+                                          
+                                        '</div>'+
+                                             '<div class = "column" style="padding-top:5px;"> '+
+                                                '<a onclick = "getSectionPreview(\'' + courses_data.course_id + '\')" style="text-decoration: none;">'+
+                                                 '<h6> '+courses_data.video_title+' </h6>'+
+                                                  '</a>'+
+                                                  '<a id ="video_link" onclick = "getSectionPreview(\'' + courses_data.course_id  + '\')"  style="text-decoration: none; color:grey" >'+
+                                                    '<h6  >'+courses_data.video_description.substr(0,40)+'...</h6>'+
+                                                        '</a>'+
+                                                '</div>'+
+                                        '</div>'+
+                                  
+                                '</div>'+
+                                '</div>';
+                                kk = kk + 1;
+                               })
+                            }) 
+
+                            })//for 
+
+                        }//if
+
+                    }//success
+
+                })//ajax
+
+            }//else
+        }
+         
+       
+       function showTimeStamps(){
+        document.getElementById('time_titles').style.display = 'block';
+      
+      }
+      function toggleSection (id){
+             $('#'+id+'.collapse').toggle();
+        }
+
+        function fullScreenPreview(){
+         if(video_link_id.length > 0){
+            var id = video_link_id[0]
+            var timestamp_tbl = document.getElementById('timestamp_table_preview');
+            $.ajax({
+               type: 'POST',
+               url: '/api/course/getCourseByCId',
+               data: {id:id.toString()},
+               dataType: "json",
+               success: function(response){
+                      if (response.success == true) {
+                        response.data.forEach( function (element, index ) {
+                           // var id = element.video_embed_link.substring(element.video_embed_link.lastIndexOf('/') + 1);
+                         
+                           // player1.loadVideoById(element.video_id)
+                           // player1.stopVideo();
+
+                           var url = new URL(window.location.href);
+
+                           if (url.searchParams.get('video_id') ){
+                              const videoId = url.searchParams.get('video_id'); 
+                              var video_iframe_url = document.getElementById('video-placeholder1');
+                              video_iframe_url.src =  'https://www.youtube.com/embed/'+videoId+'?rel=0;&autoplay=1&loop=1&enablejsapi=1&controls=1'; 
+                              console.log("====", video_iframe_url.src )
+                           }
+                          
+                           var video_iframeUrl = document.getElementById('video-placeholder1');
+                           video_iframeUrl.src =  'https://www.youtube.com/embed/'+element.video_id+'?rel=0;&autoplay=1&loop=1&enablejsapi=1&controls=1'; 
+
+                           if(element.video_timestamp.length > 0){
+
+                              timestamp_tbl.innerHTML = ''
+         
+                              element.video_timestamp.forEach(data => {
+                              var regExp = /((([0-9]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])|([0-5]?[0-9]):([0-5]?[0-9])))/g
+                              var time = data.match(regExp)
+                              var letter_regex =  /[a-zA-Z](.*)[a-zA-Z\?/!@]/g;
+                              var match_elem =  data.match(letter_regex)
+         
+                              timestamp_tbl.innerHTML +='<table id = "timestamp_table2" style="padding-left: 10px;">'+
+                              '<tr>'+
+                                 '<td style = "padding:5px;color:black;font-size:16px;">'+                
+                              '<a style="color: blue;"  onclick = "timeStampClickPopup(\'' + time + '\' )">'+time+'</a>&nbsp;'+match_elem+''+
+                              '</td>'+                     
+                              '</tr>'+
+                              '</table>';
+                           })
+                           }
+                           if(element.video_timestamp.length == 0){
+                              timestamp_tbl.innerHTML = 'No time stamp available!'
+                            
+                           }
+
+                        })
+                     }
+                  },
+                  error: function() {
+                 }
+               })
+            }
+  
+            // player.stopVideo();
+
+       
+             }
+        
+
+      function closeVideoPreview(){
+         video_link_id = []
+         // player1.stopVideo();
+         window.location.reload()
+      }
+
+      function getCategoryData(c_id,name){
+            var carousel = document.getElementById('searchCarousel');
+            document.getElementById('search_categories').style.display = 'block';
+            document.getElementById('main_data').style.display = 'none';
+            document.getElementById('section_tabs').style.display = 'none';
+
+            $.ajax({
+            type: 'POST',
+            url: 'api/course/getCourseMetaCategory',
+            data: {course_meta_category:c_id},
+            dataType: "json",
+            success: function(response){
+               console.log("===resp", response)
+               carousel.innerHTML = ''
+               document.getElementById('course_tag').innerHTML = ''
+               response.data.forEach(element => {
+                  element.course_details.forEach(function (courses,i ){
+                     if(i == 0) { 
+                  if (response.success == true) {
+                     document.getElementById('course_tag').innerHTML += '<h4 style = "padding-top:30px;padding-left:40px;">'+name+'</h4>';
+                     carousel.innerHTML += 
+                     '<div class="carousel-item active">'+
+                        '<div class="col-md-4" style = "float:left;">'+
+                        '<div class="card mb-3">'+
+                              '<img class="card-img-top"src="'+ courses.video_thumbnail+'" alt="Card image cap">'+
+                              '<div class="card-body">'+
+                              '<h4 class="card-title">'+element.course_title+'</h4>'+
+                              // '<p class="card-text">'+courses.video_embed_link+'</p>'+
+                              
+                              '<a class="btn btn-primary" href = "/view_course?uid='+element.uid+'&course='+ element.course_name+'">Details</a>'+
+                           '</div>'+
+                           '</div>'+
+                        '</div>'+
+                     '</div>';
+               
+                  }
+               }
+               });
+               });
+            },
+            error: function() {
+            }
+         })
+
+      }
+
+
+      function getCategoryResult(c_id,sub_id,name){
+            var carousel = document.getElementById('searchCarousel');
+            document.getElementById('search_categories').style.display = 'block';
+            document.getElementById('main_data').style.display = 'none';
+            document.getElementById('section_tabs').style.display = 'none';
+
+         $.ajax({
+            type: 'POST',
+            url: 'api/course/getCourseCategory',
+            data: {course_meta_category:c_id ,course_sub_category:sub_id},
+            dataType: "json",
+            success: function(response){
+               console.log("===resp", response)
+               carousel.innerHTML = ''
+               document.getElementById('course_tag').innerHTML = ''
+               response.data.forEach(element => {
+                  element.course_details.forEach(function (courses,i ){
+                     if(i == 0) { 
+                  if (response.success == true) {
+                     document.getElementById('course_tag').innerHTML += '<h4 style = "padding-top:30px;padding-left:40px;">'+name+'</h4>';
+                     carousel.innerHTML += 
+                     '<div class="carousel-item active">'+
+                        '<div class="col-md-4" style = "float:left;">'+
+                        '<div class="card mb-3">'+
+                              '<img class="card-img-top"src="'+ courses.video_thumbnail+'" alt="Card image cap">'+
+                              '<div class="card-body">'+
+                              '<h4 class="card-title">'+element.course_title+'</h4>'+
+                              // '<p class="card-text">'+courses.video_embed_link+'</p>'+
+                              '<a class="btn btn-primary" href = "/view_course?uid='+element.uid+'&course='+ element.course_name+'">Details</a>'+
+                           '</div>'+
+                           '</div>'+
+                        '</div>'+
+                     '</div>';
+                  }
+               }
+               });
+               });
+            },
+            error: function() {
+            }
+         })
+
+      }
+
+      function minimiseBtnClick(){
+           $('#minimise_video_preview').css('display', 'none');
+           $('#video-placeholder.out').css('display', 'none');
+            $('#maximize_btn').css('display', 'block');
+
+
+        }
+
+        function showMaxmizePreview(){
+         $('#maximize_btn').css('display', 'none');
+         $('#video-placeholder.out').css('display', 'block');
+         $('#video-placeholder.in').css('display', 'block');
+         $('#video-placeholder').css('display', 'block');
+         $('#minimise_video_preview').css('display', 'block');
+         $('#minimise_btn').css('display', 'block');
+
+
+        }
+      function descToggle(data){
+      }
+    
+
+
+  </script>
+   </head>
+   <!------ Include the above in your HEAD tag ---------->
+   <body  onload ="getSectionBoolean('<%= section_boolean%>'); " >
+      <!-- Load Facebook SDK for JavaScript -->
+      <div id="fb-root"></div>
+      <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+       
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg navbar-dark primary-color">
+       <a href = "/"><i class="fa fa-arrow-left" aria-hidden="true" style = "color:white;"></i></a>
+       <div class="container">
+          <!-- Navbar brand -->
+          <a class="navbar-brand" href="#"style = "padding-top:15px;" >Curated</a>
+          <!-- Collapse button -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse " data-target="#basicExampleNav"
+             aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Collapsible content -->
+          <div class="collapse navbar-collapse" id="basicExampleNav">
+             <!-- Links -->
+             <ul class="navbar-nav mr-auto">
+               <ul class="dropdown">
+                  <li style=" background-color: none !important;"> <a href="#" ><i class="fa fa-list light-green-text-2"></i>&nbsp;Categories</a>
+
+                  <div style="background-color: white  !important;">
+                     <ul class="sub_menu">
+
+                        <% category.forEach(function(response) { %>   
+
+                           <li><a href="#search_categories" onclick = "getCategoryData('<%=response.id%>','<%= response.name%>')"> <%= response.name%></a>
+                           <ul>
+                              <% response.sub_categories.forEach(function(resp) { %>   
+
+                                 <li><a href="#search_categories" onclick = "getCategoryResult('<%=response.id%>','<%=resp.sub_id%>','<%= resp.sub_name%>')"><%= resp.sub_name%></a></li>
+                              <%})%>
+                           </ul>
+                        </li>
+                         <%})%>
+                   
+                     </ul>
+                  </div>
+                  </li>
+                  </ul>
+             </ul>
+             <!-- Links -->
+             <ul class="navbar-nav ml-auto">
+                  <form class="form-inline " style = "padding-top:10px;display:none;">
+                     <input class="form-control" type="search" placeholder="Search" style="color: white;" aria-label="Search">
+                     <button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3" type="submit">Search</button>
+                  </form>
+               
+                <li class="nav-item">
+                   <a class="nav-link">
+                   <button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3"  data-toggle="modal" data-target="#modalLoginForm">Login</button>
+                   </a>
+                </li>
+                <li class="nav-item">
+                   <a class="nav-link">
+                   <button class="btn btn-outline-white btn-md my-2 my-sm-0 ml-3"  data-toggle="modal" data-target="#modalRegisterForm" >Signup</button>
+                   </a>
+                </li>
+             </ul>
+          </div>
+          <!-- Collapsible content -->
+       </div>
+    </nav>
+    <!--/.Navbar-->
+    <!--Main layout-->
+    <!-- <br> -->
+
+    <div id="LangTable"><a href="/dashboard" id ="dashboard"></a></div>
+    <div id = "preview_video" >
+      <div class="modal fade top"  style = "background:black;overflow-y: scroll ! important;overflow-x: hidden ! important; overflow-y: hidden ! important ;" id="fullHeightModalRight" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"aria-hidden="true">
+         <div class="modal-dialog " role="document" style="min-width:100%;min-height:100%;margin:0px;padding:0px;">
+            <div class="modal-content" style = "background-color:black ! important;">
+          <div class="modal-header" style = "color:white !important;"><h2 >Full Screen</h2>
+             <button type="button"  onclick ="closeVideoPreview()" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+             </button>
+          </div>
+          <div class="modal-body" style = "height:100% !important;">
+        
+   
+            <div class="embed-responsive embed-responsive-16by9" style = "height: 90% ! important;" id ="parent">
+               <div id = "video-placeholder1" style = "height:82% !important;" > 
+                   </div>
+                   <button class = "button" onclick = "showTimeStamps()" 
+                   data-toggle="modal" data-target="#timestampPopup" 
+                   id="timestamp_hover" style = "float:right;bottom:50%; 
+                    color:white;font-size:20px;background-color: rgba(255, 255, 255, 0.767);
+                      transform: rotate(90deg);
+                    color:black;left:40px;
+                     ">&nbsp;timestamps&nbsp;</button>
+                   <div id = "showTimestamp"></div>
+                   </div>
+            <!--  // '<i class="fa fa-angle-left" aria-hidden="true" style="background:pink;float:right;top: 50%;font-weight:200"></i>'+ -->
+          </div>
+       </div>
+       </div>
+    </div>
+    </div>
+    <main><div  style="display:none;">
+      <h4></h4>
+      <h4><%=data.course_title%></h4> 
+      <h4 ><%=meta_video_title%>:<%=meta_video_desc%></h4>
+       <img src = "<%=data.image_preview%>"></div>
+      <div id ="search_categories"  style = "display:none">
+         <div id = "course_tag" style="height: 80px;background-color: #8C78CB;color: white;">
+         </div>
+         <div class = "container">
+         <section >
+            <!--Carousel Wrapper-->
+            
+            <div id="multi-item-example" class="carousel slide carousel-multi-item" data-ride="carousel">
+               <div class="controls-top">
+                  <a class="btn-floating" href="#multi-item-example" data-slide="prev"><i class="fas fa-chevron-left"></i></a>
+                  <a class="btn-floating" href="#multi-item-example" data-slide="next"><i
+                        class="fas fa-chevron-right"></i></a>
+                  </div>
+               
+                <div class="carousel-inner" role="listbox">
+                  
+                <div id = "searchCarousel">
+               </div>
+                </div>
+             </div>
+             <!--/.Carousel Wrapper-->
+          </section>
+         </div>
+         </div>
+      <div id = "time_titles" style = "display:none;" >
+         <div class="modal fade right" id="timestampPopup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"aria-hidden="true">
+            <div class="modal-dialog modal-full-height modal-right" role="document" style = " width: 100% !important;
+            height: 100% !important;
+            margin: 0;
+            padding: 0;">
+               <div class="modal-content" style = "height: auto;
+               min-height: 100%;" >
+                  <div class="modal-body">
+                     <%if (timestamp_arr.length > 0) { %>
+                        <div id ="show_popup_timestamp " style ="height:100%;">
+                           <div id = "timestamp">
+                              <table id = "timestamp_table_preview" style="padding-left: 10px;">
+                                 <h3 style = "padding:10px;text-align:center;color:black;">Video Time Stamps </h3>
+                                 <% for(var j=0; j<timestamp_arr.length; j++) {%>
+                                 <tr>
+                                    <td style = "padding:5px;color:black;font-size:16px;">                  
+                                       <a style="color: blue;" onclick = "timeStampClickPopup('<%= timestamp_arr[j].time%>')" ><%= timestamp_arr[j].time%></a>&nbsp;<%= timestamp_arr[j].title%>
+                                       <br>
+                                    </td>
+                                 </tr>
+                              <%}%>
+                           </table>
+                     </div>
+                  </div>
+                  <% } %>
+                  <%if (timestamp_arr.length == 0) { %>
+                     <h5>No time stamp available!</h5>
+
+                  <% } %>
+               </div>
+            </div>
+            </div>
+         </div>
+         </div>
+       <!--Section: courses-->
+       <div id = "main_data" style = "display: block; padding:10px;">
+       <section id="course_details" >
+          <div class="row">
+             <div class="col-lg-6">
+                <div class="embed-responsive embed-responsive-16by9">
+
+                   <div id="video-placeholder"></div>
+               
+                 
+                   <div id="controls">
+                   </div>
+                </div>
+                <button type="button" style = "background-color: #563E91 !important;float: right;margin-top:15px;height:45px" class="btn btn-primary" data-toggle="modal" data-target="#shareButtonModal">
+                  <i class ="fa fa-share" style ="color:white;">  </i> Share
+                   </button>
+                   <button type ="button" onclick="fullScreenPreview()" data-toggle="modal"  data-target="#fullHeightModalRight"  class="btn btn-primary"  style = "background-color: #563E91 !important;float: right;margin-top:15px;"><i class ="fa fa-eye" style="color: white;" ></i> Full Screen</button>
+                  </div>
+
+             <div class="col-lg-6">
+                <h1 id = "video_playlist_title"><%= data.course_title%></h1>
+                <b>
+
+                     <h4 id = "video_title"><%= video_title%></h4>
+                    
+                   </b>
+                <br>
+               
+                  <%if (timestamp_arr.length > 0) { %>
+                  <div  id = "show_timestamps" style ="display:block;height:250px;overflow:scroll;overflow-x: hidden; overflow-y: inherit;background-color: #F7F8FA;">
+                     <div id = "timestamp">
+                        <table id = "timestamp_table" style="padding-left: 10px;">
+                           <% for(var j=0; j<timestamp_arr.length; j++) {%>
+                           <tr>
+                              <td>                 
+                                 <a style="color: blue;" onclick = "timeStampClick('<%= timestamp_arr[j].time%>')" ><%= timestamp_arr[j].time%></a>&nbsp;<%= timestamp_arr[j].title%>
+                              </td>
+                           </tr>
+                     </div>
+                     <% } %>
+                     <%}%>
+                     </table>
+                  </div>
+
+             </div>
+          </div>
+          <!-- </div>  -->
+       </section>
+       <br><!--Section: courses-->
+       <div class="modal fade" id="shareButtonModal" tabindex="-1" role="dialog" aria-labelledby="shareModalTitle"
+         aria-hidden="true">
+
+         <!-- Add .modal-dialog-centered to .modal-dialog to vertically center the modal -->
+         <div class="modal-dialog modal-dialog-centered" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" >Share</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <ul class="list-unstyled list-inline text-center">
+                 
+                  <li class="list-inline-item">
+                     <a class="btn-floating btn-fb mx-1" onclick="share_fb('curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>')" rel="nofollow" share_url="https://curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>"  >
+                        <i class="fab fa-facebook"> </i>
+                      </a>
+                 </li>
+                 <li class="list-inline-item">
+                  <a class="btn-floating btn-reddit mx-1" onclick = "share_reddit('curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>')" target="_blank">
+                     <i class="fab fa-reddit"> </i>
+                     </a>
+               </li>
+                 <li class="list-inline-item">
+                  <a class="btn-floating btn-tw mx-1" href ="https://twitter.com/share?url=https://curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>" >
+                  <i class="fab fa-twitter"> </i>
+                  </a>
+               </li>
+                  <li class="list-inline-item">
+                     <a class="btn-floating btn-pinterest mx-1" style="color: white;background: #CC3B27;" href ="https://pinterest.com/pin/create/button?url=https://curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>">
+                     <i class="fab fa-pinterest"> </i>
+                     </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a class="btn-floating btn-li mx-1" href ="https://www.linkedin.com/uas/login/share?url=https://curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>">
+                    <i class="fab fa-linkedin"> </i>
+                    </a>
+                 </li>
+                 
+               </ul>
+            </div>
+          
+         </div>
+         </div>
+         </div>
+       <section id = "section_tabs">
+          <div >
+             <ul class="nav " role="tablist" >
+                <li class="nav-item"><a style="color: grey;" class="nav-link active" href="#courseContent"  aria-controls="courseContent" role="tab" data-toggle="tab">Course Content</a></li>
+                <li class="nav-item"><a style="color: grey;" class="nav-link " href="#courseDesc"   style = " border-bottom: 1px solid; " aria-controls="courseDesc" role="tab" data-toggle="tab">Description</a></li>
+                <li class="nav-item"><a style="color: grey;" class="nav-link" type="button" onclick = "commentsTab()" aria-controls="courseCategory" role="tab" data-toggle="tab">Comments</a></li>
+                <li><a class="nav-link" onclick = "expandAll()">Expand All</a></li>
+             </ul>
+             <hr>
+             <!-- <div class="card-body"> -->
+             <div class="tab-content">
+                <div role="tabpanel" class="tab-pane " id="courseDesc" >
+                   <div id ="desc" >
+                   </div>
+                     <a id = "toggleButton" onclick = "descClick()" style="color:blue;">See More</a>
+                   
+                </div>
+             
+                <div role="tabpanel" class="tab-pane active" id="courseContent">
+                  <div id = "course_sections_data">
+
+                  </div>
+                  <div id ="courses_list" style = "height: 400px !important;overflow:scroll;overflow-x: hidden; overflow-y: inherit;">
+
+                  </div>
+                  <% if (section_boolean == 0) { %>
+
+                  <div id = "course_list1" style ="display:block">
+                   <%if (data.course_details.length > 0) { %>
+                   <div  id = "course_content1" style = "height: 400px !important;overflow:scroll;overflow-x: hidden; overflow-y: inherit;">
+                      <table class="table" id = "myTable" style = "background-color:#FAFAFA" >
+                         <% data.course_details.forEach(function(response,i) { %>   
+                         <tbody>
+                            <tr >
+                               <td>
+                                  <div class = "row">
+                                     <div class="column">
+                                        <a onclick ="getSectionPreview('<%= response._id%>')"><img src="<%= response.video_thumbnail%>" class="rounded" style="width: 120px !important; height: 80px !important;" >
+                                        </a>
+                                     </div>
+                                     <div class="column">
+                                        <a  style="text-decoration: none;">
+                                           <h6 onclick ="getSectionPreview('<%= response._id%>')" > <%= response.video_title%> </h6>
+                                        </a>
+                                        <a id ="video_link" style="text-decoration: none; color:grey" >
+                                           <h6 onclick ="getSectionPreview('<%= response._id%>')" ><%= response.video_description.substr(0,40)%>...</h6>
+                                        </a>
+                                     </div>
+                                  </div>
+                               </td>
+                            </tr>
+                         </tbody>
+                         <%})%>
+                      </table>
+                      <% } %>
+                   </div>
+                </div>
+                <% } %>
+               </div>
+      
+             </div>
+             <!-- </div> -->
+          </div>
+          <!--Default tab example end-->
+       </section>
+      </div>
+       <!--login popup-->
+       <!--login popup-->
+       <div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <form id = "loginForm" method ="post" >
+             <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                   <div class="modal-header text-center">
+                      <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                      </button>
+                   </div>
+                   <div class="modal-body mx-3">
+                      <div class="md-form mb-5 ">
+                         <i class="fas fa-envelope prefix grey-text"></i>
+                         <input type="email" id="email" name = "email" class="form-control validate">
+                         <label data-error="wrong" data-success="right" for="email">Your email</label>
+                      </div>
+                      <div class="md-form mb-4 ">
+                         <i class="fas fa-lock prefix grey-text"></i>
+                         <input type="password" name ="password" id="password" class="form-control validate">
+                         <label data-error="wrong" data-success="right" for="password">Your password</label>
+                      </div>
+                   </div>
+                   <div class="modal-footer d-flex justify-content-center">
+                      <input type="submit" value="Login" class="btn btn-primary" id="submit" name ="submit"> 
+                   </div>
+                </div>
+             </div>
+          </form>
+       </div>
+       <!---signup popup-->
+       <div class="modal fade" id="modalRegisterForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <form id = "signupForm">
+          <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                <div class="modal-header text-center">
+                   <h4 class="modal-title w-100 font-weight-bold">Sign up</h4>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+                   </button>
+                </div>
+                <div class="modal-body mx-3">
+                   <div class="md-form mb-5">
+                      <i class="fas fa-user prefix grey-text"></i>
+                      <input type="text" id="orangeForm-name" name = "name" class="form-control validate">
+                      <label data-error="wrong" data-success="right" for="orangeForm-name">Your name</label>
+                   </div>
+                   <div class="md-form mb-5">
+                      <i class="fas fa-envelope prefix grey-text"></i>
+                      <input type="email" id="orangeForm-email" name = "email" class="form-control validate">
+                      <label data-error="wrong" data-success="right" for="orangeForm-email">Your email</label>
+                   </div>
+                   <div class="md-form mb-4">
+                      <i class="fas fa-lock prefix grey-text"></i>
+                      <input type="password" id="orangeForm-pass" name = "password" class="form-control validate">
+                      <label data-error="wrong" data-success="right" for="orangeForm-pass">Your password</label>
+                   </div>
+                </div>
+                <div class="modal-footer d-flex justify-content-center">
+                  <input type="submit" value="Sign up" class="btn btn-primary" id="submit1" style = "background-color:#97758D" name ="submit"> 
+                </div>
+             </div>
+          </div>
+         </form>
+       </div>
+       <!---signup popup-->
+    </main>
+
+   <div id = "minimise_video_preview">
+      <button  id="maximize_btn"   style = "display: none;" onclick = "maximize_minipreview_video()" ><i class="fa fa-window-maximize"></i>
+      </button>
+      <button  id="full_screen_btn" style = "display: none;"  type ="button" onclick="fullScreenPreview()" data-toggle="modal"  data-target="#fullHeightModalRight"><i class="material-icons">&#xe5d0;</i>
+      </button>
+  
+      <button onclick="minimize_minvideo_preview()" style = "display: none;" id="minimise_btn" ><i class ="fa fa-window-minimize" ></i></button>
+  
+   </div>
+
+   <div class="fb-comments"  data-href="https://curated.tivul.com/view_course?uid=<%= data.uid%>&course=<%= data.course_name%>" data-numposts="5" data-width="" is="x-frame-bypass"></div>
+    <!-- Footer -->
+    <footer class="page-footer font-small pt-5">
+       <!-- Footer Elements -->
+       <div class="container">
+          <!-- Social buttons -->
+          <ul class="list-unstyled list-inline text-center">
+             <li class="list-inline-item">
+               <a class="btn-floating btn-fb mx-1" >
+                  <i class="fab fa-facebook"> </i>
+                </a>
+             </li>
+             <li class="list-inline-item">
+                <a class="btn-floating btn-tw mx-1">
+                <i class="fab fa-twitter"> </i>
+                </a>
+             </li>
+            
+             <li class="list-inline-item">
+                <a class="btn-floating btn-li mx-1">
+                <i class="fab fa-linkedin"> </i>
+                </a>
+             </li>
+             <li class="list-inline-item">
+                <a class="btn-floating btn-reddit mx-1"  >
+                <i class="fab fa-reddit"> </i>
+                </a>
+             </li>
+          </ul>
+          <!-- Social buttons -->
+       </div>
+       <!-- Footer Elements -->
+       <!-- Copyright -->
+       <div class="footer-copyright text-center py-3">© 2019 Copyright:
+          <a href="https://curated.tivul.com/"> curated.tivul.com/</a>
+       </div>
+
+       <!-- Copyright -->
+    </footer>
+
+    <script>
+         function share_fb(url) {
+            var leftPosition, topPosition;
+           var  width= "626";
+           var height="436"
+         //Allow for borders.
+         leftPosition = (window.screen.width / 2) - ((width / 2) + 10);
+         //Allow for title and status bars.
+         topPosition = (window.screen.height / 2) - ((height / 2) + 50);
+         var windowFeatures = "status=no,height=" + height + ",width=" + width + ",resizable=yes,left=" + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY=" + topPosition + ",toolbar=no,menubar=no,scrollbars=no,location=no,directories=no";
+      window.open('https://www.facebook.com/sharer/sharer.php?u='+url+'','sharer', windowFeatures)
+   }
+
+   function share_reddit(url){
+      var leftPosition, topPosition;
+           var  width= "626";
+           var height="436"
+         //Allow for borders.
+         leftPosition = (window.screen.width / 2) - ((width / 2) + 10);
+         //Allow for title and status bars.
+         topPosition = (window.screen.height / 2) - ((height / 2) + 50);
+         var windowFeatures = "status=no,height=" + height + ",width=" + width + ",resizable=yes,left=" + leftPosition + ",top=" + topPosition + ",screenX=" + leftPosition + ",screenY=" + topPosition + ",toolbar=no,menubar=no,scrollbars=no,location=no,directories=no";
+         window.open('https://www.reddit.com/submit?url='+url+'','sharer', windowFeatures)
+
+      }
+      function minimize_minvideo_preview(){
+         $('#video-placeholder').removeClass('out').addClass('in');
+         $('#minimise_btn').css('display','none');
+         $('#full_screen_btn').css('display','none');
+         $('#maximize_btn').css('display','block');
+         $('#video_placeholder').css('display','none');
+
+
+      }
+      function maximize_minipreview_video(){
+         $('#video-placeholder').addClass('out').removeClass('in');
+         $('#minimise_btn').css('display','block');
+         $('#full_screen_btn').css('display','block');
+         $('#maximize_btn').css('display','none');
+      }
+      
+      var ha = ( $('#video-placeholder').offset().top + $('#video-placeholder').height() );
+
+      $(window).scroll(function(){
+
+
+         if( document.getElementById("maximize_btn").style.display === 'none' )
+            {
+
+            if(window.scrollY==0 ) {
+               $('#full_screen_btn').css('display', 'none');
+               $('#minimise_btn').css('display', 'none');
+               $('#maximize_btn').css('display', 'none');
+
+            }
+            if ( $(window).scrollTop() > ha + 500 ) {
+               $('#video-placeholder').css('bottom','0');
+            
+            } 
+            else if ( $(window).scrollTop() < ha + 200) {
+               $('#video-placeholder').removeClass('out').addClass('in');
+
+               } else {
+               $('#video-placeholder').removeClass('in').addClass('out');
+               $('#video-placeholder').css('bottom','-500px');
+               document.getElementById('full_screen_btn').style.display = "block";
+               document.getElementById('minimise_btn').style.display = "block";
+
+            };
+         }
+      else if(document.getElementById("maximize_btn").style.display === 'block'  ){
+         $('#maximize_btn').css('display','block');
+         
+      }
+   });
+    
+    function commentsTab() {
+    $('html,body').animate({
+        scrollTop: $(".fb-comments").offset().top},
+        'slow');
+
+}
+  </script>
+     <script async>(function(s,u,m,o,j,v){j=u.createElement(m);v=u.getElementsByTagName(m)[0];j.async=1;j.src=o;j.dataset.sumoSiteId='2a21aa489a437bc690e5cfcb0418c02c99ae6fc719033ccf4afef46536fc1e07';v.parentNode.insertBefore(j,v)})(window,document,'script','//load.sumo.com/');</script>
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-27176211-5"></script>
+      <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-27176211-5');
+      </script>
+    <!-- Footer -->
+    <!-- MDB core JavaScript -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.16.0/js/mdb.min.js"></script>   
+ </body>
+   <!-- JQuery -->
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+</html>

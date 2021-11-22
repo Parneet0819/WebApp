@@ -1,0 +1,82 @@
+<% include header %>
+    <style>
+        table tr {
+            border-bottom: 1px solid grey;
+        }
+        
+        a {
+            color: black;
+        }
+        
+        p {
+            color: gray;
+        }
+    </style>
+    <div id="myfav" class="container-fluid">
+        <%if (my_fav.length >0) { %>
+            <hr>
+            <h5 style="text-align:center;color:#553E91;"> My Favorites </h5>
+            <hr>
+            <% my_fav.forEach(function(course_data) { %>
+                <table id="<%=course_data._id%>">
+                    <tr>
+                        <td id="<%=course_data._id%>">
+                            <div class="row flex-row flex-nowrap mt-2 pb-2 pt-2">
+                                <div class="col-4 col-sm-4">
+                                    <div class="view img__wrap">
+                                        <img src="<%=course_data.image_preview%>" width="100" height="80">
+                                        <i type="button" class="fa fa-star" onclick="unFavoriteCourse('<%=course_data._id%>')">&nbsp;Unfavorite</i>
+                                        <i type="button" id="share_btn" class="fa fa-trash" onclick="unFavoriteCourse('<%=course_data._id%>')">&nbsp;Archive</i>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-sm-6" id="col_text">
+                                    <%if (course_data.course_details.length >0) { %>
+                                        <h5>
+                                            <a href="/view-course?uid=<%=course_data.uid%>&course=<%=course_data.course_name%>">
+                                                <%=course_data.course_title%>
+                                            </a>
+                                        </h5>
+                                        <a href="/view-course?uid=<%=course_data.uid%>&course=<%=course_data.course_name%>">
+                                            <p>
+                                                <%=course_data.course_details[0].video_description.substr(0, 100)%>
+                                            </p>
+                                        </a>
+                                        <% } %>
+                                </div>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+                <% }); %>
+                    <% } %>
+                        <%if (my_fav.length==0) { %>
+                            <div style="color:red;font-size:20px;text-align:center;">No Favorite Added!</div>
+                            <% } %>
+
+    </div>
+    <script>
+        var fav = document.getElementById('myfav');
+        document.getElementById('page-content-wrapper').appendChild(fav);
+
+        //unfav the course
+        function unFavoriteCourse(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/fav/unFavCourse",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.success == true) {
+                        $('#' + id + '').remove();
+                    } else {
+                        alert('Failed to remove Favorite')
+                    }
+
+                }
+            })
+        }
+    </script>

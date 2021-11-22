@@ -1,0 +1,986 @@
+<title>Curated App</title>
+<% layout('layout') -%>
+    <link rel="stylesheet" type="text/css" href="/css/course-section.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <div id="home-layout" style="display:block;">
+        <div id="main_section_data">
+            <div id="alert_popup"></div>
+            <div id="LangTable">
+                <a href="/edit_g_course_section/<%= course._id%>" id="editPage"></a>
+            </div>
+
+            <section>
+                <img style="display:none;width:100px;height:100px;margin-left:auto;
+        margin-right:auto;
+        float :none;" src="/images/loader.gif" alt="description of gif" id="wait" />
+                <div class="row">
+                    <input id="playlist_id" value="<%= course._id%>">
+                    <div class="col-sm-6">
+                        <div id="core_section_div">
+                            <div class="accordion md-accordion accordion-2" id="accordionEx7" role="tablist" aria-multiselectable="true">
+                                <div class="card">
+                                    <div class="card-header blue lighten-3 z-depth-1 mb-2" role="tab" id="heading1">
+                                        <a data-toggle="collapse" data-parent="#accordionEx7" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                            <h5 class="mb-0 white-text text-uppercase font-thin">
+                                                ADD SECTION <i class="fas fa-angle-down rotate-icon"></i>
+                                            </h5>
+                                        </a>
+                                    </div>
+                                    <div id="collapse1" class="collapse show" role="tabpanel" aria-labelledby="heading1" data-parent="#accordionEx7">
+                                        <div class="card-body mb-1 " id="form_div">
+                                            <form id="formIdd" name="section_form">
+                                                <div id="newRow"></div>
+                                                <button id="addRow" type="button" class="btn btn-info">Add Section</button>
+                                                <button type="button" onclick="addSectionData()" class="btn btn-info" name="submit" style="float: right;background-color: #563e91 !important;">Save</button>
+
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card">
+                            <div class="card-body" id="card-body">
+                                <div class="row " style="padding:10px;">
+                                    <div id="edit_course_name">&nbsp;
+                                        <%= course.course_title%>&nbsp;</div>
+                                    &nbsp;<i class="fa fa-send" id="save_edit" onclick="saveCourseName('<%= course._id%>','<%= course.course_title%>')"> Save</i>&nbsp;<i class="fa fa-edit" id="edit_courseName" style="display:block;font-size:20px;" onclick="editCourseName()"></i>
+                                </div>
+                                <div class="col">
+                                    <a href="/view-g-course?uid=<%=course.uid%>&course=<%=course.course_name%>"><button class ="btn btn-info" type = "button" style = "background-color: #563e91 !important;margin-bottom: 20px;"  >Back</button></a>
+                                    <%if (linkUrl == "false") { %>
+                                        <button class="btn btn-info" type="button" id="add_video" data-toggle="modal" data-target="#addVideoToCourse">Add Youtube Video</button>
+                                        <% } else {%>
+                                            <button class="btn btn-info" type="button" id="add_video" data-toggle="modal" data-target="#myModal">Add Google Drive Video</button>
+
+                                            <% } %>
+                                </div>
+                                <form id="form_sortable">
+                                    <table class="table" id="myTable">
+                                        <%if (course.course_details.length > 0) { %>
+                                            <tbody class="row_position" id="sortable">
+                                                <tr id="_id_<%= course._id %>"></tr>
+                                                <% course.course_details.forEach(function(courses, i) { %>
+                                                    <tr id="_course_details_<%= courses.id %>" class='drag'>
+                                                        <td name="_id">
+                                                            <div class="row">
+                                                                <div class="column1">
+                                                                    <div class="form-check form-check-inline">
+                                                                        <input type="checkbox" class="form-check-input" id="check<%=i%>" onchange="inputChanged(event,'<%= courses._id%>' ) ">
+                                                                        <label class="form-check-label" for="check<%=i%>"></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="column">
+                                                                    <a href="#" style="text-decoration: none;"><img id = "thumbnail" src="<%= courses.video_thumbnail%>" name = "video_thumbnail" class="rounded" /></a>
+                                                                </div>
+                                                                <div class="column" style="width:50%;">
+                                                                    <h6 name="video_title">
+                                                                        <%= courses.video_title%>
+                                                                    </h6>
+                                                                    <a href="<%= courses.channel_link%>" name="channel_title">
+                                                                        <%= courses.channel_title%>
+                                                                    </a>
+                                                                    <input name="channel_link" value="<%= courses.channel_link%>" style="display:none;">
+
+                                                                </div>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                                        <% } %>
+                                    </table>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </section><br>
+            <Br>
+            <div class="modal fade" id="addVideoToCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <form id="addVideoToCourse">
+                    <div class="modal-dialog modal-notify " role="document">
+                        <div class="modal-content">
+                            <div class="modal-header text-center" style="background-color: #563e91 !important;opacity: 0.9;">
+                                <h4 class="modal-title white-text w-100 font-weight-bold py-2">Add Video To Course</h4>
+                                <button type="button" onclick="closeModal()" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" class="white-text">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="md-form mb-5">
+                                    <i class="fas fa-link prefix grey-text"></i>
+                                    <input type="text" id="add_video_link" placeholder="Video Link">
+                                    <p id="add_video_link_err" style="color:red;margin:10px;display:none;">Please enter the valid youtube video link </p>
+                                </div>
+                                <div class="modal-footer justify-content-center">
+                                    <button type="button" class="btn btn-info" onclick="addVideoToCourse()" style="background-color: #563e91 !important;"> Send</button>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+                </div>
+            </div>
+            </div>
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header card-header-title">
+                            <h4 class="modal-title card-element-title">Add Videos</h4>
+                        </div>
+                        <div class="modal-body" id="my-card">
+                            <div class="card-content clearfix">
+                                <div id="addMoreVideoData">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <form id="addFormData">
+                                                <p id="invalid_id" style="display: none;">Invalid Edit Course ID</p>
+                                                <div id="add_my_fields">
+                                                </div>
+                                                <div class="md-form">
+                                                    <div class="input-group">
+                                                        <div class="input-group-btn">
+                                                            <button class="btn btn-primary" style="background-color: #553E91 !important;" type="button" onclick="addMoreFields();">Add 
+                                                                <i class="fa fa-plus" aria-hidden="true"></i> </button>
+                                                            <button id="saveBtn" class="btn btn-grey" disabled="true" type="button" onclick="saveBtnClick()">Save 
+                                                                   </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                var room = 1;
+                var myArr;
+                var dataArray = []
+
+                function saveBtnClick() {
+                    var newArrayLength;
+
+                    $("#addFormData").find('input').each(function() {
+
+                        if (this.name === "video_embed_link") {
+                            var dataaa = {};
+                            dataaa[this.name] = this.value;
+                            if (this.value == "") {
+                                return alert("Please enter the video link");
+
+                            } else {
+                                var regex = /http(s)?:\/\/drive.google.com.*/gi;
+                                var ViewRegex = new RegExp(regex);
+                                if (this.value.match(ViewRegex)) {
+                                    var parts = this.value.match(/\/d\/(.+)\//);
+                                    if (parts == null || parts.length < 2) {
+                                        return
+                                    } else {
+                                        const videoUrl = "https://drive.google.com/uc?export=view&id=" + parts[1];
+                                        newArrayLength = dataArray.push(dataaa);
+                                        dataArray[newArrayLength - 1][this.name] = videoUrl;
+                                        dataArray[newArrayLength - 1]["video_id"] = parts[1];
+                                        dataArray[newArrayLength - 1]["channel_title"] = "";
+                                        dataArray[newArrayLength - 1]["channel_link"] = "";
+                                        dataArray[newArrayLength - 1]["video_description"] = "...";
+
+                                    }
+                                } else {
+                                    alert("Enter the valid google drive url");
+
+                                }
+                            }
+                        }
+                        if (this.name === "video_thumbnail") {
+                            if (this.value == "") {
+                                return alert("Please enter the video thumbnail");
+                            } else {
+                                var imgRegex = /http(s)?:\/\/(.*)\.(jpe?g|png|bmp)$/gi;
+                                var ImageViewRegex = new RegExp(imgRegex);
+                                if (this.value.match(ImageViewRegex)) {
+                                    if (dataArray.length > 0) {
+                                        dataArray[newArrayLength - 1][this.name] = this.value;
+                                    }
+                                } else {
+                                    alert("Enter the valid image thumbnail url")
+
+                                }
+                            }
+                        }
+                        if (this.name === "video_title") {
+                            if (this.value == "") {
+                                return alert("Please enter the video title");
+                            } else {
+                                if (dataArray.length > 0) {
+                                    dataArray[newArrayLength - 1][this.name] = this.value;
+
+                                }
+                            }
+                        }
+                    });
+
+                    if (dataArray.length > 0) {
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '/api/course/addGVideo',
+                            data: {
+                                id: '<%=editId%>',
+                                course_details: dataArray
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                if (response.success == false && response.err_code == 1006) {
+                                    return document.getElementById('invalid_id').style.display = "block";
+                                }
+                                if (response.success == false && response.err_code == 2025) {
+                                    document.getElementById('invalid_id').style.display = "block";
+                                    document.getElementById('invalid_id').innerText = "Missing Course Videos Data";
+                                    return
+                                } else {
+                                    console.log("====response", response);
+                                    $('#myModal').modal('hide');
+                                    $('#addFormData')[0].reset();
+                                    document.getElementById('add_my_fields').innerHTML = '';
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    }
+                }
+
+                function addMoreFields() {
+
+                    room++;
+                    var objTo = document.getElementById('add_my_fields')
+                    var divtest = document.createElement("div");
+                    divtest.setAttribute("class", "md-form removeclass" + room);
+                    var rdiv = 'removeclass' + room;
+                    divtest.setAttribute('text', 'Remove' + room)
+                    divtest.innerHTML = '<div class="md-form"> <i class="fa fa-link prefix grey-text"></i><input type="text" class="form-control"  id="video_embed_link' + room + '" name ="video_embed_link" value="" placeholder="Video Google Link"> <p id="video_embed_link_err' + room + '" style="color: red;display:none;">Please enter the valid google link</p> </div><div class="md-form"> <i class="fa fa-picture-o prefix grey-text"></i><input type="text" class="form-control" id="video_thumbnail' + room + '"  name = "video_thumbnail" value="" pattern = "http(s)?:\/\/(.*)\.(jpe?g|png|bmp)$" placeholder="Video Thumbnail"> <p id="video_thumbnail_err' + room + '" style="color: red;display:none;">Please enter the valid image url</p> </div> <div class="md-form"> <i class="fa fa-list-alt prefix grey-text"></i><input type="text" class="form-control" id="video_title' + room + '"  name ="video_title" value="" placeholder="Video Title"> <p id="video_title_err' + room + '" style="color: red;display:none;">Please enter the valid video title</p> </div><div class ="form-md"> <div class ="input-group"><div class="input-group-btn"> <button class="btn btn-danger" type="button" onclick="removeFields(' + room + ');"> Remove  <i class="fa fa-minus" aria-hidden="true"></i> </button></div> </div></div>  ';
+                    objTo.appendChild(divtest);
+                    document.getElementById('saveBtn').style.backgroundColor = "#553E91 ! important";
+                    $('#saveBtn').attr('disabled', false);
+                    document.getElementById('addMoreVideoData').style.height = "200px;"
+                }
+
+                function removeFields(rid) {
+                    $('.removeclass' + rid).remove();
+                }
+
+                var s = 0;
+
+                // add row
+                $("#addRow").click(function() {
+
+                    var html = '';
+
+                    html += '<div id="inputFormRow' + s + '">';
+                    html += '<button id="addRow1' + s + '" type="button" onclick="innerButton(' + s + ');"class="btn btn-info" style = "background-color:#563e91 !important;">Add Section</button>';
+                    html += '<div class="md-form mb-4 ">' +
+                        '<input type="text" id = "ip' + s + '" value ="" name="playlist_section[section_name]" placeholder = "Section Name" class="form-control validate">' +
+                        '</div>';
+                    html += '<div class ="row"><div class ="column2"><button type ="button" class ="btn btn-info" id ="addVideo' + s + '" style=" margin-left:10px;background-color:#563e91 !important;width:150px;" onclick ="btnAddVideo(' + s + ')">ADD VIDEO</button></div><div class ="column2"><button type= "button" name = "myname"   id ="reorderVideo' + s + '" onclick= "reorderVideo(' + s + ')" class ="btn btn-info" style = "float:right; background-color:#563e91 !important;width:150px;margin-left:20px;">Reorder</button></div></div>';
+                    html += '<div  class = "dataa" id ="table_data' + s + '" ></div>';
+                    html += '</div>';
+                    s++;
+
+                    $('#newRow').append(html);
+
+                });
+
+
+                function innerButton(e) {
+                    var html = '';
+
+                    html += '<div id="inputFormInnerRow' + s + '">';
+                    // html+= '<i class="fa fa-trash" aria-hidden="true" style = "float:right;color:red;font-size:25px;"></i>';
+                    html += '<div class="md-form mb-4 ">' +
+                        '<input type="text" name="playlist_section[section_name]"  placeholder = "Section Name" id ="ip' + s + '" value ="" class="form-control validate">' +
+                        '</div>';
+                    html += '<div class ="row"><div class ="column2"><button type ="button"  id = "addVideo1' + s + '" class ="btn btn-info" style ="margin-left:10px;background-color:#563e91 !important;width:150px;"onclick ="btnAddVideo1(' + s + ')">ADD VIDEO</button></div><div class ="column2"><button type = "button" name = "myname"   id ="reorderVideo1' + s + '" onclick= "reorderVideo(' + s + ')" class ="btn btn-info" style = "float:right; background-color:#563e91 !important;width:150px;margin-left:20px;">Reorder</button></div></div>';
+                    html += '<br><div  class = "dataa" id ="table_data1' + s + '" ></div>';
+                    html += '</div>';
+                    s++;
+                    $('#inputFormRow' + e + '').before(html);
+                }
+
+                $('#sortable').sortable({
+                    items: "tr:not('.headings')",
+
+                    stop: function() {
+
+                        const ids = $('#sortable').sortable('serialize');
+                        const id = $('.table').attr("id")
+
+                        const url = '/api/course/updateCoursePosition';
+                        $.post(url, ids, function(res) {});
+                    }
+                });
+            </script>
+            <script>
+                var main_section_arr = []
+                var one_section_arr = []
+                var edit_section_arr = []
+
+                var sectionId = []
+                var counter = 0
+                var count = 0
+                var bool = false
+
+                //addVideo handler 
+                var btn_one = 0;
+                var btn_two = 100;
+
+                function closeModal() {
+                    document.getElementById('add_video_link_err').style.display = "none"
+                }
+
+                //add single or multiple videos to course
+                function addVideoToCourse() {
+
+                    var video_link = document.getElementById('add_video_link');
+                    var video_tag = document.getElementById('add_video_tag');
+                    var course_id = '<%= course._id%>';
+
+                    if (document.getElementById('add_video_link').value === "" || document.getElementById('add_video_link' === null)) {
+                        return document.getElementById('add_video_link_err').style.display = "block";
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course/addVideoInCourse',
+                        data: {
+                            video_link: video_link.value,
+                            id: course_id
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            if (response.success == false && response.err_code == 2009) {
+                                return document.getElementById('add_video_link_err').style.display = "block";
+
+                            }
+                            if (response.success == true) {
+                                video_link.innerHTML = ''
+                                window.location.reload()
+
+                            };
+                            if (response.success == false && response.message == 'video already exists in course, Try another!') {
+                                document.getElementById('alert_popup').innerHTML = ' <div class="alert alert-success" role="alert"> Video already exists Try Another One !</div>';
+                                $("#alert_popup").fadeIn(300).delay(1500).fadeOut(400);
+                                video_link.innerHTML = ''
+
+                            }
+                        },
+                        error: function() {}
+
+                    })
+
+                } //addVideoToCourse
+
+                $('#add_video_link').keyup(function() {
+                    if ($(this).val() == '') {
+                        $('#add_video_link_err').show();
+                    } else {
+                        $('#add_video_link_err').hide();
+                    }
+                });
+
+                function addSectionData() {
+                    // event.preventDefault();
+                    var playlistId = '<%= course._id%>';
+
+                    var val = $('#formIdd').serializeArray();
+                    var playlist_section = [];
+                    var playlist_video = []
+                    var playlistData = []
+                    var playlistObj = {}
+
+                    if (val.length == 0) {
+                        return alert('Sections cannot be empty!')
+                    } else if (val.length > 0) {
+                        //Loopthrough the form data
+                        for (let index = 0; index < val.length; index++) {
+                            playlistObj = {}
+
+                            if (val[index].name == "playlist_section[section_name]") {
+                                const element1 = val[index];
+
+                                if (element1.value.length > 0) {
+                                    playlist_video = []
+                                    playlistObj.section_name = element1.value;
+                                    playlistObj.course_details = playlist_video;
+                                    playlistData.push(playlistObj)
+
+                                } else {
+                                    return alert('section name cannot be empty!')
+                                }
+
+                            }
+                            if (val[index].name == "playlist_section[].playlist_id[]") {
+                                const element2 = val[index];
+
+
+                                if (element2.value.length > 0) {
+                                    playlistObj.course_details = element2.value
+                                    playlist_video.push({
+                                        course_id: element2.value
+                                    })
+
+                                } else {
+                                    return alert('videos cannot be empty!Please add video in section')
+                                }
+
+                            }
+
+                        }
+
+                        if (sectionId.length > 0 && playlistData.length > 0) {
+
+                            for (let index = 0; index < playlistData.length; index++) {
+                                const element = playlistData[index].course_details;
+                                if (element.length == 0) {
+                                    return alert('videos cannot be empty!Please add video in section')
+                                }
+                            }
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/api/course-section/addCourseSection',
+                                dataType: "json",
+                                data: {
+                                    'id': sectionId.toString(),
+                                    'course_section': playlistData,
+                                    'complete_course_id': playlistId
+                                },
+                                success: function(response) {
+
+                                    if (response.success == true) {
+
+                                        var editId = '<%= course._id%>';
+                                        document.write('<div id="LangTable"><a href="/view-g-course?uid=<%= course.uid%>&course=<%= course.course_name%>" id ="aa"></a>');
+                                        document.getElementById("aa").click();
+                                    } else {
+                                        alert("ERROR")
+                                    }
+                                },
+                                error: function() {
+                                    alert("error")
+                                }
+                            })
+                        } else if (sectionId.length == 0 && playlistData.length > 0) {
+
+                            $.ajax({
+                                type: 'POST',
+                                url: '/api/course-section/addCourseSection',
+                                dataType: "json",
+                                data: {
+                                    'course_section': playlistData,
+                                    'complete_course_id': playlistId
+                                },
+                                success: function(response) {
+
+                                    if (response.success == true) {
+
+                                        var editId = '<%= course._id%>';
+                                        document.write('<div id="LangTable"><a href="/view-g-course?uid=<%= course.uid%>&course=<%= course.course_name%>" id ="aa"></a>');
+                                        document.getElementById("aa").click();
+                                    } else {
+                                        alert("ERROR")
+                                    }
+                                },
+                                error: function() {
+                                    alert("error")
+                                }
+                            })
+                        }
+                    }
+                }
+
+                var section_bool = '<%=sections_bool%>'
+                if ('<%=sections_bool%>' == "true") {
+
+                    var new_Obj = {}
+                    var videos = []
+
+                    $(document).ajaxStart(function() {
+                        $("#wait").css("display", "block");
+                    });
+                    $(document).ajaxComplete(function() {
+                        $("#wait").css("display", "none");
+                    });
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course-section/getSectionWithCId',
+                        dataType: "json",
+                        data: {
+                            'complete_course_id': '<%=course._id%>'
+                        },
+                        success: function(response) {
+
+                            if (response.data != null && response.success == true) {
+
+                                for (let j = 0; j < response.data.length; j++) {
+                                    sectionId.push(response.data[j]._id)
+                                    for (let index = 0; index < response.data[j].course_section.length; index++) {
+                                        videos = []
+
+                                        const element = response.data[j].course_section[index].section_name;
+
+                                        new_Obj.course_details = videos
+                                        edit_section_arr.push({
+                                            section_name: element,
+                                            course_details: videos
+                                        })
+                                        const section_id = response.data[j].course_section[index]._id;
+
+                                        //Loopthrough the form data
+                                        var d = document.getElementById('addRow').click();
+                                        var tableRow = document.getElementById("table_data" + counter);
+                                        var input = document.getElementById("ip" + counter);
+
+                                        input.value = element
+                                            //   input.name = section_id
+
+                                        var x = document.getElementById("addVideo" + counter);
+                                        //   x.name = section_id
+                                        document.getElementById("reorderVideo" + counter).name = section_id
+
+                                        counter = parseInt(counter + 1)
+                                        count = parseInt(count + 1)
+
+                                        if (response.data[j].course_section[index].course_details != null) {
+                                            one_section_arr = []
+                                            for (let index1 = 0; index1 < response.data[j].course_section[index].course_details.length; index1++) {
+                                                const element1 = response.data[j].course_section[index].course_details[index1].course_id;
+                                                one_section_arr.push(element1)
+                                                videos.push({
+                                                    course_id: element1
+                                                })
+                                            }
+                                            x.click()
+
+                                        }
+
+                                    }
+
+                                }
+                                bool = true
+
+                            }
+                        },
+                        error: function() {
+                            alert("error")
+                        }
+                    })
+                }
+
+
+                function reorderVideo(id) {
+
+                }
+
+                function reorderVideo1(id) {
+
+                }
+                //input checkbox handler
+                function inputChanged(event, id) {
+                    if (event.target.checked == true) {
+
+                        event.target.parentElement.parentElement.className =
+                            event.target.checked ? 'selected' : '';
+                        one_section_arr.push(id)
+                        return
+                    }
+                    if (event.target.checked == false) {
+
+                        event.target.parentElement.parentElement.className =
+                            event.target.checked ? 'selected' : '';
+                        one_section_arr.pop(id)
+
+                        return
+                    }
+
+                } //input checkbox handler
+
+                function btnAddVideo(data) {
+                    if (one_section_arr.length == 0) {
+                        return alert("Please select the video first!")
+                    }
+
+                    var btn = document.getElementById('addVideo' + data).id;
+                    btn = btn.match(/\d+/)[0]
+
+                    if (main_section_arr.length > 0) {
+                        for (let index = 0; index < main_section_arr.length; index++) {
+                            const element = main_section_arr[index].section_name;
+
+                            if (btn == index) {
+                                if (element !== document.getElementById('ip' + data).value) {
+                                    main_section_arr[index].section_name = document.getElementById('ip' + data).value
+                                }
+
+                                if (main_section_arr[index].course_details.length > 0) {
+                                    for (let index1 = 0; index1 < main_section_arr[index].course_details.length; index1++) {
+                                        const video_id = main_section_arr[index].course_details[index1].course_id;
+
+                                        if (one_section_arr.length > 0) {
+                                            for (let index2 = 0; index2 < one_section_arr.length; index2++) {
+                                                if (one_section_arr[index2] == video_id) {
+                                                    one_section_arr = []
+                                                    uncheckAll()
+                                                    return alert("Video Already Exists")
+                                                }
+
+                                            }
+                                        }
+                                        one_section_arr.push(video_id)
+                                        one_section_arr.sort()
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course/getSelectedCourses',
+                        dataType: "json",
+                        data: {
+                            "id": '<%=course._id%>',
+                            "ids": one_section_arr
+                        },
+                        success: function(response) {
+                            console.log("-----!!response is!!----:", response)
+
+                            var createPlaylist = document.getElementById("table_data" + data)
+                            createPlaylist.innerHTML = ''
+                            if (response.success == true) {
+                                for (let index = 0; index < response.obj.length; index++) {
+                                    const element = response.obj[index];
+                                    uncheckAll()
+                                    createPlaylist.innerHTML +=
+                                        '<table class="table " id = "' + btn_one + '" >' +
+                                        '<tbody >' +
+                                        '<tr  id = "' + btn_one + '" class= "drag" ><br>' +
+                                        '<td><input name = "playlist_section[].playlist_id[]" value ="' + response.obj[index]._id + '" style="display:none;"></input>' +
+                                        '<div class = "row">' +
+                                        '<div class="column">' +
+                                        '<a href = "#" style="text-decoration: none;"><img src="' + response.obj[index].video_thumbnail + '" class="rounded" style="width: 80px !important; height: 80px !important;"/></a>' +
+                                        '</div>' +
+                                        '<div class="column" style ="width:55%;">' +
+                                        '<h6 style=" font-size: 16px;">' + response.obj[index].video_title + ' </h6>' +
+                                        '<a  font-size: 16px;">' + response.obj[index].channel_title + ' </a>' +
+                                        '<input style = "display:none;" value = "' + response.obj[index].channel_link + '"  >' +
+                                        '</div>' +
+                                        '<div class ="column">' +
+                                        '<i class ="fa fa-trash" style = "float:right;font-size:20px;"onclick = "removeVideoByIndex(\'' + response.obj[index]._id + '\',\'' + data + '\',\'' + btn_one + '\')"></i>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</td>' +
+                                        '</tbody>' +
+                                        '</table>';
+                                    btn_one = btn_one + 1
+                                }
+
+                                var coursesObj = {}
+                                var course_videos = []
+
+                                coursesObj.section_name = document.getElementById('ip' + data).value
+
+                                for (let index1 = 0; index1 < one_section_arr.length; index1++) {
+                                    const v_id = one_section_arr[index1];
+                                    coursesObj.course_details = course_videos
+                                    course_videos.push({
+                                        course_id: v_id
+                                    })
+                                }
+                                main_section_arr.push(coursesObj)
+                                main_section_arr = removeDuplicates(main_section_arr, "section_name");
+
+                                one_section_arr = []
+                                if (bool == true) {
+                                    if (sectionId.length > 0) {
+                                        main_section_arr = []
+                                        main_section_arr = main_section_arr.concat(edit_section_arr)
+                                            // bool = false
+
+                                    }
+                                }
+
+                            } else {
+                                alert("ERROR")
+                            }
+                        },
+                        error: function() {
+                            alert("error")
+                        }
+                    })
+                    bool = false
+
+                } //add video handler
+
+                function uncheckAll() {
+                    if ($("input[type='checkbox']:checked").prop("checked", true)) {
+                        $("input[type='checkbox']:checked").prop("checked", false)
+
+                    }
+                }
+
+                function btnAddVideo1(data1) {
+
+                    if (one_section_arr.length == 0) {
+                        return alert("Please select the video first!")
+                    }
+
+                    if (main_section_arr.length > 0) {
+                        for (let index = 0; index < main_section_arr.length; index++) {
+                            const element = main_section_arr[index];
+
+                            if (data1 == main_section_arr[index].btn_id) {
+                                if (element !== document.getElementById('ip' + data1).value) {
+                                    main_section_arr[index].section_name = document.getElementById('ip' + data1).value
+                                }
+
+                                if (main_section_arr[index].course_details.length > 0) {
+                                    for (let index1 = 0; index1 < main_section_arr[index].course_details.length; index1++) {
+                                        const video_id = main_section_arr[index].course_details[index1].course_id;
+
+                                        if (one_section_arr.length > 0) {
+                                            for (let index2 = 0; index2 < one_section_arr.length; index2++) {
+                                                if (one_section_arr[index2] == video_id) {
+                                                    one_section_arr = []
+                                                    uncheckAll()
+                                                    return alert("Video Already Exists")
+                                                }
+                                            }
+                                        }
+                                        one_section_arr.push(video_id)
+                                        one_section_arr.sort()
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course/getSelectedCourses',
+                        dataType: "json",
+                        data: {
+                            "id": '<%= course._id%>',
+                            "ids": one_section_arr
+                        },
+                        success: function(response) {
+                            console.log("-----resp[onse is----:", response)
+                            var createPlaylist = document.getElementById("table_data1" + data1)
+                            createPlaylist.innerHTML = ''
+                            if (response.success == true) {
+                                for (let index = 0; index < response.obj.length; index++) {
+                                    const element = response.obj[index];
+                                    uncheckAll()
+                                    createPlaylist.innerHTML +=
+                                        '<table class="table " id = "' + btn_two + '" >' +
+                                        '<tbody >' +
+                                        '<tr class= "drag1" id ="' + btn_two + '" ><br>' +
+                                        '<td><input name = "playlist_section[].playlist_id[]" value ="' + response.obj[index]._id + '" style="display:none;"></input>' +
+                                        '<div class ="row"><div class="column">' +
+                                        '<a href = "#" style="text-decoration: none;"><img src="' + response.obj[index].video_thumbnail + '" class="rounded" style="width: 80px !important; height: 80px !important;"/></a>' +
+                                        '</div>' +
+                                        '<div class="column">' +
+                                        '<h6 style=" font-size: 16px;">' + response.obj[index].video_title + ' </h6>' +
+                                        '<a  font-size: 16px;">' + response.obj[index].channel_title + ' </a>' +
+                                        '<input style = "display:none;" value = "' + response.obj[index].channel_link + '" >' +
+                                        '</div>' +
+                                        '<div class ="column"><i class ="fa fa-trash" style = "float:right;"onclick = "removeVideoByIndex1(\'' + response.obj[index]._id + '\', \'' + data1 + '\',\'' + btn_two + '\')"></i>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</td>' +
+                                        '</tr>' +
+                                        '</tbody>' +
+                                        '</table>';
+                                    btn_two = btn_two + 1
+                                }
+
+                                var coursesObj = {}
+                                var course_videos = []
+                                coursesObj.section_name = document.getElementById('ip' + data1).value
+                                if (one_section_arr.length > 0) {
+                                    for (let index1 = 0; index1 < one_section_arr.length; index1++) {
+                                        const v_id = one_section_arr[index1];
+                                        coursesObj.btn_id = data1
+                                        coursesObj.course_details = course_videos
+                                        course_videos.push({
+                                            course_id: v_id
+                                        })
+                                    }
+                                }
+                                main_section_arr.push(coursesObj)
+                                main_section_arr = removeDuplicates(main_section_arr, "section_name");
+
+                                one_section_arr = []
+
+
+                            } else {
+                                alert("ERROR")
+                            }
+                        },
+                        error: function() {
+                            alert("error")
+                        }
+                    })
+
+                } //add video handler
+
+                //---------------------------------------------------------------------
+                // remove video from the section
+                //---------------------------------------------------------------------
+                function removeVideoByIndex(id, btn, i) {
+                    if (document.getElementById('table_data' + btn)) {
+
+                        if (main_section_arr.length > 0) {
+
+                            for (let index = 0; index < main_section_arr.length; index++) {
+                                const element = main_section_arr[index];
+
+                                if (btn == index) {
+
+                                    main_section_arr[index].course_details = main_section_arr[index].course_details.filter(function(el) {
+                                        $('.table#' + i + '').remove();
+
+                                        return el.course_id !== id;
+
+                                    });
+
+                                }
+                            }
+                        } //main_arry if
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course-section/removeSectionVideo',
+                        data: {
+                            "course_id": id
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            if (response.success == true) {
+
+                            };
+                        },
+                        error: function() {}
+                    })
+
+                } //remove video by id 
+
+                function removeVideoByIndex1(id, btn, i) {
+
+                    if (document.getElementById('table_data1' + btn)) {
+
+                        if (main_section_arr.length > 0) {
+
+                            for (let index = 0; index < main_section_arr.length; index++) {
+                                const element = main_section_arr[index];
+
+                                if (btn == main_section_arr[index].btn_id) {
+                                    if (main_section_arr[index].course_details.length > 0) {
+                                        main_section_arr[index].course_details = main_section_arr[index].course_details.filter(function(el) {
+
+                                            $('.table#' + i + '').remove();
+
+                                            return el.course_id !== id;
+                                        });
+
+                                    }
+                                }
+                            }
+                        } //main_arry if
+                    }
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course-section/removeSectionVideo',
+                        data: {
+                            "course_id": id
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            if (response.success == true) {
+
+                            };
+                        },
+                        error: function() {}
+                    })
+                }
+
+                function saveCourseName(id, course_name) {
+                    document.getElementById('alert_popup').innerHTML = ''
+                    $.ajax({
+                        type: 'POST',
+                        url: '/api/course/updateCourseName',
+                        data: {
+                            id: id,
+                            course_title: document.getElementById('edit_course_name').innerText
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            document.getElementById('alert_popup').innerHTML = ' <div class="alert alert-secondary" role="alert"> Course name edited Succesfully !</div>';
+                            document.getElementById('editPage').click()
+                        },
+                        error: function() {}
+                    })
+                }
+
+                //---------------------------------------------------------------------
+                // remove duplicates (custom function)
+                //---------------------------------------------------------------------
+                function removeDuplicates(originalArray, prop) {
+                    var newArray = [];
+                    var lookupObject = {};
+
+                    for (var i in originalArray) {
+                        lookupObject[originalArray[i][prop]] = originalArray[i];
+                    }
+
+                    for (i in lookupObject) {
+                        newArray.push(lookupObject[i]);
+                    }
+                    return newArray;
+
+                } //remove duplicates
+
+                function editCourseName() {
+                    document.getElementById('edit_course_name').contentEditable = "true";
+                    document.getElementById('edit_course_name').style.outline = "1px solid #553E91";
+                    document.getElementById('save_edit').style.display = "block";
+                    document.getElementById('edit_courseName').style.display = "none";
+
+                }
+
+                function reorderVideo(id) {
+                    var bool = '<%=sections_bool%>';
+
+                    if (bool == "false") {
+                        return alert('Reordering not possible,Please save videos to the section first!')
+                    } else {
+                        if (document.getElementById("reorderVideo" + id).name != "myname") {
+                            var name = document.getElementById("reorderVideo" + id).name
+                            var url = "/g_section_reorder/" + name;
+                            var link = document.createElement('a');
+                            link.href = url;
+                            document.body.appendChild(link);
+                            link.click();
+
+                        } else {
+                            alert("Please save the videos first!")
+                        }
+
+
+                    }
+                }
+            </script>

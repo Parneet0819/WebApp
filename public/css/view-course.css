@@ -1,0 +1,294 @@
+* {
+    box-sizing: border-box;
+}
+
+.column {
+    max-width: 38%;
+    padding: 0 10px;
+}
+
+.column img {
+    vertical-align: middle;
+}
+
+.column_data {
+    width: 60%;
+    padding: 10px;
+}
+
+.column-div {
+    width: 10%;
+    padding: 12px;
+}
+
+#img_src {
+    width: 85 ! important;
+    height: 85 ! important;
+}
+
+.column-div1 {
+    width: 80%;
+    padding: 10px;
+}
+
+#course_content_nonsec {
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: inherit;
+}
+
+#img {
+    width: 120px !important;
+    height: 80px !important;
+}
+
+
+/* #myTable{
+    background-color:#FAFAFA
+  } */
+
+
+/* Clear floats after the columns */
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#alert_message {
+    display: none;
+    position: fixed;
+    width: 100%;
+}
+
+#video_timestamp1 {
+    height: 150px;
+    width: 100%;
+    border-color: 1px solid black;
+}
+
+#course_content {
+    height: 400px !important;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: inherit;
+}
+
+#share_btn {
+    background-color: #563E91 !important;
+    float: right;
+    margin-top: 15px;
+    height: 45px;
+}
+
+#full_screen {
+    background-color: #563E91 !important;
+    float: right;
+    margin-top: 15px;
+}
+
+#edit_course {
+    background-color: #563E91 !important;
+    float: right;
+    margin-top: 15px;
+}
+
+#back_btn {
+    background-color: #563E91 !important;
+    padding: 10px;
+}
+
+.modal-dialog-full-width {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+}
+
+.modal-content-full-width {
+    height: auto !important;
+    min-height: 100% !important;
+    border-radius: 0 !important;
+    background-color: #ececec !important
+}
+
+.modal-header-full-width {
+    border-bottom: 1px solid #9ea2a2 !important;
+}
+
+#full_video {
+    width: 100% !important;
+    height: 600px;
+}
+
+.modal-footer-full-width {
+    border-top: 1px solid #9ea2a2 !important;
+}
+
+.modal.left .modal-dialog {
+    position: fixed;
+    height: 100%;
+    -webkit-transform: translate3d(0%, 0, 0);
+    -ms-transform: translate3d(0%, 0, 0);
+    -o-transform: translate3d(0%, 0, 0);
+    transform: translate3d(0%, 0, 0);
+    margin-top: 6.1%;
+    width: 380px;
+    margin-left: 320;
+    opacity: 0.9;
+}
+
+span {
+    color: white;
+}
+
+#timestamp_modal {
+    float: left;
+    padding: 10px;
+    font-size: 25px;
+}
+
+.modal.left .modal-content {
+    height: 100%;
+    overflow-y: auto;
+    background-color: #000;
+    color: white;
+}
+
+.modal.right .modal-body {
+    height: 100%;
+    overflow-y: auto;
+    background-color: #000;
+    color: white;
+}
+
+.modal.right .modal-header {
+    overflow-y: auto;
+    background-color: #000;
+    color: white;
+}
+
+iframe {
+    border: none;
+    border-radius: 5px;
+}
+
+.modal.left .modal-body {
+    padding: 15px 15px 80px;
+}
+
+
+/*Left*/
+
+.modal.left.fade .modal-dialog {
+    left: -320px;
+    -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+    -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+    transition: opacity 0.3s linear, left 0.3s ease-out;
+}
+
+.modal.left.fade.in .modal-dialog {
+    left: 0;
+}
+
+@keyframes fade-in-up {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.video iframe {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.video.stuck {
+    position: fixed;
+    top: 5% !important;
+    right: 20px;
+    /* width: 640px; */
+    overflow: hidden;
+    /* height: 360px; */
+    padding-top: 1em;
+    padding-left: 1em;
+    transform: translateY(100%);
+    animation: fade-in-up 0.75s ease forwards;
+    z-index: 1;
+}
+
+.cols_video {
+    float: right;
+}
+
+.col_video {
+    margin-left: 90%;
+}
+
+#fixedbutton {
+    position: fixed;
+    bottom: 40px;
+    right: 10px;
+    background-color: black;
+    width: 30px;
+    border: none;
+    border-radius: 5px;
+    height: 30px;
+}
+
+#description_video {
+    width: 100%;
+    height: 350px;
+    padding: 10px;
+}
+
+#edit_desc_btn {
+    border: none;
+    color: white;
+    width: 120px;
+    height: 40px;
+    background-color: #543E91 ! important;
+}
+
+
+/* #timestamp_data {
+    height: 300px
+} */
+
+#edit_modal {
+    font-size: 20px;
+    padding: 10px;
+    color: #543E91;
+    cursor: pointer;
+}
+
+#edit_section_btn {
+    background-color: #563E91 !important;
+    float: right;
+    margin-top: 15px;
+}
+
+#course-name {
+    padding: 10px;
+    color: #553E91;
+}
+
+#edit_course_name {
+    margin-left: 15px;
+    font-size: 18px;
+}
+
+#save_edit {
+    display: none;
+}
+
+#edit_courseName {
+    display: block;
+    font-size: 20px;
+}

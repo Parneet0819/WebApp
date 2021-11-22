@@ -1,0 +1,377 @@
+<% layout('layout') -%>
+    <script src="https://cdn.rawgit.com/CryptoStore/crypto-js/3.1.2/build/rollups/aes.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/user-profile.css">
+    <a href="/dashboard"><i class="fa fa-arrow-left" aria-hidden="true" id ="back_btn"></i></a>
+    <div id="home-layout">
+        <div id="out"></div>
+        <div class="alert alert-success alert-dismissible fade show" id="success_msg" style="display:none;">
+            <strong id="msg">Success!Updated Successfully</strong>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        <div class="alert alert-error alert-dismissible fade show" id="error_msg" style="display:none;">
+            <strong id="err_msg" style="color:red;">Failed!</strong>
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+        </div>
+        <div class="row" id="show_profile">
+            <br>
+            <div class="col-sm-12 col-sm-offset-2">
+                <div class="panel panel-white profile-widget">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="image-container bg2">
+                                <%if (user_info.profile_image) { %>
+
+                                    <img src="<%=user_info.profile_image%>" class="avatar" alt="avatar">
+                                    <%} else { %>
+                                        <img src="/images/user_icon.png" class="avatar" alt="avatar">
+                                        <% }%>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="details">
+                                <div>
+                                    <%=user_info.email%>
+                                </div>
+                                <h4>
+                                    <%=user_info.name%> <i class="fa fa-sheild"></i></h4>
+                                <div>
+                                    <%=user_info.role%>
+                                </div>
+                                <%if (user_info.basic_info) { %>
+                                    <div>
+                                        <%=user_info.basic_info%>
+                                    </div>
+                                    <% }%>
+
+                                        <%if (fav_count) { %>
+                                            <div>Favorite Courses <i class="fa fa-star"></i>
+                                                <%=fav_count%>
+                                            </div>
+                                            <% }%>
+                                                <div></div>
+                                                <div class="mg-top-10">
+                                                    <a onclick="showEditProfile()" class="btn btn-blue" style="background-color: #553E91 !important;"><i class= "fa fa-edit"></i>&nbsp;Edit</a>
+                                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div id="edit_profile">
+            <div class="container">
+                <div class="row flex-lg-nowrap">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col mb-3">
+                                <!-- <form > -->
+
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="e-profile">
+                                            <form id="edit_user_profile">
+                                                <div class="row">
+                                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                                            <div class="mt-2">
+                                                                <button id=" change_profile_btn" style=" margin-top:25%; background-color: #553E91 !important;height: 50px;;" class="btn btn-primary" type="button">
+                                                <i class= "fa fa-camera"></i>&nbsp;<label for="upload_btn">Change Photo</label>
+                                             </button>
+                                                                <input type="file" id="upload_btn" accept="image/*" onchange="previewFile(this);">
+                                                                <% if (user_info.profile_image) { %>
+                                                                    <img src="<%=user_info.profile_image%>" id="profile_image" class="img1" height="150px" width="150px" accept="image/*">
+                                                                    <%} else { %>
+                                                                        <img src="/images/user_icon.png " id="profile_image" class="img1" height="150px" width="150px" accept="image/*">
+                                                                        <% } %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <ul class="nav">
+                                                    <li class="nav-item"><a id="settings" onclick=" userSettings()" class="active nav-link">User Settings</a></li>
+                                                    <li class="nav-item"><a id="pswd_settings" onclick="passwordSettings()" class="nav-link">Password Settings</a></li>
+
+                                                </ul>
+                                                <div class="tab-content pt-3">
+                                                    <div class="tab-pane active">
+                                                        <div id="user_profile_setting">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Full Name</label>
+                                                                                <input class="form-control" type="text" id="name" placeholder="yur name..." value="<%=user_info.name%>">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <label>Email</label>
+                                                                                <input class="form-control" id="email" type="email" placeholder="your email..." value="<%=user_info.email%>">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col mb-3">
+                                                                            <div class="form-group">
+                                                                                <label>About</label>
+                                                                                <textarea class="form-control" rows="5" id="basic_info" placeholder="My Bio..." value="<%=user_info.basic_info%>"></textarea>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row">
+                                                                <input type="text" name="id" value="<%=user_info._id%>" style="display:none;">
+                                                                <div class="col d-flex justify-content-end">
+                                                                    <button style="background: #43486e !important;" type="button" class="btn btn-primary" onclick="clickMe('<%=user_info._id%>')">Save Changes </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="pwd_settings" style="display: none;">
+                                                    <div class="row">
+                                                        <div class="col-12 col-sm-6 mb-3">
+                                                            <div class="mb-2"><b>Change Password</b></div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label>Current Password</label>
+                                                                        <input class="form-control" type="password" id="old_pwd" placeholder="current password...">
+                                                                        <p id="err_pwd_lbl" style="color:red;display:none;"> Please enter the current password</p>
+
+                                                                        <i class="far fa-eye" id="togglePassword" style="    margin-left: 100%;cursor: pointer;"></i>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label>New Password</label>
+                                                                        <input class="form-control" id="new_pwd" type="password" placeholder="new password...">
+                                                                        <i class="far fa-eye" id="togglePassword1" style="    margin-left: 100%;cursor: pointer;"></i>
+
+                                                                        <p id="errr_lbl" style="color:red;display:none;"> Password does not matched</p>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
+                                                                        <input class="form-control" id="confirm_pwd" type="password" placeholder="confirm password..."></div>
+                                                                    <i class="far fa-eye" id="togglePassword2" style="    margin-left: 100%;cursor: pointer;"></i>
+
+                                                                    <p id="err_lbl" style="color:red;display:none;">Confirm Password does not matched</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col d-flex justify-content-end">
+                                                            <button style="background: #43486e !important;" type="button" class="btn btn-primary" onclick="changePassword('<%=user_info._id%>')">Save Changes </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        if ("<%=user_info.basic_info%>") {
+            document.getElementById("basic_info").value = "<%=user_info.basic_info%>";
+
+        }
+
+        function showEditProfile() {
+            document.getElementById('show_profile').style.display = "none";
+            document.getElementById('edit_profile').style.display = "block";
+
+        }
+
+        function passwordSettings() {
+            document.getElementById('pwd_settings').style.display = "block";
+            document.getElementById('user_profile_setting').style.display = "none";
+            $('#pswd_settings').addClass('active nav-link');
+            $('#settings').removeClass(' active nav-link');
+            $('#settings').addClass('nav-link');
+
+
+        }
+
+        function userSettings() {
+            document.getElementById('pwd_settings').style.display = "none";
+            document.getElementById('user_profile_setting').style.display = "block";
+            $('#settings').addClass('active nav-link');
+            $('#pswd_settings').removeClass(' active nav-link');
+            $('#pswd_settings').addClass('nav-link');
+
+
+        }
+
+        function previewFile(event) {
+            var file = $("input[type=file]").get(0).files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    $("#profile_image").attr("src", reader.result);
+                    $("#upload_btn").attr("value", file.name);
+                    console.log(document.getElementById('upload_btn'))
+                }
+
+                var data = reader.readAsDataURL(file);
+            }
+        }
+
+        function clickMe(id) {
+            var obj = {}
+            var profile_image = {}
+            obj.name = document.getElementById('name').value;
+            obj.email = document.getElementById('email').value;
+            obj.basic_info = document.getElementById('basic_info').value;
+            var file = $("input[type=file]").get(0).files[0];
+            if (file) {
+                profile_image.value = document.getElementById('profile_image').src;
+                profile_image.filename = file.name;
+
+            }
+            obj.profile_image = profile_image;
+            $.ajax({
+                type: 'POST',
+                url: '/api/user/editUserProfile/' + id,
+                data: obj,
+                dataType: "json",
+                success: function(response) {
+                    $('#edit_user_profile')[0].reset();
+                    if (response.success == true) {
+                        // document.getElementById("pswd_settings").click();
+                        document.getElementById('success_msg').style.display = 'block';
+                        setTimeout(function() {
+                            $("#success_msg").hide();
+                            document.write('<a id="myclick" href="/user_profile/' + id + '"></a>');
+                            document.getElementById("myclick").click();
+                        }, 2000);
+
+                    } else {
+                        document.getElementById('error_msg').style.display = 'block';
+
+                        setTimeout(function() {
+                            $("#error_msg").hide();
+
+                        }, 2000);
+                    }
+                },
+                error: function() {}
+            })
+
+
+        }
+
+        function changePassword(id) {
+
+            if (document.getElementById('confirm_pwd').value != document.getElementById('new_pwd').value) {
+                document.getElementById('err_pwd_lbl').style.display = "none";
+                document.getElementById('errr_lbl').style.display = "none";
+
+                return document.getElementById('err_lbl').style.display = "block";
+
+            } else if (document.getElementById('confirm_pwd').value == document.getElementById('new_pwd').value) {
+                document.getElementById('err_lbl').style.display = "none";
+                document.getElementById('errr_lbl').style.display = "none";
+                document.getElementById('err_pwd_lbl').style.display = "none";
+
+            } else if (document.getElementById('new_pwd').value != document.getElementById('confirm_pwd').value) {
+                return document.getElementById('errr_lbl').style.display = "block";
+                document.getElementById('err_pwd_lbl').style.display = "none";
+                document.getElementById('err_lbl').style.display = "none";
+
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/user/changePassword',
+                data: {
+                    id: id,
+                    old_password: document.getElementById('old_pwd').value,
+                    password: document.getElementById('new_pwd').value
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == false && response.err_code == 333) {
+                        alert("incorrect current password")
+                    }
+                    if (response.success == false && response.err_code == 3000) {
+                        alert("Please enter the crrent pwd")
+
+                    }
+                    if (response.success == true) {
+                        $('#edit_user_profile')[0].reset();
+                        // document.getElementById("back_btn").click();
+                        document.getElementById('success_msg').style.display = 'block';
+                        setTimeout(function() {
+                            $("#success_msg").hide();
+                            document.write('<a id="myclick" href="/user_profile/' + id + '"></a>');
+                            document.getElementById("myclick").click();
+                        }, 2000);
+                    } else {
+                        document.getElementById('error_msg').style.display = 'block';
+                        setTimeout(function() {
+                            $("#error_msg").hide();
+
+                        }, 2000);
+                    }
+                },
+                error: function() {}
+            })
+
+        }
+
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.getElementById('old_pwd');
+        togglePassword.addEventListener('click', function(e) {
+            // toggle the type attribute
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            // toggle the eye slash icon
+            this.classList.toggle('fa-eye-slash');
+        });
+        const togglePassword1 = document.querySelector('#togglePassword1');
+        const password1 = document.getElementById('new_pwd');
+        togglePassword1.addEventListener('click', function(e) {
+            // toggle the type attribute
+            const type1 = password1.getAttribute('type') === 'password' ? 'text' : 'password';
+            password1.setAttribute('type', type1);
+            // toggle the eye slash icon
+            this.classList.toggle('fa-eye-slash');
+        });
+        const togglePassword2 = document.querySelector('#togglePassword2');
+        const password2 = document.getElementById('confirm_pwd');
+        togglePassword2.addEventListener('click', function(e) {
+            // toggle the type attribute
+            const type2 = password2.getAttribute('type') === 'password' ? 'text' : 'password';
+            password2.setAttribute('type', type2);
+            // toggle the eye slash icon
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>

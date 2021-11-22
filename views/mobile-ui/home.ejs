@@ -1,0 +1,254 @@
+<% include header %>
+    <style>
+        .scrolling-wrapper {
+            overflow-x: auto;
+        }
+        
+        #block {
+            background-color: #fff;
+            border: none;
+            background-position: center;
+            background-size: cover;
+            transition: all 0.2s ease-in-out !important;
+            border-radius: 10px;
+            height: 250px;
+        }
+        
+        .link {
+            color: #553E91 !important;
+        }
+        
+        a {
+            color: black;
+        }
+        
+        #wait {
+            margin-left: 40%;
+        }
+    </style>
+    <div id="containerr">
+        <br>
+
+        <div class="container-fluid">
+            <img style="display:none;width:50px;height:50px;
+            " src="/images/loader.gif" alt="description of gif" id="wait" />
+            <!--Carousel Wrapper-->
+            <%if (isLoggedIn == true) { %>
+                <% } else { %>
+                    <div id="carousel-example-2" class="carousel slide carousel-fade z-depth-1-half" data-ride="carousel">
+                        <!--Indicators-->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-2" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-example-2" data-slide-to="1"></li>
+                            <li data-target="#carousel-example-2" data-slide-to="2"></li>
+                        </ol>
+                        <!--/.Indicators-->
+                        <!--Slides-->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item active">
+                                <div class="view">
+                                    <img class="d-block w-100" src="/images/online.jpg" alt="First slide" height="150px">
+                                    <div class="mask rgba-black-light"></div>
+                                </div>
+                                <div class="carousel-caption">
+                                    <!-- <h3 class="h3-responsive"></h3> -->
+                                    <p>Enjoy Free Courses</p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <!--Mask color-->
+                                <div class="view">
+                                    <img class="d-block w-100" src="/images/education.jpg" alt="Second slide" height="150px">
+                                    <div class="mask rgba-black-strong"></div>
+                                </div>
+                                <div class="carousel-caption">
+                                    <!-- <h3 class="h3-responsive">Strong mask</h3> -->
+                                    <!-- <p>Secondary text</p> -->
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <!--Mask color-->
+                                <div class="view">
+                                    <img class="d-block w-100" src="/images/courses.png" alt="Third slide" height="150px">
+                                    <div class="mask rgba-black-slight"></div>
+                                </div>
+                                <div class="carousel-caption">
+                                    <!-- <h3 class="h3-responsive">Slight mask</h3> -->
+                                    <!-- <p>Third text</p> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.Slides-->
+                        <!--Controls-->
+                        <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                        <!--/.Controls-->
+                    </div>
+                    <Br>
+                    <% } %>
+
+                        <!--/.Carousel Wrapper-->
+                        <h5><strong>Recommended Courses</strong></h5>
+                        <div class="scrolling-wrapper row flex-row flex-nowrap mt-2 pb-2 pt-2">
+                            <%if (courses.length > 0) { %>
+                                <% courses.forEach(function(course_data,i) { %>
+                                    <div class="upcomingfestivals col-7 col-sm-4">
+                                        <div class="view img__wrap">
+                                            <a href="/view-course?uid=<%= course_data.uid%>&course=<%= course_data.course_name%>"><img class="card-img-top img__img" src="<%= course_data.image_preview%>" height="150"></a>
+                                        </div>
+                                        <a class="link" href="/view-course?uid=<%= course_data.uid%>&course=<%= course_data.course_name%>">
+                                            <p style="text-align: center;">
+                                                <%= course_data.course_title.substr(0, 35)%>
+                                            </p>
+                                        </a>
+
+                                    </div>
+                                    <% }); %>
+                                        <% } %>
+                        </div>
+                        <h5><strong>Categories</strong>
+                        </h5>
+                        <div class="scrolling-wrapper row flex-row flex-nowrap mt-2 pb-3 pt-2">
+                            <%if (categories.length> 0) { %>
+                                <% categories.forEach(function(response,i) { %>
+                                    <div class="upcomingfestivals col-6 col-sm-3">
+                                        <div class=" card card-block">
+                                            <a href="/category-list/<%= response.name%>">
+                                                <p style="text-align: center;padding-top:15px;">
+                                                    <%= response.name%>
+                                                </p>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <%})%>
+                                        <%} %>
+
+                        </div>
+                        <h5><strong id="develop_lbl"></strong></h5>
+                        <div class="scrolling-wrapper row flex-row flex-nowrap mt-4 pb-4 pt-2" id="top_dev_courses">
+                        </div>
+                        <h5><strong id="lifestyle_lbl"> </strong></h5>
+                        <div class="scrolling-wrapper row flex-row flex-nowrap mt-2 pb-2 pt-2" id="top_lifestyle_courses">
+                        </div>
+                        <h5><strong id="sports_lbl"> </strong></h5>
+                        <div class="scrolling-wrapper row flex-row flex-nowrap mt-2 pb-2 pt-2" id="top_sports_courses">
+                        </div>
+        </div>
+        <br>
+    </div>
+
+    <script>
+        window.onload = function() {
+            getDevelopmentCourses();
+            getLifestyleCourses();
+            getSportsCourses();
+        }
+        var container = document.getElementById('containerr');
+        document.getElementById('page-content-wrapper').appendChild(container);
+
+        function viewCourse(uid, coursename) {
+            document.write('<a  href ="/view-course?uid=' + uid + '&course=' + coursename + '" id = "clickme"> </a>');
+            document.getElementById('clickme').click();
+        }
+
+        function getDevelopmentCourses() {
+            $.ajax({
+                type: 'POST',
+                url: 'api/course/getCourseByCategoryName',
+                data: {
+                    name: 'Development',
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        document.getElementById('top_dev_courses').innerHTML = ''
+                        if (response.data.length > 0) {
+                            document.getElementById('develop_lbl').innerText = "Top Courses in 'Development'";
+
+                            response.data.forEach(element => {
+                                document.getElementById('top_dev_courses').innerHTML +=
+                                    '<div class = "upcomingfestivals col-7 col-sm-4" >' +
+                                    '<div class = "view img__wrap" >' +
+                                    '<a href ="/view-course?uid=' + element.uid + '&course=' + element.course_name + '"><img class="card-img-top" src="' + element.image_preview + '"  height="150"' +
+                                    '</a>' +
+                                    '</div>' +
+                                    '<a href ="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p style = "text-align: center;" >' + element.course_title + '</p>' +
+                                    '</a>' +
+                                    '</div>';
+                            })
+                        }
+                    }
+                }
+            })
+        }
+
+        function getLifestyleCourses() {
+            $.ajax({
+                type: 'POST',
+                url: 'api/course/getCourseByCategoryName',
+                data: {
+                    name: 'Lifestyle',
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        document.getElementById('top_lifestyle_courses').innerHTML = ''
+                        if (response.data.length > 0) {
+                            document.getElementById('lifestyle_lbl').innerText = "Top Courses in 'Lifestyle'";
+                            response.data.forEach(element => {
+                                document.getElementById('top_lifestyle_courses').innerHTML +=
+                                    '<div class = "upcomingfestivals col-7 col-sm-4" >' +
+                                    '<div class = "view img__wrap" >' +
+                                    '<a href ="/view-course?uid=' + element.uid + '&course=' + element.course_name + '"><img class="card-img-top" src="' + element.image_preview + '"  height="150"' +
+                                    '</a>' +
+                                    '</div>' +
+                                    '<a href ="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p style = "text-align: center;" >' + element.course_title + '</p>' +
+                                    '</a>' +
+                                    '</div>';
+                            })
+                        }
+                    }
+                }
+            })
+        }
+
+        function getSportsCourses() {
+            $.ajax({
+                type: 'POST',
+                url: 'api/course/getCourseByCategoryName',
+                data: {
+                    name: 'Health & Fitness',
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        document.getElementById('top_sports_courses').innerHTML = ''
+                        if (response.data.length > 0) {
+                            document.getElementById('sports_lbl').innerText = "Top Courses in 'Health & Fitness'";
+                            response.data.forEach(element => {
+                                document.getElementById('top_sports_courses').innerHTML +=
+                                    '<div class = "upcomingfestivals col-7 col-sm-4" >' +
+                                    '<div class = "view img__wrap" >' +
+                                    '<a href ="/view-course?uid=' + element.uid + '&course=' + element.course_name + '"><img class="card-img-top" src="' + element.image_preview + '"  height="150"' +
+                                    '</a>' +
+                                    '</div>' +
+                                    '<a href ="/view-course?uid=' + element.uid + '&course=' + element.course_name + '">' +
+                                    '<p style = "text-align: center;" >' + element.course_title + '</p>' +
+                                    '</a>' +
+                                    '</div>';
+                            })
+                        }
+                    }
+                }
+            })
+        }
+    </script>

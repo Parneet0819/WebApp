@@ -1,0 +1,863 @@
+<% include header %>
+
+    <style>
+        .view-account {
+            background: #FFFFFF;
+            margin-top: 20px;
+        }
+        
+        .view-account .pro-label {
+            font-size: 15px;
+            padding: 4px 5px;
+            position: relative;
+            top: -5px;
+            margin-left: 10px;
+            display: inline-block
+        }
+        
+        .view-account .side-bar .user-info {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 30px;
+            border-bottom: 1px solid #f3f3f3
+        }
+        
+        .view-account .side-bar .user-info .img-profile {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 15px
+        }
+        
+        .view-account .side-bar .user-info .meta li {
+            margin-bottom: 10px
+        }
+        
+        .view-account .side-bar .user-info .meta li span {
+            display: inline-block;
+            width: 100px;
+            margin-right: 5px;
+            text-align: right
+        }
+        
+        .view-account .side-bar .user-info .meta li a {
+            color: #553E91
+        }
+        
+        .view-account .side-bar .user-info .meta li.activity {
+            color: #553E91
+        }
+        
+        .view-account .side-bar .side-menu {
+            text-align: center
+        }
+        
+        .view-account .side-bar .side-menu .nav {
+            display: inline-block;
+            margin: 0 auto
+        }
+        
+        .view-account .side-bar .side-menu .nav>li {
+            font-size: 14px;
+            margin-bottom: 0;
+            border-bottom: none;
+            display: inline-block;
+            float: left;
+            margin-right: 15px;
+            margin-bottom: 15px
+        }
+        
+        .view-account .side-bar .side-menu .nav>li:last-child {
+            margin-right: 0
+        }
+        
+        .view-account .side-bar .side-menu .nav>li>a {
+            display: inline-block;
+            color: #553E91;
+            padding: 5px;
+            border-bottom: 2px solid transparent
+        }
+        
+        .view-account .side-bar .side-menu .nav>li>a:hover {
+            color: #553E91;
+            background: none
+        }
+        
+        .view-account .side-bar .side-menu .nav>li.active a {
+            color: #553E91;
+            border-bottom: 2px solid #553E91;
+            background: none;
+            border-right: none
+        }
+        
+        .theme-2 .view-account .side-bar .side-menu .nav>li.active a {
+            color: #553E91;
+            border-bottom-color: #553E91
+        }
+        
+        #upload_btn {
+            opacity: 0;
+            position: absolute;
+            z-index: -1;
+        }
+        
+        button {
+            background-color: #553E91 !important;
+        }
+        
+        .theme-3 .view-account .side-bar .side-menu .nav>li.active a {
+            color: #497cb1;
+            border-bottom-color: #497cb1
+        }
+        
+        .theme-4 .view-account .side-bar .side-menu .nav>li.active a {
+            color: #ec6952;
+            border-bottom-color: #ec6952
+        }
+        
+        .view-account .side-bar .side-menu .nav>li .icon {
+            display: block;
+            font-size: 24px;
+            margin-bottom: 5px
+        }
+        
+        .view-account .content-panel {
+            padding: 30px
+        }
+        
+        .view-account .content-panel .title {
+            margin-bottom: 15px;
+            margin-top: 0;
+            font-size: 18px
+        }
+        
+        .view-account .content-panel .fieldset-title {
+            border-bottom: 1px solid #eaeaf1;
+            color: #616670;
+            font-size: 16px;
+            padding: 10px;
+        }
+        
+        .view-account .content-panel .avatar .figure img {
+            float: right;
+            width: 64px
+        }
+        
+        .view-account .content-panel .content-header-wrapper {
+            position: relative;
+            margin-bottom: 30px
+        }
+        
+        .view-account .content-panel .content-header-wrapper .actions {
+            position: absolute;
+            right: 0;
+            top: 0
+        }
+        
+        .view-account .content-panel .content-utilities {
+            position: relative;
+            margin-bottom: 30px
+        }
+        
+        .view-account .content-panel .content-utilities .btn-group {
+            margin-right: 5px;
+            margin-bottom: 15px
+        }
+        
+        .view-account .content-panel .content-utilities .fa {
+            font-size: 16px;
+            margin-right: 0
+        }
+        
+        .view-account .content-panel .content-utilities .page-nav {
+            position: absolute;
+            right: 0;
+            top: 0
+        }
+        
+        .view-account .content-panel .content-utilities .page-nav .btn-group {
+            margin-bottom: 0
+        }
+        
+        .view-account .content-panel .content-utilities .page-nav .indicator {
+            color: #a2a6af;
+            margin-right: 5px;
+            display: inline-block
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item {
+            position: relative;
+            padding: 10px;
+            border-bottom: 1px solid #f3f3f3;
+            color: #616670;
+            overflow: hidden
+        }
+        
+        #success_msg {
+            display: none;
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item>div {
+            float: left
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .icheck {
+            background-color: #fff
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item:hover {
+            background: #f9f9fb
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item:nth-child(even) {
+            background: #fcfcfd
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item:nth-child(even):hover {
+            background: #f9f9fb
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item a {
+            color: #616670
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item a:hover {
+            color: #494d55;
+            text-decoration: none
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .checkbox-container,
+        .view-account .content-panel .mails-wrapper .mail-item .star-container {
+            display: inline-block;
+            margin-right: 5px
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .star-container .fa {
+            color: #a2a6af;
+            font-size: 16px;
+            vertical-align: middle
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .star-container .fa.fa-star {
+            color: #f2b542
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .star-container .fa:hover {
+            color: #868c97
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-to {
+            display: inline-block;
+            margin-right: 5px;
+            min-width: 120px
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject {
+            display: inline-block;
+            margin-right: 5px
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label {
+            margin-right: 5px
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label:last-child {
+            margin-right: 10px
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label a,
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label a:hover {
+            color: #fff
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-1 {
+            background: #f77b6b
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-2 {
+            background: #553E91
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-3 {
+            background: #f8a13f
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-4 {
+            background: #ea5395
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .mail-subject .label-color-5 {
+            background: #8a40a7
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .time-container {
+            display: inline-block;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: #a2a6af;
+            text-align: left
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .time-container .attachment-container {
+            display: inline-block;
+            color: #a2a6af;
+            margin-right: 5px
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .time-container .time {
+            display: inline-block;
+            text-align: right
+        }
+        
+        .view-account .content-panel .mails-wrapper .mail-item .time-container .time.today {
+            font-weight: 700;
+            color: #494d55
+        }
+        
+        .drive-wrapper {
+            padding: 15px;
+            background: #f5f5f5;
+            overflow: hidden
+        }
+        
+        .drive-wrapper .drive-item {
+            width: 130px;
+            margin-right: 15px;
+            display: inline-block;
+            float: left
+        }
+        
+        .drive-wrapper .drive-item:hover {
+            box-shadow: 0 1px 5px rgba(0, 0, 0, .1);
+            z-index: 1
+        }
+        
+        .drive-wrapper .drive-item-inner {
+            padding: 15px
+        }
+        
+        .drive-wrapper .drive-item-title {
+            margin-bottom: 15px;
+            max-width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+        
+        .drive-wrapper .drive-item-title a {
+            color: #494d55
+        }
+        
+        .drive-wrapper .drive-item-title a:hover {
+            color: #40babd
+        }
+        
+        .theme-2 .drive-wrapper .drive-item-title a:hover {
+            color: #553E91
+        }
+        
+        .theme-3 .drive-wrapper .drive-item-title a:hover {
+            color: #497cb1
+        }
+        
+        .theme-4 .drive-wrapper .drive-item-title a:hover {
+            color: #ec6952
+        }
+        
+        .drive-wrapper .drive-item-thumb {
+            width: 100px;
+            height: 80px;
+            margin: 0 auto;
+            color: #616670
+        }
+        
+        .drive-wrapper .drive-item-thumb a {
+            -webkit-opacity: .8;
+            -moz-opacity: .8;
+            opacity: .8
+        }
+        
+        .drive-wrapper .drive-item-thumb a:hover {
+            -webkit-opacity: 1;
+            -moz-opacity: 1;
+            opacity: 1
+        }
+        
+        .drive-wrapper .drive-item-thumb .fa {
+            display: inline-block;
+            font-size: 36px;
+            margin: 0 auto;
+            margin-top: 20px
+        }
+        
+        .drive-wrapper .drive-item-footer .utilities {
+            margin-bottom: 0
+        }
+        
+        .drive-wrapper .drive-item-footer .utilities li:last-child {
+            padding-right: 0
+        }
+        
+        .drive-list-view .name {
+            width: 60%
+        }
+        
+        .drive-list-view .name.truncate {
+            max-width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+        
+        .drive-list-view .type {
+            width: 15px
+        }
+        
+        .drive-list-view .date,
+        .drive-list-view .size {
+            max-width: 60px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+        
+        .drive-list-view a {
+            color: #494d55
+        }
+        
+        .drive-list-view a:hover {
+            color: #40babd
+        }
+        
+        .theme-2 .drive-list-view a:hover {
+            color: #6dbd63
+        }
+        
+        .theme-3 .drive-list-view a:hover {
+            color: #497cb1
+        }
+        
+        .theme-4 .drive-list-view a:hover {
+            color: #ec6952
+        }
+        
+        .drive-list-view td.date,
+        .drive-list-view td.size {
+            color: #a2a6af
+        }
+        
+        @media (max-width:767px) {
+            .view-account .content-panel .title {
+                text-align: center
+            }
+            .view-account .side-bar .user-info {
+                padding: 0
+            }
+            .view-account .side-bar .user-info .img-profile {
+                width: 60px;
+                height: 60px
+            }
+            .view-account .side-bar .user-info .meta li {
+                margin-bottom: 5px
+            }
+            .view-account .content-panel .content-header-wrapper .actions {
+                position: static;
+                margin-bottom: 30px
+            }
+            .view-account .content-panel {
+                padding: 0
+            }
+            .view-account .content-panel .content-utilities .page-nav {
+                position: static;
+                margin-bottom: 15px
+            }
+            .drive-wrapper .drive-item {
+                width: 100px;
+                margin-right: 5px;
+                float: none
+            }
+            .drive-wrapper .drive-item-thumb {
+                width: auto;
+                height: 54px
+            }
+            .drive-wrapper .drive-item-thumb .fa {
+                font-size: 24px;
+                padding-top: 0
+            }
+            .view-account .content-panel .avatar .figure img {
+                float: none;
+                margin-bottom: 15px
+            }
+            .view-account .file-uploader {
+                margin-bottom: 15px
+            }
+            .view-account .mail-subject {
+                max-width: 100px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis
+            }
+            .view-account .content-panel .mails-wrapper .mail-item .time-container {
+                position: static
+            }
+            .view-account .content-panel .mails-wrapper .mail-item .time-container .time {
+                width: auto;
+                text-align: left
+            }
+        }
+        
+        @media (min-width:768px) {
+            .view-account .side-bar .user-info {
+                padding: 0;
+                padding-bottom: 15px
+            }
+            .view-account .mail-subject .subject {
+                max-width: 200px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis
+            }
+        }
+        
+        @media (min-width:992px) {
+            .view-account .content-panel {
+                min-height: 800px;
+                border-left: 1px solid #f3f3f7;
+                margin-left: 200px
+            }
+            .view-account .mail-subject .subject {
+                max-width: 280px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis
+            }
+            .view-account .side-bar {
+                position: absolute;
+                width: 200px;
+                min-height: 600px
+            }
+            .view-account .side-bar .user-info {
+                margin-bottom: 0;
+                border-bottom: none;
+                padding: 30px
+            }
+            .view-account .side-bar .user-info .img-profile {
+                width: 120px;
+                height: 120px
+            }
+            .view-account .side-bar .side-menu {
+                text-align: left
+            }
+            .view-account .side-bar .side-menu .nav {
+                display: block
+            }
+            .view-account .side-bar .side-menu .nav>li {
+                display: block;
+                float: none;
+                font-size: 14px;
+                border-bottom: 1px solid #f3f3f7;
+                margin-right: 0;
+                margin-bottom: 0
+            }
+            .view-account .side-bar .side-menu .nav>li>a {
+                display: block;
+                color: #9499a3;
+                padding: 10px 15px;
+                padding-left: 30px
+            }
+            .view-account .side-bar .side-menu .nav>li>a:hover {
+                background: #f9f9fb
+            }
+            .view-account .side-bar .side-menu .nav>li.active a {
+                background: #f9f9fb;
+                border-right: 4px solid #40babd;
+                border-bottom: none
+            }
+            .theme-2 .view-account .side-bar .side-menu .nav>li.active a {
+                border-right-color: #6dbd63
+            }
+            .theme-3 .view-account .side-bar .side-menu .nav>li.active a {
+                border-right-color: #497cb1
+            }
+            .theme-4 .view-account .side-bar .side-menu .nav>li.active a {
+                border-right-color: #ec6952
+            }
+            .view-account .side-bar .side-menu .nav>li .icon {
+                font-size: 24px;
+                vertical-align: middle;
+                text-align: center;
+                width: 40px;
+                display: inline-block
+            }
+        }
+    </style>
+
+    <div class="container-fluid" id="profile_div">
+        <div class="view-account">
+            <section class="module">
+                <div class="module-inner">
+                    <div class="side-bar">
+                        <div class="user-info">
+                            <%if (user_info.profile_image) { %>
+
+                                <img src="<%=user_info.profile_image%>" class="img-profile img-circle img-responsive center-block">
+                                <%} else { %>
+                                    <img src="/images/user_icon.png" class="img-profile img-circle img-responsive center-block">
+                                    <% }%>
+                                        <ul class="meta list list-unstyled">
+                                            <li class="name">
+                                                <%=user_info.name%> <label class="label label-info"><%=user_info.role%>
+                                                </label>
+
+                                            </li>
+                                            <li class="email">
+                                                <a href="#">
+                                                    <%=user_info.email%>
+                                                </a>
+                                            </li>
+                                            <li class="activity">
+                                                <%if (fav_count) { %>
+                                                    <div>Favorite Courses <i class="fa fa-star"></i>
+                                                        <%=fav_count%>
+                                                    </div>
+                                                    <% }%>
+                                            </li>
+                                        </ul>
+                        </div>
+                        <nav class="side-menu">
+                            <ul class="nav">
+                                <li class="active" id="profile__edit"><a onclick="changeProfileTab()" href="#"><span class="fa fa-edit"></span> Edit Profile</a></li>
+                                <li id="pwd__edit"><a onclick="changePwdTab()" href="#"><span class="fa fa-cog"></span> Password Settings</a></li>
+
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="alert alert-success alert-dismissible fade show" id="success_msg" style="display:none;">
+                        <strong id="msg"></strong>
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    </div>
+                    <div class="content-panel" id="profile">
+                        <form class="form-horizontal" id="edit_user_profile" style="display:block;">
+                            <fieldset class="fieldset">
+                                <h3 class="fieldset-title">Personal Info</h3>
+                                <div class="form-group avatar">
+                                    <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                                        <div class="text-center text-sm-left mb-2 mb-sm-0">
+                                            <div class="mt-2">
+                                                <button id=" change_profile_btn" style="  background-color: #553E91 !important;height: 50px;;" class="btn btn-primary" type="button">
+                                                  <i class= "fa fa-camera"></i>&nbsp;<label for="upload_btn">Change Photo</label>
+                                               </button>
+                                                <input type="file" id="upload_btn" accept="image/*" onchange="previewFile(this);">
+                                                <% if (user_info.profile_image) { %>
+                                                    <img src="<%=user_info.profile_image%>" id="profile_image" class="img1" height="150px" width="150px" accept="image/*">
+                                                    <%} else { %>
+                                                        <img src="/images/user_icon.png " id="profile_image" class="img1" height="150px" width="150px" accept="image/*">
+                                                        <% } %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-12 control-label"> Name</label>
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" id="profile_name" value="<%=user_info.name%>">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-12 control-label">Email</label>
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                        <input type="text" class="form-control" id="profile_email" value="<%=user_info.email%>">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 col-sm-3 col-xs-12 control-label">Basic Info </label>
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                        <textarea class="form-control" id="profile_basic_info" placeholder="my bio..." value="<%=user_info.basic_info%>"></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                    <button type="button" onclick="clickMe('<%=user_info._id%>')" class="btn btn-sm btn-default" style="background-color: #553E91 !important;">Update Profile</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form id="password_settings" style="display: none;">
+                            <fieldset class="fieldset">
+                                <h3 class="fieldset-title">Password Settings</h3>
+                                <div class="form-group">
+                                    <label class="col-md-2  col-sm-3 col-xs-12 control-label">Current Password</label>
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                        <input type="password" class="form-control" id="old_pwd">
+                                        <p id="err_pwd_lbl" style="color:red;display:none;">Please enter the current password</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2  col-sm-3 col-xs-12 control-label">New password</label>
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                        <input type="password" class="form-control" id="new_pwd">
+                                        <p id="err_lbl" style="color:red;display:none;">Please enter the new password</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2  col-sm-3 col-xs-12 control-label">Confirm Password</label>
+                                    <div class="col-md-10 col-sm-9 col-xs-12">
+                                        <input type="password" class="form-control" id="confirm_pwd">
+                                        <p id="confirm_pwd_err" style="color:red;display:none;">Please enter the confirm password</p>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <hr>
+                            <div class="form-group">
+                                <div class="col-md-10 col-sm-9 col-xs-12 col-md-push-2 col-sm-push-3 col-xs-push-0">
+                                    <button type="button" class="btn btn-sm btn-default-alt pull-left" onclick="changePassword()">Update Password</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <!-- <script src="/js/jquery.min.js"></script> -->
+
+    <script>
+        var profile_div = document.getElementById('profile_div');
+        document.getElementById('page-content-wrapper').appendChild(profile_div);
+
+        function previewFile(event) {
+            var file = $("input[type=file]").get(0).files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    $("#profile_image").attr("src", reader.result);
+                    $("#upload_btn").attr("value", file.name);
+                    console.log(document.getElementById('upload_btn'))
+                }
+
+                var data = reader.readAsDataURL(file);
+            }
+        }
+
+        function clickMe(id) {
+
+            var obj = {}
+            var profile_image = {}
+            obj.name = document.getElementById('profile_name').value;
+            obj.email = document.getElementById('profile_email').value;
+            obj.basic_info = document.getElementById('profile_basic_info').value;
+            var file = $("input[type=file]").get(0).files[0];
+            if (file) {
+                profile_image.value = document.getElementById('profile_image').src;
+                profile_image.filename = file.name;
+
+            }
+            obj.profile_image = profile_image;
+
+            $.ajax({
+                type: 'POST',
+                url: '/api/user/editUserProfile/' + id,
+                data: obj,
+                dataType: "json",
+                success: function(response) {
+                    $('#edit_user_profile')[0].reset();
+                    if (response.success == true) {
+                        document.getElementById('success_msg').style.display = 'block';
+                        document.getElementById('msg').innerText = 'Success!Updated Successfully';
+                        document.write('<a id="myclick" href="/dashboard"> </a>');
+                        document.getElementById("myclick").click();
+
+                    } else {
+                        document.getElementById('success_msg').style.display = 'block';
+                        document.getElementById('msg').innerText = 'Failed!Updation Failed';
+
+                    }
+                },
+                error: function() {}
+            })
+
+        }
+
+        function changePwdTab() {
+            document.getElementById('success_msg').style.display = 'none';
+            $('#pwd__edit').addClass('active');
+            $('#profile__edit').removeClass('active');
+            document.getElementById('edit_user_profile').style.display = 'none';
+            document.getElementById('password_settings').style.display = 'block';
+
+        }
+
+        function changeProfileTab() {
+            document.getElementById('success_msg').style.display = 'none';
+
+            $('#profile__edit').addClass('active');
+            $('#pwd__edit').removeClass('active');
+            document.getElementById('edit_user_profile').style.display = 'block';
+            document.getElementById('password_settings').style.display = 'none';
+
+        }
+
+        function changePassword(id) {
+            if (document.getElementById('new_pwd').value && document.getElementById('confirm_pwd').value && document.getElementById('old_pwd').value) {
+                document.getElementById('confirm_pwd_err').style.display = "block";
+                document.getElementById('err_pwd_lbl').style.display = "block";
+                document.getElementById('err_lbl').style.display = "block";
+
+            }
+            if (document.getElementById('confirm_pwd').value != document.getElementById('new_pwd').value) {
+                document.getElementById('err_pwd_lbl').style.display = "none";
+                document.getElementById('errr_lbl').style.display = "none";
+                document.getElementById('confirm_pwd_err').style.display = "block";
+
+            }
+            if (document.getElementById('confirm_pwd').value == document.getElementById('new_pwd').value) {
+                document.getElementById('err_lbl').style.display = "none";
+                document.getElementById('confirm_pwd_err').style.display = "none";
+                document.getElementById('err_pwd_lbl').style.display = "none";
+
+            }
+            if (document.getElementById('new_pwd').value != document.getElementById('confirm_pwd').value) {
+                document.getElementById('confirm_pwd_err').style.display = "block";
+                document.getElementById('err_pwd_lbl').style.display = "none";
+                document.getElementById('err_lbl').style.display = "none";
+
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/user/changePassword',
+                    data: {
+                        id: id,
+                        old_password: document.getElementById('old_pwd').value,
+                        password: document.getElementById('new_pwd').value
+                    },
+                    dataType: "json",
+                    success: function(response) {
+
+                        if (response.success == false && response.err_code == 333) {
+                            document.getElementById('success_msg').style.display = 'block';
+                            document.getElementById('msg').style.color = "red";
+                            document.getElementById('msg').innerText = 'Failed!Incorrect Password';
+
+                        }
+                        if (response.success == false && response.err_code == 3000) {
+                            document.getElementById('success_msg').style.display = 'block';
+                            document.getElementById('msg').style.color = "red";
+                            document.getElementById('msg').innerText = 'Please enter current password';
+                        }
+                        if (response.success == true) {
+                            $('#password_settings')[0].reset();
+                            document.getElementById('success_msg').style.display = 'none';
+                            document.write('<a id="myclickk" href="/dashboard"> </a>');
+                            document.getElementById("myclickk").click();
+                        } else {
+                            document.getElementById('success_msg').style.display = 'block';
+                            document.getElementById('msg').style.color = "red";
+                            document.getElementById('msg').innerText = 'Failed Updation!Missing data in fields';
+                        }
+                    },
+                    error: function() {}
+                })
+            }
+        }
+    </script>

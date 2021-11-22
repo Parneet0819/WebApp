@@ -1,0 +1,190 @@
+<title>Curated App</title>
+
+<% layout('layout') -%><br><br>
+    <div id="home-layout" style="display: block;">
+        <section id="dashboard-courses" class="text-center py-3">
+            <div class="container">
+                <h2 class="h1-responsive font-weight-bold mb-5" style="padding-top:10px;"> Recommended Courses</h2>
+                <div class="row">
+                    <p style="font-weight: bold;color:#543E91;padding-top:13px;font-size:18px">Filter Courses: </p>&nbsp;<select class="browser-default custom-select custom-select-lg mb-3" style="border-color:light-gray; width:200px; ;
+            " id="select_page" onChange="paginateData(this)">
+               <option value="6">6</option>
+               <option value="10" selected>9</option>
+               <option value="20">12</option>
+               <option value="50">15</option>
+               <option value="50">18</option>
+               <option value="50">21</option>
+               <option value="50">24</option>
+               <option value="50">27</option>
+               <option value="50">30</option>
+             </select>
+                </div>
+                <div id="youtube_courses">
+                    <div class="row" id="youtube_row_id">
+                        <%if (courses.length >0) { %>
+                            <% courses.forEach(function(course_data) { %>
+                                <div class="col-lg-4 col-md-12 mb-4" id="<%= course_data._id%>">
+                                    <div class="card card-cascade narrower">
+                                        <div class="view img__wrap">
+                                            <img class="card-img-top img__img" src="<%= course_data.image_preview%>" width="300" height="280">
+                                            <p class="img__description">
+                                                <%= course_data.course_title%>
+                                            </p>
+                                        </div>
+                                        <div class="card-body card-body-cascade">
+                                            <h6 class="pink-text pb-2 pt-1">
+                                                <%= course_data.course_title.substr(0, 35)%>...</h6>
+                                            <a href="/view-course?uid=<%= course_data.uid%>&course=<%= course_data.course_name%>" class="btn btn-unique">View Course</a>
+                                            <%if (user && role == "Admin" || user && role == "Creator" ) { %>
+                                                <i style="float:right;font-size:25px;color: red;" class="fa fa-trash" type="button" data-toggle="modal" data-target="#modalConfirmDelete" onclick="deleteCourse('<%= course_data._id%>')"></i>
+                                                <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }); %>
+                                    <% } %>
+                    </div>
+                </div>
+                <br>
+                <nav aria-label="Page navigation example">
+                    <% if (pages > 0) { %>
+                        <ul class="pagination pagination-circle pg-blue;pagination d-flex justify-content-center">
+                            <% if (currentPage == 1) { %>
+                                <li class="page-item disabled"><a class="page-link">First</a></li>
+                                <% } else { %>
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="" aria-label="First">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">First</span>
+                                        </a>
+                                    </li>
+                                    <% } %>
+                                        <% var i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+                                            <% if (i !== 1) { %>
+                                                <li class=" page-item disabled"><a class="page-link">...</a></li>
+                                                <% } %>
+                                                    <% for (; i <= (Number(currentPage) + 4) && i <= pages; i++) { %>
+                                                        <% if (i == currentPage) { %>
+                                                            <li class="page-item active">
+                                                                <a class="page-link" href="/dashboard?page=1>">
+                                                                    <%= i %>
+                                                                </a>
+                                                            </li>
+                                                            <% } else { %>
+                                                                <li class="page-item ">
+                                                                    <a class="page-link" href="/dashboard?page=<%=i%>">
+                                                                        <%= i %>
+                                                                    </a>
+                                                                </li>
+                                                                <% } %>
+                                                                    <% if (i == Number(currentPage) + 4 && i < pages) { %>
+                                                                        <li class=" page-item disabled"><a class="page-link">...</a></li>
+                                                                        <% } %>
+                                                                            <% } %>
+                                                                                <% if (currentPage == pages) { %>
+                                                                                    <li class="page-item disabled"><a class="page-link">Last</a></li>
+                                                                                    <% } else { %>
+                                                                                        <li class="page-item"><a href="/dashboard?page=<%=pages%> " class="page-link">Last</a></li>
+                                                                                        <% } %>
+                        </ul>
+                        <% } %>
+                </nav>
+            </div>
+            <div id="deleteCourse">
+            </div>
+        </section>
+    </div>
+    <script>
+        //deleteCourse
+        function deleteCourse(id) {
+
+            document.getElementById('deleteCourse').innerHTML = ''
+            document.getElementById('deleteCourse').innerHTML = '<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"aria-hidden="true">' +
+                '<div class="modal-dialog modal-notify modal-danger" role="document">' +
+                '<div class="modal-content text-center">' +
+                '<div class="modal-header d-flex justify-content-center">' +
+                '<p class="heading">Are you sure you want to delete it?</p>' +
+                '</div>' +
+                '<div class="modal-body" style="color: red !important;">' +
+                '<i class="fas fa-times fa-4x animated rotateIn"></i>' +
+                '</div>' +
+                '<div class="modal-footer flex-center">' +
+                '<a  onclick = "confirmDeleteCourse(\'' + id + '\' )" class="btn  btn-outline-danger">Yes</a>' +
+                '<a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal" id ="dismiss">No</a>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+        } //deleteCourse
+
+        //confirmDeleteCourse
+        function confirmDeleteCourse(id) {
+            $.ajax({
+                type: "DELETE",
+                url: "/api/course/deleteCourse",
+                data: {
+                    id: id
+                },
+                dataType: "json",
+                success: function(resp) {
+                    if (resp.success == true) {
+                        $('#' + id + '').remove();
+                        document.getElementById('dismiss').click()
+                    } else {
+                        alert('Failed!')
+                    }
+                },
+                error: function() {
+                    alert('Error')
+                }
+            })
+        } //confirmDeleteCourse
+
+        function paginateData(sel) {
+            var num = Number(sel.options[sel.selectedIndex].text)
+            var url_address = window.location.href
+            $(document).ajaxStart(function() {
+                $("#wait").css("display", "block");
+            });
+            $(document).ajaxComplete(function() {
+                $("#wait").css("display", "none");
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/api/course/pagination-data?currentPage=" + parseInt(num) + "&page=1",
+                dataType: "json",
+
+                success: function(data) {
+                    window.history.replaceState(url_address, "Title", "/?page=1&currentPage=" + parseInt(num));
+
+                    document.getElementById('youtube_row_id').innerHTML = ''
+                    if (data.courses.length > 0) {
+                        for (let index = 0; index < data.courses.length; index++) {
+                            const element = data.courses[index];
+                            document.getElementById('youtube_row_id').innerHTML +=
+                                '<div class="col-lg-4 col-md-12 mb-4">' +
+                                '<div class="card card-cascade narrower">' +
+                                '<div class="view img__wrap" >' +
+                                '<img class="card-img-top img__img" src=' + data.courses[index].course_details[0].video_thumbnail + ' >' +
+                                '<p class="img__description">' + element.course_title + '</p>' +
+                                '</div>' +
+                                '<div class="card-body card-body-cascade">' +
+                                '<h5 class="pink-text pb-2 pt-1"> ' + element.course_title.substr(0, 35) + '...</h5>' +
+                                '<a href = "/view-course?uid=' + element.uid + '&course=' + element.course_name + '" class="btn btn-unique">View Course</a>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>';
+
+                        }
+
+                    } else {
+                        alert("No course Found!")
+                    }
+
+                }
+            })
+
+        }
+    </script>

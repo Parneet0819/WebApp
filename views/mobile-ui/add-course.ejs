@@ -1,0 +1,210 @@
+<% include header %>
+    <style>
+        h5 {
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        #submitt {
+            float: right;
+            background-color: #553e91 !important;
+            margin-top: 10px;
+            ;
+        }
+        
+        input {
+            outline: none;
+        }
+    </style>
+    <script>
+        //---------------------------------------------------------------------
+        // get the category name 
+        //---------------------------------------------------------------------
+        function getCategoryName(name, id) {
+            document.getElementById('meta_cat_div').style.display = "block";
+            document.getElementById('course_meta_cat').value = ''
+            var split_name = name.split('-');
+            var split_id = id.split('-');
+            document.getElementById('cat_id').value = ''
+            document.getElementById('course_meta_cat').value = name
+            document.getElementById('course_meta_category').value = ''
+            document.getElementById('course_meta_category').value = split_name[0]
+            document.getElementById('course_meta_category').value = split_id[0]
+            document.getElementById('course_sub_category').value = ''
+            document.getElementById('course_sub_category').value = split_name[1]
+            document.getElementById('course_sub_category').value = split_id[1]
+            $.ajax({
+                type: 'POST',
+                url: 'api/course-category/getParticularCategory',
+                data: {
+                    id: split_id[0],
+                    name: split_name[0]
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.success == true) {
+                        document.getElementById('cat_id').value = response.data._id
+                        document.getElementById('course_category_err').style.display = 'none';
+
+                    } else {
+                        console.log("error")
+                    }
+
+                },
+                error: function() {}
+            })
+
+        } //getCategoryName
+
+        function addCourse() {
+            if (document.getElementById('video_link').value === "" || document.getElementById('video_link').value == null) {
+                document.getElementById('video_link_err').style.display = "block";
+            }
+            if (document.getElementById('course_title').value === "" || document.getElementById('course_title').value == null) {
+                document.getElementById('course_title_err').style.display = "block";
+
+            }
+            if (document.getElementById('course_sub_category').value === "" || document.getElementById('course_sub_category').value == null) {
+                document.getElementById('course_category_err').style.display = "block";
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/course/addCourse',
+                    data: {
+                        video_link: document.getElementById('video_link').value,
+                        course_title: document.getElementById('course_title').value,
+                        course_meta_category: document.getElementById('course_meta_category').value,
+                        course_sub_category: document.getElementById('course_sub_category').value,
+                        cat_id: document.getElementById('cat_id').value,
+                        user: document.getElementById('user').value,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        console.log("---response", response)
+
+                        if (response.success == false && response.err_code == 2010) {
+                            return document.getElementById('course_title_err').style.display = "block";
+                        }
+                        if (response.success == false && response.err_code == 2009) {
+                            return document.getElementById('video_link_err').style.display = "block";
+                        }
+                        if (response.success == true) {
+                            $('#addCourse')[0].reset();
+                            localStorage.setItem("userId", response.data.user);
+                            $("#message").show(3000).html('Course Added Succesfully').addClass('success').hide(1500);
+                            document.getElementById('dashboard').click();
+
+                        } else {
+                            $("#message").show(3000).html('Failed to add the course').addClass('danger').hide(1500);
+
+                        }
+                    },
+                    error: function() {
+                        $("#message").show(3000).html('Failed to add the course').addClass('danger').hide(1500);
+
+                    }
+                })
+            }
+
+
+        }
+
+        $('#video_link').keyup(function() {
+            if ($(this).val() == '') {
+                $('#video_link_err').show();
+            } else {
+                $('#video_link_err').hide();
+            }
+        });
+        $('#course_title').keyup(function() {
+            if ($(this).val() == '') {
+                $('#course_title_err').show();
+            } else {
+                $('#course_title_err').hide();
+            }
+        });
+    </script>
+    <div id="add-course" class="container-fluid">
+        <h5>Add Course</h5>
+        <form id="addCourse">
+            <div>
+                <div class="md-form mb-5 ">
+                    <i class="fas fa-link prefix grey-text" aria-hidden="true"></i>
+                    <input type="text" id="video_link" pattern="https://.*" placeholder="Video Link" class="form-control validate">
+                    <p id="video_link_err" style="color: red;display:none;">Please enter the valid video link</p>
+
+                </div>
+                <div class="md-form mb-4 ">
+                    <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                    <input type="text" id="course_title" class="form-control validate" placeholder="Course Name">
+                    <p id="course_title_err" value="" style="color: red;display:none;">Please enter the valid course name</p>
+
+                </div>
+                <div class="md-form mb-4 " id="meta_cat_div" style="display:none;">
+                    <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                    <input type="text" value="" readonly id="course_meta_cat" placeholder="Category name" class="form-control ">
+                </div>
+                <div class="md-form mb-4 " id="sub_cat_div" style="display:none;">
+                    <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                    <input type="text" value="" readonly id="course_sub_category" placeholder="Category name" class="form-control ">
+                </div>
+                <div class="md-form mb-4 " id="m_cat_div" style="display:none;">
+                    <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                    <input type="text" value="" readonly id="course_meta_category" placeholder="Category name" class="form-control ">
+                </div>
+                <div class="md-form mb-4 " id="m_cat_id" style="display:none;">
+                    <i class="fas fa-list-alt prefix grey-text" aria-hidden="true"></i>
+                    <input type="text" value="" readonly id="cat_id" placeholder="Category id" class="form-control ">
+                </div>
+                <input id="user" value="<%=user%>" style="display:none;">
+
+                <ul class="list-group">
+                    <!-- Separator with title -->
+                    <li class="list-group-item sidebar-separator-title text-muted d-flex align-items-center menu-collapsed">
+                        <i class="fas fa-list prefix grey-text"></i>&nbsp;Categories</li>
+
+                    <p id="course_category_err" style="color: red;display:none;">Please select the category from the list</p>
+
+                    <%if (categories.length > 0) { %>
+                        <% categories.forEach(function(response,i) { %>
+                            <a href="#submenu<%=i%>" data-toggle="collapse" aria-expanded="false" class="bg-light list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-start align-items-center">
+                                    <!-- <span class="fa fa-list fa-fw mr-3"></span> -->
+                                    <span class="menu-collapsed">  <%= response.name%></span>
+                                    <span class="submenu-icon ml-auto"></span>
+                                </div>
+                            </a>
+                            <!-- Submenu content -->
+                            <div id='submenu<%=i%>' class="collapse sidebar-submenu card">
+                                <article class="card-group-item">
+                                    <div class="filter-content">
+                                        <div class="card-body">
+                                            <form>
+                                                <% response.sub_categories.forEach(function(resp) { %>
+                                                    <label class="form-check">
+                                                 <a onclick="getCategoryName('<%=response.name%>-<%=resp.sub_name%>','<%=response.id%>-<%=resp.sub_id%>')"><span class="form-check-label">
+                                                     <%= resp.sub_name%>
+                                                 </span></a>
+                                             </label>
+                                                    <%})%>
+                                            </form>
+                                        </div>
+                                        <!-- card-body.// -->
+                                    </div>
+                                </article>
+                                <!-- card-group-item.// -->
+                            </div>
+                            <%})%>
+                                <%} %>
+                                    <div id="message"></div>
+
+                                    <button type="button" class="btn btn-default" id="submitt" onclick="addCourse()">Add Course</button>
+
+            </div>
+        </form>
+        <a id="dashboard" href="/dashboard"></a>
+    </div>
+    <script>
+        var addcourse = document.getElementById('add-course');
+        document.getElementById('page-content-wrapper').appendChild(addcourse);
+    </script>

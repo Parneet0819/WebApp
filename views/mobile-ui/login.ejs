@@ -1,0 +1,215 @@
+<% include header %>
+    <style>
+        @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+        .login-block {
+            /* background: #DE6262; */
+            /* fallback for old browsers */
+            /* background: -webkit-linear-gradient(to bottom, #553E91, #DE6262); */
+            /* Chrome 10-25, Safari 5.1-6 */
+            /* background: linear-gradient(to bottom, #FFB88C, ##553E91); */
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            float: left;
+            width: 100%;
+            padding: 50px 0;
+        }
+        
+        .banner-sec {
+            background: url(https://static.pexels.com/photos/33972/pexels-photo.jpg) no-repeat left bottom;
+            background-size: cover;
+            min-height: 500px;
+            border-radius: 0 10px 10px 0;
+            padding: 0;
+        }
+        
+        .login-sec {
+            padding: 50px 30px;
+            position: relative;
+        }
+        
+        .login-sec .copy-text {
+            position: absolute;
+            width: 40%;
+            bottom: 20px;
+            font-size: 13px;
+            text-align: center;
+        }
+        
+        .login-sec .copy-text i {
+            color: #553E91;
+        }
+        
+        .login-sec .copy-text a {
+            color: #553E91;
+        }
+        
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 15px 20px 0px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 15px 20px 0px linear-gradient(to bottom, #FFB88C, #553E91); */
+        }
+        
+        .login-sec h2 {
+            margin-bottom: 30px;
+            font-weight: 800;
+            font-size: 30px;
+            color: #553E91;
+        }
+        
+        .login-sec h2:after {
+            content: " ";
+            width: 100px;
+            height: 5px;
+            background: #553E91;
+            display: block;
+            margin-top: 20px;
+            border-radius: 3px;
+            margin-left: auto;
+            margin-right: auto
+        }
+        
+        .btn-login {
+            background: #553E91;
+            color: #fff;
+            font-weight: 600;
+        }
+    </style>
+    <div class="container-fluid" id="login_div">
+        <section class="login-block">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 login-sec">
+                        <h2 class="text-center">Login Now</h2>
+                        <form class="login-form">
+                            <div class="form-group">
+                                <label for="login_email" class="text-uppercase">Email</label>
+                                <input type="text" id="login_email" class="form-control" placeholder="">
+                                <p id="email_error" style="color:red;display:none;">Please enter the email</p>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="login_password" class="text-uppercase">Password</label>
+                                <input type="password" id="login_password" class="form-control" placeholder="">
+                                <p id="pwd_error" style="color:red;display:none;">Please enter the password
+                                </p>
+                                <div id="timer" style="color:red;">
+                                </div>
+                            </div>
+                            <div id="login_error" style="background-color:lightgray;width:100%;height:70px;display:none;">
+                                <p id="login_error_message" style="color:red;text-align:center;">There was a problem logging in. Check your email and password or create an account.</p>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="form-check-label">Don't have login account?
+                               <a style="color: #553E91;">Signup</a> </label>
+                                <button class="btn btn-login float-right" type="button" onclick="doLogin()" style="color: white;">Login</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+        </section>
+        </div>
+        <script>
+            var login = document.getElementById('page-content-wrapper');
+            var login_div = document.getElementById('login_div')
+            login.appendChild(login_div);
+            $('#login_email').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#email_error').show();
+                } else {
+                    $('#email_error').hide();
+                }
+            });
+            $('#login_password').keyup(function() {
+                if ($(this).val() == '') {
+                    $('#pwd_error').show();
+                } else {
+                    $('#pwd_error').hide();
+                }
+            });
+
+            function doLogin() {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/login',
+                    data: {
+                        email: document.getElementById('login_email').value,
+                        password: document.getElementById('login_password').value
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.success == false && response.err_code == 1007) {
+                            localStorage.clear();
+                            document.getElementById('email_error').style.display = "block";
+                            document.getElementById('pwd_error').style.display = "block";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2000) {
+                            localStorage.clear();
+                            document.getElementById('email_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "block";
+                            document.getElementById('login_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1119) {
+                            localStorage.clear();
+                            document.getElementById('email_error').style.display = "block";
+                            document.getElementById('pwd_error').style.display = "none";
+                            document.getElementById('login_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1009) {
+                            localStorage.clear();
+                            document.getElementById('login_error').style.display = "block";
+                            document.getElementById('pwd_error').style.display = "none";
+                            document.getElementById('email_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 1004) {
+                            localStorage.clear();
+                            document.getElementById('login_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "block";
+                            document.getElementById('pwd_error').innerText = "Incorrect Password ";
+
+                            document.getElementById('email_error').style.display = "none";
+
+                            return
+                        } else if (response.success == false && response.err_code == 2016) {
+                            localStorage.clear();
+                            document.getElementById('login_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "block";
+                            document.getElementById('pwd_error').innerText = "You have exceeded the maximum number of requests try again!";
+                            document.getElementById('email_error').style.display = "none";
+                            countdown(1)
+
+                            return
+                        } else if (response.success == false && response.err_code == 2015) {
+                            localStorage.clear();
+                            document.getElementById('login_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "block";
+                            document.getElementById('pwd_error').innerText = "Account locked yet, Please wait!";
+                            document.getElementById('timer').innerText = "";
+                            document.getElementById('email_error').style.display = "none";
+
+                            return
+                        }
+
+                        if (response.success == true) {
+                            // $('#login-form').reset();
+                            document.getElementById('login_error').style.display = "none";
+                            document.getElementById('pwd_error').style.display = "none";
+                            document.getElementById('email_error').style.display = "none";
+
+                            if (typeof(Storage) !== "undefined") {
+                                localStorage.setItem('userId', response.user);
+                            }
+                            document.write('<a id="dash" href="/dashboard"></a>')
+                            document.getElementById('dash').click();
+                        };
+                    },
+                    error: function() {}
+                })
+            } //login request
+        </script>
